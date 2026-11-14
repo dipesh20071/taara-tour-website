@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taara Tours - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .bg-brand-yellow { background-color: #FFC500; }
+        .text-brand-yellow { color: #FFC500; }
+        .bg-brand-black { background-color: #1A1A1A; }
+    </style>
+</head>
+<body class="text-gray-800 h-screen flex items-center justify-center" id="body-container">
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-screen" class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+        <div class="text-center mb-8">
+            <div class="bg-brand-black inline-block px-4 py-2 rounded-lg border-b-4 border-brand-yellow mb-4">
+                <span class="text-brand-yellow font-extrabold text-2xl">Taara</span> <span class="text-white text-lg font-semibold">Admin</span>
+            </div>
+            <p class="text-gray-500 text-sm">Secure Staff Portal</p>
+        </div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-5">
+            <div id="login-error" class="hidden text-sm text-red-600 bg-red-50 p-3 rounded-lg font-semibold text-center"></div>
+            
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Email Address</label>
+                <input type="email" required id="adminEmail" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Password</label>
+                <input type="password" required id="adminPass" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50">
+            </div>
+            <button type="submit" id="loginBtn" class="w-full bg-brand-yellow text-brand-black font-extrabold py-3.5 rounded-lg shadow-sm hover:scale-[1.02] transition">
+                Login to Dashboard
+            </button>
+        </form>
+        <p class="text-center text-xs text-gray-400 mt-6">taaratour@gmail.com | System Admin</p>
+    </div>
+
+    <!-- 2. MAIN DASHBOARD (Hidden initially) -->
+    <div id="dashboard-screen" class="hidden w-full h-full flex flex-col md:flex-row">
+        
+        <!-- Sidebar -->
+        <div class="w-full md:w-64 bg-brand-black text-white flex flex-col">
+            <div class="p-6 border-b border-gray-800 text-center">
+                <span class="text-brand-yellow font-extrabold text-xl">Taara</span> <span class="text-white text-md font-semibold">Admin</span>
+                <p class="text-xs text-gray-400 mt-2" id="welcomeName">Welcome, Admin</p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <button class="w-full text-left px-4 py-3 bg-white/10 text-brand-yellow font-bold rounded-lg transition flex items-center gap-2">
+                    ➕ Add New Package
+                </button>
+                <a href="index.html" class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2 block">
+                    🌐 View Website
+                </a>
+            </nav>
+            <div class="p-4 border-t border-gray-800">
+                <button onclick="logout()" class="w-full px-4 py-2 text-red-400 hover:bg-red-400/10 rounded-lg transition font-semibold text-sm">Log Out</button>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="flex-1 overflow-y-auto bg-gray-50 p-6 md:p-10">
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="text-2xl font-extrabold text-gray-900 border-b pb-4 mb-6 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Launch New Package
+                </h2>
+                
+                <form id="addPackageForm" onsubmit="addPackage(event)" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package Title *</label>
+                            <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Location *</label>
+                            <input type="text" id="pLocation" required placeholder="e.g. Dubai, Abu Dhabi" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
+                            <input type="number" id="pPrice" required placeholder="e.g. 25000" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Duration *</label>
+                            <input type="text" id="pDuration" required placeholder="e.g. 5D 4N" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Cover Image Link *</label>
+                            <input type="url" id="pImage" required placeholder="https://..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Google Drive PDF Link</label>
+                            <input type="url" id="pPdf" placeholder="Optional for now" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Inclusions (Comma Separated) *</label>
+                        <textarea id="pInc" required rows="2" placeholder="Hotels, Breakfast, Cab, Safari..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Exclusions (Comma Separated) *</label>
+                        <textarea id="pExc" required rows="2" placeholder="Flights, Lunch, Personal Expenses..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Day-wise Itinerary (Use Pipe | to separate days) *</label>
+                        <textarea id="pIti" required rows="4" placeholder="Arrival in Dubai: Relax | Desert Safari: Enjoy BBQ | City Tour: Burj Khalifa" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
+                        <p class="text-[10px] text-gray-500 mt-1">Format: Title : Description | Title : Description</p>
+                    </div>
+
+                    <div id="form-msg" class="hidden text-sm font-bold text-center p-3 rounded-lg"></div>
+
+                    <button type="submit" id="addBtn" class="w-full md:w-auto px-8 bg-brand-yellow text-brand-black font-extrabold py-3.5 rounded-lg shadow-sm hover:scale-105 transition flex justify-center items-center gap-2">
+                        🚀 Publish to Website
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =====================================
+        // YAHAN APNI NAYI SCRIPT URL DAALEIN
+        const scriptURL = 'YOUR_NEW_WEB_APP_URL_HERE';
+        // =====================================
+
+        const loginScreen = document.getElementById('login-screen');
+        const dashScreen = document.getElementById('dashboard-screen');
+        const bodyCont = document.getElementById('body-container');
+
+        // Check if already logged in
+        if(localStorage.getItem('taara_admin_logged_in') === 'true') {
+            showDashboard(localStorage.getItem('taara_admin_name'));
+        }
+
+        function showDashboard(name) {
+            loginScreen.classList.add('hidden');
+            dashScreen.classList.remove('hidden');
+            bodyCont.classList.remove('items-center', 'justify-center');
+            document.getElementById('welcomeName').innerText = "Welcome, " + (name || "Admin");
+        }
+
+        function logout() {
+            localStorage.removeItem('taara_admin_logged_in');
+            localStorage.removeItem('taara_admin_name');
+            location.reload();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const errBox = document.getElementById('login-error');
+            btn.innerText = "Authenticating...";
+            errBox.classList.add('hidden');
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: "login",
+                    email: document.getElementById('adminEmail').value,
+                    password: document.getElementById('adminPass').value
+                }),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            }).then(res => res.json()).then(data => {
+                if(data.result === 'success') {
+                    localStorage.setItem('taara_admin_logged_in', 'true');
+                    localStorage.setItem('taara_admin_name', data.name);
+                    showDashboard(data.name);
+                } else {
+                    errBox.innerText = data.message || "Invalid Credentials!";
+                    errBox.classList.remove('hidden');
+                    btn.innerText = "Login to Dashboard";
+                }
+            }).catch(err => {
+                errBox.innerText = "Connection Error!";
+                errBox.classList.remove('hidden');
+                btn.innerText = "Login to Dashboard";
+            });
+        }
+
+        function addPackage(e) {
+            e.preventDefault();
+            const btn = document.getElementById('addBtn');
+            const msgBox = document.getElementById('form-msg');
+            btn.innerText = "Publishing...";
+            
+            const payload = {
+                action: "add_package",
+                title: document.getElementById('pTitle').value,
+                location: document.getElementById('pLocation').value,
+                price: document.getElementById('pPrice').value,
+                duration: document.getElementById('pDuration').value,
+                imageUrl: document.getElementById('pImage').value,
+                pdfLink: document.getElementById('pPdf').value,
+                inclusions: document.getElementById('pInc').value,
+                exclusions: document.getElementById('pExc').value,
+                itinerary: document.getElementById('pIti').value
+            };
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            }).then(res => res.json()).then(data => {
+                if(data.result === 'success') {
+                    msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-green-100 text-green-700";
+                    msgBox.innerHTML = `✅ Package Published! Live Link: <a href="package.html?id=${data.newId}" target="_blank" class="underline">View Here</a>`;
+                    document.getElementById('addPackageForm').reset();
+                } else {
+                    msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-red-100 text-red-700";
+                    msgBox.innerText = "❌ Failed to publish: " + data.error;
+                }
+                btn.innerHTML = "🚀 Publish to Website";
+            }).catch(err => {
+                msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-red-100 text-red-700";
+                msgBox.innerText = "❌ Connection Error!";
+                btn.innerHTML = "🚀 Publish to Website";
+            });
+        }
+    </script>
+</body>
+</html>
