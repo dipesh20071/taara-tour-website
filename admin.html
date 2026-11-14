@@ -16,7 +16,7 @@
 </head>
 <body class="text-gray-800 h-screen flex items-center justify-center" id="body-container">
 
-    <!-- 1. LOGIN SCREEN -->
+    <!-- LOGIN SCREEN -->
     <div id="login-screen" class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
         <div class="text-center mb-8">
             <div class="bg-brand-black inline-block px-4 py-2 rounded-lg border-b-4 border-brand-yellow mb-4">
@@ -39,7 +39,7 @@
         </form>
     </div>
 
-    <!-- 2. MAIN DASHBOARD -->
+    <!-- MAIN DASHBOARD -->
     <div id="dashboard-screen" class="hidden w-full h-full flex flex-col md:flex-row overflow-hidden">
         
         <!-- Sidebar -->
@@ -49,15 +49,9 @@
                 <p class="text-xs text-gray-400 mt-2" id="welcomeName">Welcome, Admin</p>
             </div>
             <nav class="flex-1 p-4 space-y-2">
-                <button onclick="switchTab('add')" id="tab-add" class="tab-btn tab-active w-full text-left px-4 py-3 font-bold rounded-lg transition flex items-center gap-2">
-                    ➕ Publish Package
-                </button>
-                <button onclick="switchTab('manage')" id="tab-manage" class="tab-btn w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2">
-                    📦 Manage Packages
-                </button>
-                <a href="index.html" target="_blank" class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2 block">
-                    🌐 View Website
-                </a>
+                <button onclick="switchTab('add')" id="tab-add" class="tab-btn tab-active w-full text-left px-4 py-3 font-bold rounded-lg transition flex items-center gap-2">➕ Publish Package</button>
+                <button onclick="switchTab('manage')" id="tab-manage" class="tab-btn w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2">📦 Manage Packages</button>
+                <a href="index.html" target="_blank" class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2 block">🌐 View Website</a>
             </nav>
             <div class="p-4 border-t border-gray-800">
                 <button onclick="logout()" class="w-full px-4 py-2 text-red-400 hover:bg-red-400/10 rounded-lg transition font-semibold text-sm">Log Out</button>
@@ -75,17 +69,36 @@
                 
                 <form id="addPackageForm" onsubmit="submitPackage(event)" class="space-y-8">
                     <input type="hidden" id="editPackageId" value="">
-                    <input type="hidden" id="formMode" value="add"> <!-- 'add' or 'edit' -->
+                    <input type="hidden" id="formMode" value="add"> 
 
                     <div class="bg-gray-50 p-5 rounded-xl border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package Title *</label>
                             <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
+                        
+                        <!-- NEW SEARCHABLE DESTINATION DROPDOWN -->
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Location *</label>
-                            <input type="text" id="pLocation" required placeholder="e.g. Dubai, Abu Dhabi" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Location / Destination *</label>
+                            <input list="destinations-list" id="pLocation" required placeholder="Search destination..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
+                            <datalist id="destinations-list">
+                                <!-- India -->
+                                <option value="Kerala"> <option value="Himachal Pradesh"> <option value="Goa">
+                                <option value="Kashmir"> <option value="Rajasthan"> <option value="Andaman">
+                                <option value="Sikkim"> <option value="Uttarakhand"> <option value="Meghalaya">
+                                <option value="Darjeeling"> <option value="Gujarat"> <option value="Kutch">
+                                <option value="Maharashtra"> <option value="Mahabaleshwar"> <option value="Lonavala">
+                                <option value="Varanasi"> <option value="Ayodhya"> <option value="Ujjain">
+                                <option value="Madhya Pradesh"> <option value="Karnataka"> <option value="Coorg">
+                                <!-- International -->
+                                <option value="Dubai"> <option value="Bali"> <option value="Thailand">
+                                <option value="Maldives"> <option value="Europe"> <option value="Singapore">
+                                <option value="Malaysia"> <option value="Vietnam"> <option value="Sri Lanka">
+                                <option value="Mauritius"> <option value="Baku"> <option value="Almaty">
+                                <option value="Bhutan"> <option value="Nepal"> <option value="Switzerland">
+                            </datalist>
                         </div>
+
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
                             <input type="number" id="pPrice" required placeholder="e.g. 25000" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
@@ -150,9 +163,7 @@
                     <h2 class="text-2xl font-extrabold text-gray-900 flex items-center gap-2">
                         <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Manage Packages
                     </h2>
-                    <button onclick="loadPackages()" class="text-sm bg-white border border-gray-300 font-bold px-4 py-2 rounded-lg hover:bg-gray-50 flex gap-2 items-center">
-                        🔄 Refresh
-                    </button>
+                    <button onclick="loadPackages()" class="text-sm bg-white border border-gray-300 font-bold px-4 py-2 rounded-lg hover:bg-gray-50 flex gap-2 items-center">🔄 Refresh</button>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
@@ -178,17 +189,12 @@
     </div>
 
     <script>
-        // =====================================
-        // AAPKI PERMANENT GOOGLE SCRIPT URL SET HAI!
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
-        // =====================================
-
         const loginScreen = document.getElementById('login-screen');
         const dashScreen = document.getElementById('dashboard-screen');
         const bodyCont = document.getElementById('body-container');
-        let allPackagesData = []; // Store packages globally for editing
+        let allPackagesData = []; 
 
-        // --- AUTH & TABS ---
         if(localStorage.getItem('taara_admin_logged_in') === 'true') {
             showDashboard(localStorage.getItem('taara_admin_name'));
         }
@@ -239,13 +245,11 @@
             document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('tab-active'); btn.classList.add('text-gray-400'); });
             document.getElementById('tab-' + tabName).classList.add('tab-active');
             document.getElementById('tab-' + tabName).classList.remove('text-gray-400');
-            
             document.getElementById('view-add').classList.add('hidden');
             document.getElementById('view-manage').classList.add('hidden');
             
             if(tabName === 'add') {
                 document.getElementById('view-add').classList.remove('hidden');
-                // If switching manually to add, reset form to Add mode
                 if(document.getElementById('formMode').value !== 'add') resetFormToAdd();
             } else if(tabName === 'manage') {
                 document.getElementById('view-manage').classList.remove('hidden');
@@ -253,7 +257,6 @@
             }
         }
 
-        // --- MANAGE PACKAGES ---
         function loadPackages() {
             const tbody = document.getElementById('package-table-body');
             tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-brand-yellow font-bold animate-pulse">Fetching from database...</td></tr>`;
@@ -264,7 +267,6 @@
                     tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">No packages found. Start by publishing one!</td></tr>`;
                     return;
                 }
-                
                 let html = '';
                 data.forEach(pkg => {
                     if(!pkg['Package ID']) return;
@@ -290,33 +292,23 @@
 
         function deletePackage(id) {
             if(!confirm("Are you sure you want to completely delete this package?")) return;
-            
             fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify({ action: "delete_package", id: id }),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                method: 'POST', body: JSON.stringify({ action: "delete_package", id: id }), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).then(res => res.json()).then(data => {
-                if(data.result === 'success') {
-                    alert("Package Deleted Successfully!");
-                    loadPackages();
-                } else {
-                    alert("Failed to delete: " + data.message);
-                }
+                if(data.result === 'success') { alert("Package Deleted Successfully!"); loadPackages(); } 
+                else { alert("Failed to delete: " + data.message); }
             });
         }
 
         function editPackage(id) {
             const pkg = allPackagesData.find(p => p['Package ID'] === id);
             if(!pkg) return;
-
-            // Switch UI to Edit Mode
             document.getElementById('formMode').value = "edit";
             document.getElementById('editPackageId').value = id;
             document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Edit Package: <span class="text-brand-yellow">${pkg['Title']}</span>`;
             document.getElementById('addBtn').innerHTML = "💾 Update Package Details";
             document.getElementById('cancelEditBtn').classList.remove('hidden');
-
-            // Populate Fields
+            
             document.getElementById('pTitle').value = pkg['Title'] || "";
             document.getElementById('pLocation').value = pkg['Location'] || "";
             document.getElementById('pPrice').value = pkg['Price'] || "";
@@ -327,26 +319,20 @@
             document.getElementById('pInc').value = (pkg['Inclusions'] || "").replace(/,\s*/g, '\n');
             document.getElementById('pExc').value = (pkg['Exclusions'] || "").replace(/,\s*/g, '\n');
 
-            // Populate Itinerary
             const container = document.getElementById('itinerary-container');
-            container.innerHTML = ''; // clear
+            container.innerHTML = ''; 
             if(pkg['Itinerary']) {
                 let days = pkg['Itinerary'].split('|');
                 days.forEach(dayStr => {
                     if(!dayStr.trim()) return;
                     let parts = dayStr.split(':');
                     let title = parts[0] ? parts[0].trim() : "";
-                    
-                    // Extract HTML description and badges
                     let rawContent = parts[1] ? parts[1].trim() : "";
                     let descMatch = rawContent.split('<span class="mt-3');
                     let descText = descMatch[0].replace(/<br>/g, '\n').trim();
-                    
                     addDay(null, title, descText, rawContent);
                 });
-            } else {
-                addDay();
-            }
+            } else { addDay(); }
             switchTab('add');
         }
 
@@ -362,9 +348,7 @@
             addDay();
         }
 
-        // --- SMART ITINERARY BUILDER LOGIC ---
         function getDayHTML(title = "", desc = "", rawHTML = "") {
-            // Check which meals were selected from raw HTML
             const noMeal = rawHTML.includes('>No Meal</span>') ? 'checked' : '';
             const bf = rawHTML.includes('>Breakfast</span>') ? 'checked' : '';
             const lu = rawHTML.includes('>Lunch</span>') ? 'checked' : '';
@@ -384,15 +368,13 @@
                     </div>
                     <input type="text" value="${title}" placeholder="Day Title (e.g. City Tour)" required class="day-title w-full px-3 py-2 border rounded-md mb-3 text-sm focus:border-brand-yellow outline-none bg-gray-50">
                     <textarea placeholder="Day Description..." required class="day-desc w-full px-3 py-2 border rounded-md text-sm focus:border-brand-yellow outline-none bg-gray-50 leading-relaxed" rows="3">${desc}</textarea>
-                    
-                    <!-- PREMIUM MEAL OPTIONS -->
                     <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
                         <span class="text-[10px] font-extrabold text-gray-500 uppercase tracking-widest">Meals:</span>
-                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700 hover:text-gray-900"><input type="checkbox" value="No Meal" class="meal-check w-4 h-4 accent-gray-600" ${noMeal}> No Meal</label>
-                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700 hover:text-green-600"><input type="checkbox" value="Breakfast" class="meal-check w-4 h-4 accent-green-600" ${bf}> Breakfast</label>
-                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700 hover:text-orange-500"><input type="checkbox" value="Lunch" class="meal-check w-4 h-4 accent-orange-500" ${lu}> Lunch</label>
-                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700 hover:text-purple-600"><input type="checkbox" value="Hi-Tea" class="meal-check w-4 h-4 accent-purple-600" ${ht}> Hi-Tea</label>
-                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700 hover:text-blue-600"><input type="checkbox" value="Dinner" class="meal-check w-4 h-4 accent-blue-600" ${dn}> Dinner</label>
+                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700"><input type="checkbox" value="No Meal" class="meal-check w-4 h-4 accent-gray-600" ${noMeal}> No Meal</label>
+                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700"><input type="checkbox" value="Breakfast" class="meal-check w-4 h-4 accent-green-600" ${bf}> Breakfast</label>
+                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700"><input type="checkbox" value="Lunch" class="meal-check w-4 h-4 accent-orange-500" ${lu}> Lunch</label>
+                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700"><input type="checkbox" value="Hi-Tea" class="meal-check w-4 h-4 accent-purple-600" ${ht}> Hi-Tea</label>
+                        <label class="flex items-center gap-1.5 text-xs font-bold cursor-pointer text-gray-700"><input type="checkbox" value="Dinner" class="meal-check w-4 h-4 accent-blue-600" ${dn}> Dinner</label>
                     </div>
                 </div>
             `;
@@ -427,12 +409,11 @@
             });
         }
 
-        // --- SUBMIT (ADD OR UPDATE) ---
         function submitPackage(e) {
             e.preventDefault();
             const btn = document.getElementById('addBtn');
             const msgBox = document.getElementById('form-msg');
-            const mode = document.getElementById('formMode').value; // 'add' or 'edit'
+            const mode = document.getElementById('formMode').value; 
             
             btn.innerText = "Processing...";
             msgBox.classList.add('hidden');
@@ -486,18 +467,16 @@
             };
 
             fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).then(res => res.json()).then(data => {
                 msgBox.classList.remove('hidden');
                 if(data.result === 'success') {
                     msgBox.className = "text-sm font-bold p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 block";
-                    msgBox.innerHTML = `✅ <strong>Successfully ${mode==='edit'?'Updated':'Published'}!</strong><br><br>The package is live. <a href="package.html?id=${data.newId}" target="_blank" class="underline text-green-800 ml-2">Click to view ↗</a>`;
-                    setTimeout(resetFormToAdd, 3000); // Reset form after 3 seconds
+                    msgBox.innerHTML = `✅ <strong>Successfully ${mode==='edit'?'Updated':'Published'}!</strong><br><br><a href="package.html?id=${data.newId}" target="_blank" class="underline text-green-800">Click to view ↗</a>`;
+                    setTimeout(resetFormToAdd, 3000);
                 } else {
                     msgBox.className = "text-sm font-bold p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 block";
-                    msgBox.innerHTML = `❌ <strong>Failed:</strong><br><span class="font-normal mt-1 block">${data.message || data.error}</span>`;
+                    msgBox.innerHTML = `❌ <strong>Failed:</strong> ${data.message || data.error}`;
                 }
                 btn.innerHTML = mode==='edit' ? "💾 Update Package" : "🚀 Publish Package";
             }).catch(err => {
