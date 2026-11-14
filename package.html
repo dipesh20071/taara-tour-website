@@ -268,85 +268,98 @@
         </div>
     </div>
 
-    <!-- MAIN AUTO-PILOT ENGINE -->
+    <!-- MAIN AUTO-PILOT ENGINE (WITH SMART DEBUGGER) -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec'; 
         let currentPackageTitle = "";
         
-        function showFatalError(msg) {
+        function showFatalError(msg, isGoogleBlock = false) {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('loader-text').innerText = "Oops! Check Admin Panel";
+            document.getElementById('loader-text').innerText = "Oops! Connection Ruka Hua Hai 🛑";
             document.getElementById('debug-box').classList.remove('hidden');
-            document.getElementById('debug-box').innerHTML = `<strong>Error:</strong> ${msg}<br><em>Deploy script with "Anyone" access.</em>`;
+            
+            if(isGoogleBlock) {
+                document.getElementById('debug-box').innerHTML = `<strong>Google Permission Error:</strong><br><em class="text-xs text-red-600 mt-1 block">Aapki script locked hai. Kripya Apps Script mein 'New Deployment' karein aur 'Who has access' ko 'Anyone' par set karein.</em><textarea class="w-full text-xs p-2 mt-2 h-16 bg-red-100 border border-red-300 rounded">${msg.substring(0, 150)}...</textarea>`;
+            } else {
+                document.getElementById('debug-box').innerHTML = `<strong>Error:</strong> ${msg}`;
+            }
         }
 
         const urlParams = new URLSearchParams(window.location.search);
         const packageId = urlParams.get('id');
 
-        if(packageId) {
+        if(!packageId) {
+            showFatalError("Aapne URL mein Package ID nahi lagaya hai! Link aisi honi chahiye: www.taaratour.in/package.html?id=kerala-trip");
+        } else {
             fetch(scriptURL)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.error) { showFatalError(data.error); return; }
-                    
-                    const pkg = data.find(p => p['Package ID'] === packageId);
-                    if(pkg) {
-                        currentPackageTitle = pkg['Title'];
-                        document.getElementById('page-title').innerText = currentPackageTitle + " | Taara Tours";
-                        document.getElementById('pkg-title').innerText = currentPackageTitle;
+                .then(res => res.text()) // Fetching as text first to catch Google's hidden errors
+                .then(text => {
+                    try {
+                        const data = JSON.parse(text);
+                        if(data.error) { showFatalError("Sheet Error: " + data.error); return; }
                         
-                        const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
-                        document.getElementById('pkg-price-desktop').innerText = priceFmt;
-                        if(document.getElementById('pkg-price-mobile')) document.getElementById('pkg-price-mobile').innerText = priceFmt;
-                        document.getElementById('pkg-price-sticky').innerText = priceFmt;
-                        
-                        document.getElementById('pkg-location').innerText = pkg['Location'];
-                        document.getElementById('pkg-duration').innerText = pkg['Duration'];
-                        document.getElementById('pkg-image').src = pkg['Image URL'];
-                        document.getElementById('pkg-whatsapp').href = `https://wa.me/917016036767?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
+                        const pkg = data.find(p => p['Package ID'] === packageId);
+                        if(pkg) {
+                            currentPackageTitle = pkg['Title'];
+                            document.getElementById('page-title').innerText = currentPackageTitle + " | Taara Tours";
+                            document.getElementById('pkg-title').innerText = currentPackageTitle;
+                            
+                            const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
+                            document.getElementById('pkg-price-desktop').innerText = priceFmt;
+                            if(document.getElementById('pkg-price-mobile')) document.getElementById('pkg-price-mobile').innerText = priceFmt;
+                            document.getElementById('pkg-price-sticky').innerText = priceFmt;
+                            
+                            document.getElementById('pkg-location').innerText = pkg['Location'];
+                            document.getElementById('pkg-duration').innerText = pkg['Duration'];
+                            
+                            if(pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
+                            
+                            document.getElementById('pkg-whatsapp').href = `https://wa.me/917016036767?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
 
-                        // INCLUSIONS
-                        if(pkg['Inclusions']) {
-                            document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex items-center gap-2"><span class="text-green-500">✔</span> ${i.trim()}</li>`).join('');
-                        }
-                        // EXCLUSIONS
-                        if(pkg['Exclusions']) {
-                            document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex items-center gap-2"><span class="text-red-500">✖</span> ${e.trim()}</li>`).join('');
-                        }
-                        
-                        // DYNAMIC ACCORDION ITINERARY GENERATOR
-                        if(pkg['Itinerary']) {
-                            document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((day, idx) => {
-                                let parts = day.split(':');
-                                let dayNum = "Day " + (idx+1);
-                                let dayTitle = parts[0] ? parts[0].trim() : "Local Sightseeing";
-                                let dayDesc = parts[1] ? parts[1].trim() : "Detailed plan available on call.";
-                                return `
-                                <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all hover:border-brand-yellow">
-                                    <button class="accordion-header ${idx===0?'active':''} w-full flex justify-between items-center p-4 focus:outline-none bg-gray-50 hover:bg-yellow-50/50 transition" onclick="toggleAccordion(this)">
-                                        <div class="flex items-center gap-4">
-                                            <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">${dayNum}</span>
-                                            <span class="font-semibold text-brand-black text-sm text-left">${dayTitle}</span>
+                            // INCLUSIONS
+                            if(pkg['Inclusions']) {
+                                document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✔</span> <span>${i.trim()}</span></li>`).join('');
+                            }
+                            // EXCLUSIONS
+                            if(pkg['Exclusions']) {
+                                document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">✖</span> <span>${e.trim()}</span></li>`).join('');
+                            }
+                            
+                            // DYNAMIC ACCORDION ITINERARY
+                            if(pkg['Itinerary']) {
+                                document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((day, idx) => {
+                                    let parts = day.split(':');
+                                    let dayNum = "Day " + (idx+1);
+                                    let dayTitle = parts[0] ? parts[0].trim() : "Local Sightseeing";
+                                    let dayDesc = parts[1] ? parts[1].trim() : "Detailed plan available on call.";
+                                    return `
+                                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all hover:border-brand-yellow">
+                                        <button class="accordion-header ${idx===0?'active':''} w-full flex justify-between items-center p-4 focus:outline-none bg-gray-50 hover:bg-yellow-50/50 transition" onclick="toggleAccordion(this)">
+                                            <div class="flex items-center gap-4">
+                                                <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">${dayNum}</span>
+                                                <span class="font-semibold text-brand-black text-sm text-left">${dayTitle}</span>
+                                            </div>
+                                            <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </button>
+                                        <div class="accordion-content ${idx===0?'open':''} px-4 border-t border-gray-100">
+                                            <p class="text-sm text-gray-600 font-medium ml-2">${dayDesc}</p>
                                         </div>
-                                        <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                    </button>
-                                    <div class="accordion-content ${idx===0?'open':''} px-4 border-t border-gray-100">
-                                        <p class="text-sm text-gray-600 font-medium ml-2">${dayDesc}</p>
-                                    </div>
-                                </div>`;
-                            }).join('');
-                        }
+                                    </div>`;
+                                }).join('');
+                            }
 
-                        document.getElementById('loader').style.display = 'none';
-                        document.getElementById('content').style.display = 'block';
-                    } else {
-                        showFatalError("Package Not Found in Excel.");
+                            document.getElementById('loader').style.display = 'none';
+                            document.getElementById('content').style.display = 'block';
+                        } else {
+                            showFatalError(`Package ID <strong>'${packageId}'</strong> aapki Excel/Sheet mein nahi mila. Dhyan rahe chote-bade akshar exact match hone chahiye!`);
+                        }
+                    } catch(e) {
+                        // Google ne HTML Error Bhej diya hai (JSON fail)
+                        showFatalError(text, true);
                     }
                 }).catch(err => {
-                    showFatalError("Script Fetch Error. Please ensure App is deployed to 'Anyone'.");
+                    showFatalError("Network Connection Error: " + err.message);
                 });
-        } else {
-            showFatalError("No Package URL Param Found.");
         }
 
         // --- ALL UI & MODAL SCRIPTS ---
