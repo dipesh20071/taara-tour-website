@@ -22,13 +22,11 @@
     <div id="loader" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-4 text-center">
         <div id="spinner" class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-taara-yellow mb-4"></div>
         <p id="loader-text" class="text-gray-500 font-medium">Fetching Best Package Details...</p>
-        <!-- Error Box (Hidden by default) -->
         <div id="debug-box" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 max-w-md"></div>
     </div>
 
-    <!-- MAIN CONTENT (Hidden until data loads) -->
+    <!-- MAIN CONTENT -->
     <div id="content">
-        <!-- Mobile Top Header -->
         <header class="bg-white shadow-sm sticky top-0 z-50 px-4 py-3 flex justify-between items-center lg:hidden">
             <div class="flex items-center gap-3">
                 <a href="index.html" class="text-gray-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></a>
@@ -39,7 +37,6 @@
 
         <main class="max-w-7xl mx-auto lg:px-4 lg:py-6 flex flex-col lg:flex-row gap-6">
             <div class="w-full lg:w-2/3">
-                <!-- Dynamic Image -->
                 <div class="relative w-full h-[60vh] lg:h-[70vh] lg:rounded-xl overflow-hidden bg-gray-200">
                     <img id="pkg-image" src="" class="w-full h-full object-cover object-center">
                     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
@@ -96,7 +93,7 @@
         </div>
     </div>
 
-    <!-- PDF Lead Modal Code Remains Same (Shortened for preview) -->
+    <!-- PDF Lead Modal -->
     <div id="pdfModal" class="fixed inset-0 bg-black/70 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden relative">
             <button onclick="closePdfModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-800 z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
@@ -117,43 +114,35 @@
         </div>
     </div>
 
-    <!-- MAIN JAVASCRIPT: THE MASTER ENGINE -->
+    <!-- MAIN JAVASCRIPT ENGINE -->
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzZCMqW12dr_RrDr-0ZTS3gIXd3iQ8PIkznkc1g-Mgek7Rd9nzqRlh5pbEeB4KsS3U93Q/exec'; 
+        // AAPKI LATEST LINK YAHAN HAIN!
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw4bK2pbIUbOALJlU6Fwgjuz-S9Ridv9ad1jTQYwfPYCTvMfgTfMspHbHBkPpI8dzJjzQ/exec'; 
 
         let currentPackageTitle = "";
         const urlParams = new URLSearchParams(window.location.search);
         const packageId = urlParams.get('id');
 
-        // ERROR HANDLING ENGINE
         function showFatalError(message) {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('loader-text').innerText = "Oops! Could not load the package.";
+            document.getElementById('loader-text').innerText = "Oops! Details not found.";
             const debugBox = document.getElementById('debug-box');
             debugBox.classList.remove('hidden');
-            debugBox.innerHTML = `<strong>Error Details:</strong> <br/> ${message} <br/><br/> <em>Action for Admin: Check if Google Sheet tab is named 'Packages' exactly, and API URL is correct.</em>`;
+            debugBox.innerHTML = `<strong>Error Details:</strong> <br/> ${message}`;
         }
 
         if(packageId) {
-            // Safety Timeout (If Google Script gets stuck for more than 10 seconds)
             const timeoutFetch = setTimeout(() => {
-                showFatalError("Google Apps Script is not responding. Link might be incorrect or deployment permission is not set to 'Anyone'.");
+                showFatalError("Script not responding. Please refresh.");
             }, 10000);
 
             fetch(scriptURL)
-                .then(res => {
-                    if (!res.ok) throw new Error("Network response was not ok. Status: " + res.status);
-                    return res.text(); // First fetch as text to catch HTML errors
-                })
+                .then(res => res.text())
                 .then(text => {
                     clearTimeout(timeoutFetch);
                     try {
-                        const data = JSON.parse(text); // Try parsing JSON
-                        
-                        if(data.error) {
-                            showFatalError("Google Sheet Error: " + data.error);
-                            return;
-                        }
+                        const data = JSON.parse(text);
+                        if(data.error) { showFatalError(data.error); return; }
 
                         const pkg = data.find(p => p['Package ID'] === packageId);
                         if(pkg) {
@@ -167,7 +156,7 @@
                             
                             document.getElementById('pkg-location').innerText = pkg['Location'];
                             document.getElementById('pkg-duration').innerText = pkg['Duration'];
-                            document.getElementById('pkg-image').src = pkg['Image URL'] || 'https://via.placeholder.com/800x400?text=No+Image';
+                            document.getElementById('pkg-image').src = pkg['Image URL'];
                             
                             const waMsg = `Hi, I am interested in the ${currentPackageTitle} package.`;
                             document.getElementById('pkg-whatsapp').href = `https://wa.me/917016036767?text=${encodeURIComponent(waMsg)}`;
@@ -175,10 +164,10 @@
                             document.getElementById('loader').style.display = 'none';
                             document.getElementById('content').style.display = 'block';
                         } else {
-                            showFatalError(`Package ID '<strong>${packageId}</strong>' not found in the Google Sheet. Please check the 'Package ID' column.`);
+                            showFatalError("Package ID '" + packageId + "' not found in Sheet.");
                         }
                     } catch (err) {
-                        showFatalError("Invalid Response from Google Script. The script URL might be pointing to a Google Login page. Make sure Web App access is set to 'Anyone'.");
+                        showFatalError("Invalid Response. Ensure Google script access is set to 'Anyone'.");
                     }
                 })
                 .catch(err => {
@@ -186,7 +175,7 @@
                     showFatalError("Fetch failed. Error: " + err.message);
                 });
         } else {
-            showFatalError("No Package ID found in the URL. (Example: ?id=kerala-trip)");
+            showFatalError("No Package Selected.");
         }
 
         // PDF Logic
