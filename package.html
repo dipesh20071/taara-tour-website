@@ -36,7 +36,6 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @media (max-width: 1024px) { body { padding-bottom: 90px; } }
-        /* Loader Style */
         #loader { display: flex; }
         #content { display: none; }
     </style>
@@ -51,18 +50,17 @@
     </div>
 
     <div id="content">
-        <!-- Sticky Header (Aapka Code) -->
+        <!-- Sticky Header -->
         <header class="bg-white shadow-nav sticky top-0 z-50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center h-16">
                 <div class="flex items-center gap-4">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg>
                     </button>
-                    <div class="flex items-center gap-2 cursor-pointer">
-                        <div class="bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">
-                            Taara <span class="text-white text-sm font-semibold tracking-normal">Tours</span>
-                        </div>
-                    </div>
+                    <!-- LOGO INTEGRATION -->
+                    <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+                        <img src="https://drive.google.com/uc?export=view&id=19MLNbyIedx26QgSGD3rDb2oq-LmbnjKC" alt="Taara Tour & Travels Logo" class="h-10 lg:h-12 object-contain">
+                    </a>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="bg-brand-yellow hover:bg-brand-yellowHover text-brand-black text-sm font-bold px-5 py-2 rounded-lg shadow-sm transition transform hover:-translate-y-0.5">Enquire Now</button>
@@ -73,7 +71,7 @@
             </div>
         </header>
 
-        <!-- Hero Section (Aapka Code) -->
+        <!-- Hero Section -->
         <div class="relative w-full h-[350px] md:h-[450px] bg-brand-black">
             <img id="pkg-image" src="" alt="Tour Image" class="w-full h-full object-cover object-center opacity-90 transition-opacity duration-500">
             <div class="absolute top-4 left-4 flex flex-col gap-2">
@@ -92,8 +90,8 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 -mt-12 pb-16">
             <div class="flex flex-col lg:flex-row gap-6">
                 
+                <!-- Left Details -->
                 <div class="w-full lg:w-2/3 space-y-5">
-                    <!-- Title Card -->
                     <div class="bg-white rounded-xl shadow-float p-6 border-t-4 border-brand-yellow">
                         <h1 id="pkg-title" class="text-[26px] font-extrabold text-brand-black leading-tight">Loading Title...</h1>
                         <div class="flex flex-wrap items-center mt-4 gap-4">
@@ -114,7 +112,6 @@
                         </div>
                     </div>
 
-                    <!-- Mobile Pricing Card -->
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:hidden">
                         <div class="inline-block border border-brand-yellow text-brand-yellow bg-yellow-50 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-3">Starting From</div>
                         <div class="flex items-baseline gap-3 mb-5">
@@ -140,18 +137,16 @@
                         </div>
                     </div>
 
-                    <!-- Dynamic Day-by-Day Itinerary (Aapka Accordion Design) -->
+                    <!-- Dynamic Itinerary -->
                     <div class="mt-8">
                         <h2 class="text-xl font-bold text-brand-black mb-5 flex items-center gap-2">
                             <span class="w-1.5 h-6 bg-brand-yellow rounded-full"></span> Day-by-Day Itinerary
                         </h2>
-                        <div id="pkg-itinerary" class="space-y-3">
-                            <!-- JS Will Inject Accordions Here -->
-                        </div>
+                        <div id="pkg-itinerary" class="space-y-3"></div>
                     </div>
                 </div>
 
-                <!-- Right Sidebar (Desktop) -->
+                <!-- Right Sidebar Desktop -->
                 <div class="w-full lg:w-1/3 relative hidden lg:block">
                     <div class="sticky top-24 bg-white rounded-xl shadow-float border border-gray-100 p-6">
                         <div class="mb-5">
@@ -167,15 +162,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Explore More Slider (Aapka Same Code) -->
+            <!-- Explore More Slider -->
             <section class="mt-16 pt-10 border-t border-gray-200">
                 <h2 class="text-2xl font-extrabold text-brand-black mb-6 px-1 flex items-center gap-2">Explore More <span class="text-brand-yellow">Similar Tours</span></h2>
                 <div class="relative w-full group">
                     <div id="similar-tours-slider" class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 px-1 hide-scrollbar scroll-smooth">
-                        <!-- Card 1 -->
                         <div class="min-w-[280px] md:min-w-[300px] bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden snap-center relative shrink-0 group-card hover:shadow-float transition">
                             <div class="h-[180px] relative">
                                 <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Manali" class="w-full h-full object-cover">
@@ -192,16 +185,45 @@
             </section>
         </div>
 
-        <!-- Footer -->
+        <!-- FULL 4-COLUMN FOOTER W/ LOGO -->
         <footer class="bg-[#111111] text-white pt-12 pb-24 lg:pb-12 border-t-[5px] border-brand-yellow">
             <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Branding -->
                 <div class="col-span-1 lg:col-span-2">
-                    <div class="bg-[#1A1A1A] inline-block px-4 py-2 rounded-lg border border-[#333] mb-4">
-                        <span class="text-brand-yellow font-extrabold text-2xl tracking-wide">Taara</span> <span class="text-white text-lg font-semibold">Tours</span>
+                    <div class="mb-4">
+                        <img src="https://drive.google.com/uc?export=view&id=19MLNbyIedx26QgSGD3rDb2oq-LmbnjKC" alt="Taara Tour Logo" class="h-12 lg:h-14 object-contain bg-white/10 p-1.5 rounded-lg border border-white/20">
                     </div>
                     <p class="text-gray-400 text-sm mb-6 max-w-sm">Making your travel experiences unforgettable with premium services and curated itineraries.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="col-span-1">
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h4>
+                    <ul class="text-sm text-gray-400 space-y-3">
+                        <li><a href="#" class="hover:text-brand-yellow transition">Group Tours</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition">Private Tours</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition">Customized Tours</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-span-1">
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Support</h4>
+                    <ul class="text-sm text-gray-400 space-y-3">
+                        <li><a href="#" class="hover:text-brand-yellow transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition">Terms & Conditions</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition">Privacy Policy</a></li>
+                    </ul>
                 </div>
             </div>
+            
             <div class="max-w-6xl mx-auto px-5 mt-10 pt-6 border-t border-[#333] text-xs text-gray-500 font-medium text-center">
                 <p>Taara Tour and Travels Copyright © 2026. All Rights Reserved.</p>
             </div>
@@ -224,11 +246,9 @@
                 <h3 class="text-brand-yellow font-extrabold text-lg flex items-center gap-2">Download Itinerary</h3>
                 <button onclick="closeDownloadModal()" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
-            
             <div id="pdfErrorMsg" class="hidden bg-red-50 border-l-4 border-red-500 p-4 m-3 rounded">
                 <p class="text-xs text-red-700 font-bold">Document Unavailable. Contact Admin.</p>
             </div>
-
             <form id="leadForm" onsubmit="handleDownloadSubmit(event)" class="p-5 space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-brand-black mb-1.5">Full Name *</label>
@@ -250,7 +270,6 @@
 
     <!-- MAIN AUTO-PILOT ENGINE -->
     <script>
-        // API LINK
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec'; 
         let currentPackageTitle = "";
         
@@ -292,103 +311,4 @@
                         }
                         // EXCLUSIONS
                         if(pkg['Exclusions']) {
-                            document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex items-center gap-2"><span class="text-red-500">✖</span> ${e.trim()}</li>`).join('');
-                        }
-                        
-                        // DYNAMIC ACCORDION ITINERARY GENERATOR
-                        if(pkg['Itinerary']) {
-                            document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((day, idx) => {
-                                let parts = day.split(':');
-                                let dayNum = "Day " + (idx+1);
-                                let dayTitle = parts[0] ? parts[0].trim() : "Local Sightseeing";
-                                let dayDesc = parts[1] ? parts[1].trim() : "Detailed plan available on call.";
-                                return `
-                                <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all hover:border-brand-yellow">
-                                    <button class="accordion-header ${idx===0?'active':''} w-full flex justify-between items-center p-4 focus:outline-none bg-gray-50 hover:bg-yellow-50/50 transition" onclick="toggleAccordion(this)">
-                                        <div class="flex items-center gap-4">
-                                            <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">${dayNum}</span>
-                                            <span class="font-semibold text-brand-black text-sm text-left">${dayTitle}</span>
-                                        </div>
-                                        <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                    </button>
-                                    <div class="accordion-content ${idx===0?'open':''} px-4 border-t border-gray-100">
-                                        <p class="text-sm text-gray-600 font-medium ml-2">${dayDesc}</p>
-                                    </div>
-                                </div>`;
-                            }).join('');
-                        }
-
-                        document.getElementById('loader').style.display = 'none';
-                        document.getElementById('content').style.display = 'block';
-                    } else {
-                        showFatalError("Package Not Found in Excel.");
-                    }
-                }).catch(err => {
-                    showFatalError("Script Fetch Error. Please ensure App is deployed to 'Anyone'.");
-                });
-        } else {
-            showFatalError("No Package URL Param Found.");
-        }
-
-        // --- ALL UI & MODAL SCRIPTS ---
-        function toggleAccordion(element) {
-            const content = element.nextElementSibling;
-            element.classList.toggle('active');
-            if (content.classList.contains('open')) { content.classList.remove('open'); } 
-            else { content.classList.add('open'); }
-        }
-
-        function openDownloadModal() {
-            const modal = document.getElementById('downloadModal');
-            const content = document.getElementById('downloadModalContent');
-            modal.classList.remove('hidden');
-            setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 10);
-        }
-
-        function closeDownloadModal() {
-            const modal = document.getElementById('downloadModal');
-            const content = document.getElementById('downloadModalContent');
-            content.classList.remove('scale-100', 'opacity-100'); content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
-        function showCustomMessage(msg) {
-            let toastBox = document.getElementById("premiumMessageBox");
-            if(!toastBox) {
-                toastBox = document.createElement('div');
-                toastBox.id = "premiumMessageBox";
-                toastBox.className = "fixed bottom-[110px] lg:bottom-10 left-1/2 transform -translate-x-1/2 bg-brand-black text-brand-yellow px-6 py-3.5 rounded-xl shadow-2xl z-[200] font-bold text-sm transition-all duration-300 opacity-0 translate-y-4 flex items-center gap-2 border border-[#333]";
-                document.body.appendChild(toastBox);
-            }
-            toastBox.innerHTML = `<svg class="w-5 h-5 text-[#25D366]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> ${msg}`;
-            setTimeout(() => { toastBox.classList.remove('opacity-0', 'translate-y-4'); toastBox.classList.add('opacity-100', 'translate-y-0'); }, 10);
-            setTimeout(() => { toastBox.classList.remove('opacity-100', 'translate-y-0'); toastBox.classList.add('opacity-0', 'translate-y-4'); }, 3500);
-        }
-
-        function handleDownloadSubmit(e) {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = 'Connecting...';
-            
-            fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify({ action: "get_pdf", name: e.target[0].value, phone: e.target[1].value, email: "", packageReq: currentPackageTitle }),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-            }).then(res => res.json()).then(data => {
-                submitBtn.innerHTML = 'Get PDF Now';
-                if(data.result === 'success' && data.pdfUrl) {
-                    showCustomMessage("Sending to WhatsApp & CRM... Downloading!");
-                    closeDownloadModal(); 
-                    setTimeout(() => { window.open(data.pdfUrl, '_blank'); e.target.reset(); }, 1200);
-                } else {
-                    document.getElementById('leadForm').classList.add('hidden'); 
-                    document.getElementById('pdfErrorMsg').classList.remove('hidden');
-                }
-            }).catch(() => {
-                document.getElementById('leadForm').classList.add('hidden'); 
-                document.getElementById('pdfErrorMsg').classList.remove('hidden');
-            });
-        }
-    </script>
-</body>
-</html>
+                            document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex items-center gap-2"><span class="text-red-500
