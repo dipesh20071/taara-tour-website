@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Loading Package... - Taara Tour & Travels</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
@@ -36,7 +34,6 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @media (max-width: 1024px) { body { padding-bottom: 90px; } }
-        /* Loader Style */
         #loader { display: flex; }
         #content { display: none; }
     </style>
@@ -51,26 +48,32 @@
     </div>
 
     <div id="content">
-        <!-- Sticky Header -->
+        <!-- GLOBAL STICKY HEADER -->
         <header class="bg-white shadow-nav sticky top-0 z-50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center h-16">
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-6">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg>
                     </button>
-                    <!-- LOCAL GITHUB LOGO -->
+                    <!-- LOGO -->
                     <a href="index.html" class="flex items-center gap-2 cursor-pointer">
                         <img src="logo.png" alt="Taara Tour & Travels Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">
                             Taara <span class="text-white text-sm font-semibold tracking-normal">Tours</span>
                         </div>
                     </a>
+                    
+                    <!-- DESKTOP NAVIGATION LINKS -->
+                    <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-700 ml-4">
+                        <a href="index.html" class="hover:text-brand-yellow transition">Home</a>
+                        <a href="#" class="hover:text-brand-yellow transition">India Package</a>
+                        <a href="#" class="hover:text-brand-yellow transition">International</a>
+                        <a href="#" class="hover:text-brand-yellow transition">Customize Tour</a>
+                    </nav>
                 </div>
+                
                 <div class="flex items-center gap-3">
                     <button class="bg-brand-yellow hover:bg-brand-yellowHover text-brand-black text-sm font-bold px-5 py-2 rounded-lg shadow-sm transition transform hover:-translate-y-0.5">Enquire Now</button>
-                    <button class="text-brand-black bg-gray-50 border border-gray-200 hover:bg-gray-100 p-2 rounded-lg transition hidden sm:block">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </button>
                 </div>
             </div>
         </header>
@@ -111,9 +114,7 @@
                                 <span class="text-sm font-bold text-brand-black">4.9</span>
                             </div>
                             <div class="flex items-center gap-3 text-sm font-bold text-brand-black bg-gray-50 px-3 py-1 rounded-md border border-gray-100">
-                                <span class="flex items-center gap-1.5">
-                                    <span id="pkg-duration">--</span>
-                                </span>
+                                <span class="flex items-center gap-1.5" id="pkg-duration">--</span>
                             </div>
                         </div>
                         <div class="mt-4 flex items-start gap-2">
@@ -130,20 +131,17 @@
                         </div>
                     </div>
 
-                    <!-- Inclusions / Exclusions (STACKED UPAR-NEECHE) -->
+                    <!-- Inclusions / Exclusions -->
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mt-6">
                         <h2 class="text-xl font-bold text-brand-black mb-4 flex items-center gap-2">
                             <span class="w-1.5 h-6 bg-brand-yellow rounded-full"></span> Package Summary
                         </h2>
                         
-                        <!-- Stacked Flex Column -->
                         <div class="flex flex-col gap-6">
-                            <!-- Inclusions -->
                             <div>
                                 <h3 class="text-sm font-bold text-brand-black mb-3 border-b pb-2 text-green-700">What's Included</h3>
                                 <ul id="pkg-inclusions" class="space-y-2 text-sm text-gray-600 font-medium ml-2"></ul>
                             </div>
-                            <!-- Exclusions -->
                             <div class="pt-2">
                                 <h3 class="text-sm font-bold text-brand-black mb-3 border-b pb-2 text-red-700">What's Excluded</h3>
                                 <ul id="pkg-exclusions" class="space-y-2 text-sm text-gray-600 font-medium ml-2"></ul>
@@ -199,42 +197,71 @@
             </section>
         </div>
 
-        <!-- FULL 4-COLUMN FOOTER W/ LOGO -->
+        <!-- GLOBAL 4-COLUMN FOOTER W/ LOGO & CONTACT -->
         <footer class="bg-[#111111] text-white pt-12 pb-24 lg:pb-12 border-t-[5px] border-brand-yellow">
             <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Branding -->
-                <div class="col-span-1 lg:col-span-2">
+                
+                <!-- 1. Branding & Address -->
+                <div class="col-span-1 lg:col-span-1">
                     <div class="mb-4">
                         <img src="logo.png" alt="Taara Tour Logo" class="h-12 lg:h-14 object-contain bg-white/10 p-1.5 rounded-lg border border-white/20" onerror="this.style.display='none'">
                     </div>
-                    <p class="text-gray-400 text-sm mb-6 max-w-sm">Making your travel experiences unforgettable with premium services and curated itineraries.</p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <h3 class="text-white font-bold text-lg mb-2">Taara Tour & Travels</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Shop No 2, Building No A1, Umiya Nagar, Sagrampura, Surat - 395002, Gujarat</p>
+                    
+                    <div class="flex gap-3 mt-4">
+                        <a href="https://wa.me/917016036767" target="_blank" class="w-9 h-9 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" class="w-9 h-9 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg>
                         </a>
                     </div>
                 </div>
 
-                <!-- Links -->
+                <!-- 2. Contact Us (Direct Info) -->
                 <div class="col-span-1">
-                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h4>
+                    <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Contact Us</h4>
+                    <ul class="text-sm text-gray-400 space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-brand-yellow shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <div>
+                                <a href="tel:+917016036767" class="block hover:text-brand-yellow transition">+91 70160 36767</a>
+                                <a href="tel:+919327632276" class="block hover:text-brand-yellow transition mt-1">+91 93276 32276</a>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-brand-yellow shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <a href="mailto:taaratour1@gmail.com" class="hover:text-brand-yellow transition">taaratour1@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. Quick Links -->
+                <div class="col-span-1">
+                    <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Quick Links</h4>
                     <ul class="text-sm text-gray-400 space-y-3">
-                        <li><a href="#" class="hover:text-brand-yellow transition">Group Tours</a></li>
-                        <li><a href="#" class="hover:text-brand-yellow transition">Private Tours</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition flex items-center gap-2"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Group Tours</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition flex items-center gap-2"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Private Tours</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition flex items-center gap-2"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Customized Tours</a></li>
                     </ul>
                 </div>
                 
+                <!-- 4. Support -->
                 <div class="col-span-1">
-                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Support</h4>
+                    <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Support</h4>
                     <ul class="text-sm text-gray-400 space-y-3">
+                        <li><a href="#" class="hover:text-brand-yellow transition">About Us</a></li>
                         <li><a href="#" class="hover:text-brand-yellow transition">Contact Us</a></li>
                         <li><a href="#" class="hover:text-brand-yellow transition">Terms & Conditions</a></li>
+                        <li><a href="#" class="hover:text-brand-yellow transition">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="max-w-6xl mx-auto px-5 mt-10 pt-6 border-t border-[#333] text-xs text-gray-500 font-medium text-center">
-                <p>Taara Tour and Travels Copyright © 2026. All Rights Reserved.</p>
+            <div class="max-w-6xl mx-auto px-5 mt-10 pt-6 border-t border-[#333] text-xs text-gray-500 font-medium text-center flex flex-col md:flex-row justify-between items-center gap-2">
+                <p>Taara Tour & Travels Copyright © 2026. All Rights Reserved.</p>
+                <p>Developed with ❤️ for Explorers</p>
             </div>
         </footer>
 
@@ -277,7 +304,7 @@
         </div>
     </div>
 
-    <!-- MAIN AUTO-PILOT ENGINE W/ SMART DEBUGGER -->
+    <!-- MAIN AUTO-PILOT ENGINE -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec'; 
         let currentPackageTitle = "";
@@ -289,9 +316,9 @@
                 seconds--;
                 if (seconds < 0) { seconds = 59; minutes--; }
                 if (minutes < 0) { minutes = 59; hours--; }
-                if (hours < 0) { hours = 3; } // loops automatically
-                document.getElementById('offer-timer').innerText = 
-                    hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m " + (seconds < 10 ? "0" : "") + seconds + "s";
+                if (hours < 0) { hours = 3; } 
+                const timerElem = document.getElementById('offer-timer');
+                if(timerElem) timerElem.innerText = hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m " + (seconds < 10 ? "0" : "") + seconds + "s";
             }, 1000);
         }
         startTimer();
@@ -299,7 +326,7 @@
         // 2. ERROR HANDLER
         function showFatalError(msg, isGoogleBlock = false) {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('loader-text').innerText = "Oops! Connection Ruka Hua Hai 🛑";
+            document.getElementById('loader-text').innerText = "Oops! Connection Error 🛑";
             document.getElementById('debug-box').classList.remove('hidden');
             
             if(isGoogleBlock) {
@@ -339,7 +366,6 @@
                             let durText = pkg['Duration'] || "";
                             durText = durText.replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D");
                             durText = durText.replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N");
-                            // Replace old bullets if they exist to keep it clean
                             durText = durText.replace(/•/g, "").replace(/\s+/g, " ").trim();
                             document.getElementById('pkg-duration').innerHTML = durText.replace("🌙", " • 🌙");
 
@@ -385,7 +411,6 @@
                             showFatalError(`Package ID <strong>'${packageId}'</strong> aapki Excel/Sheet mein nahi mila.`);
                         }
                     } catch(e) {
-                        // Google Block / HTML Response Caught
                         showFatalError(text, true);
                     }
                 }).catch(err => {
