@@ -30,30 +30,29 @@
     </div>
 
     <div id="content">
+        <!-- HEADER -->
         <header class="bg-white shadow-nav sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center h-16">
                 <div class="flex items-center gap-6">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg></button>
                     <a href="index.html" class="flex items-center gap-2 cursor-pointer"><img src="logo.png" alt="Taara Tour Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none';"></a>
                     
-                    <!-- MEGA MENU DROPDOWNS -->
+                    <!-- DESKTOP MEGA MENU NAV -->
                     <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-700 ml-4">
                         <a href="index.html" class="hover:text-brand-yellow transition">Home</a>
                         <div class="relative group py-2">
                             <a href="index.html#india" class="hover:text-brand-yellow transition flex items-center gap-1">India <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
-                            <div id="nav-india-dropdown" class="absolute top-full left-0 mt-0 w-[600px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
+                            <div id="nav-india-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
                         </div>
                         <div class="relative group py-2">
                             <a href="index.html#international" class="hover:text-brand-yellow transition flex items-center gap-1">International <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
-                            <div id="nav-intl-dropdown" class="absolute top-full left-0 mt-0 w-[600px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
+                            <div id="nav-intl-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
                         </div>
                         <a href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition">Customize Tour</a>
                     </nav>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm">
-                        <svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg> +91 70160 36767
-                    </a>
+                    <a href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm"><svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg> +91 70160 36767</a>
                     <button class="bg-brand-black text-white font-bold px-5 py-2 rounded-full text-xs shadow-md">Enquire Now</button>
                 </div>
             </div>
@@ -140,7 +139,7 @@
 
         <div class="fixed bottom-0 left-0 w-full bg-white shadow-[0_-4px_15px_rgba(0,0,0,0.08)] p-4 flex justify-between items-center lg:hidden z-50 rounded-t-[20px] border-t border-gray-100">
             <div class="flex flex-col"><p class="text-[10px] text-gray-500 font-bold uppercase mb-0.5">Starting from</p><p id="pkg-price-sticky" class="text-2xl font-black leading-none">₹--</p></div>
-            <button class="bg-brand-yellow font-bold px-8 py-3 rounded-xl shadow-md">Book Now</button>
+            <button class="bg-brand-yellow text-brand-black font-bold px-8 py-3 rounded-xl shadow-md">Book Now</button>
         </div>
     </div>
 
@@ -149,12 +148,12 @@
         <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl relative">
             <div class="bg-brand-black p-4 flex justify-between border-b-4 border-brand-yellow">
                 <h3 class="text-brand-yellow font-bold text-lg">Download PDF</h3>
-                <button onclick="document.getElementById('downloadModal').classList.add('hidden')" class="text-white">✖</button>
+                <button onclick="document.getElementById('downloadModal').classList.add('hidden')" class="text-white hover:text-red-400 transition font-bold">✖</button>
             </div>
             <form id="leadForm" onsubmit="handleDownload(event)" class="p-5 space-y-4">
                 <input type="text" required placeholder="Full Name *" class="w-full px-3 py-2 border rounded-lg text-sm bg-gray-50 focus:border-brand-yellow outline-none">
                 <input type="tel" required pattern="[0-9]{10}" placeholder="WhatsApp Number *" class="w-full px-3 py-2 border rounded-lg text-sm bg-gray-50 focus:border-brand-yellow outline-none">
-                <button type="submit" class="w-full bg-brand-yellow font-bold py-3 rounded-lg shadow-sm">Get PDF Now</button>
+                <button type="submit" class="w-full bg-brand-yellow font-bold py-3 rounded-lg shadow-sm hover:scale-[1.02] transition">Get PDF Now</button>
                 <div id="pdf-msg" class="hidden text-xs font-bold text-center mt-2 p-2 rounded"></div>
             </form>
         </div>
@@ -173,18 +172,17 @@
             if(content.classList.contains('open')) content.classList.remove('open'); else content.classList.add('open');
         }
 
-        // Build Multi-column Header Dropdowns
         function buildDropdowns(indiaData, intlData) {
             const indDropdown = document.getElementById('nav-india-dropdown');
             const intlDropdown = document.getElementById('nav-intl-dropdown');
             let indHtml = ''; let intlHtml = '';
-            for(let loc in indiaData) indHtml += `<a href="index.html?search=${loc}" class="text-sm font-medium hover:text-brand-yellow truncate px-2 py-1">${loc}</a>`;
-            for(let loc in intlData) intlHtml += `<a href="index.html?search=${loc}" class="text-sm font-medium hover:text-brand-yellow truncate px-2 py-1">${loc}</a>`;
+            for(let loc in indiaData) indHtml += `<a href="index.html" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
+            for(let loc in intlData) intlHtml += `<a href="index.html" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
             if(indHtml) indDropdown.innerHTML = indHtml;
             if(intlHtml) intlDropdown.innerHTML = intlHtml;
         }
 
-        if(!packageId) { document.getElementById('loader').innerHTML = `<p class="text-red-500 font-bold">Invalid Package ID</p>`; } 
+        if(!packageId) { document.getElementById('loader').innerHTML = `<p class="text-red-500 font-bold p-4">Invalid Package ID. Please select a package from the Home page.</p>`; } 
         else {
             fetch(scriptURL).then(res => res.json()).then(data => {
                 const pkg = data.find(p => p['Package ID'] === packageId);
@@ -193,53 +191,49 @@
                 currentPackageTitle = pkg['Title'];
                 document.getElementById('page-title').innerText = currentPackageTitle;
                 document.getElementById('pkg-title').innerText = currentPackageTitle;
-                document.getElementById('pkg-location').innerText = pkg['Location'];
+                
+                // Smart Location Parsing
+                let currentLocParts = (pkg['Location'] || "").split('|||');
+                let currentLoc = currentLocParts[0] || "";
+                let currentCat = currentLocParts[1] || "India";
+                document.getElementById('pkg-location').innerText = currentLoc;
                 
                 const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
                 document.getElementById('pkg-price-desktop').innerText = priceFmt;
                 document.getElementById('pkg-price-mobile').innerText = priceFmt;
                 document.getElementById('pkg-price-sticky').innerText = priceFmt;
                 
-                let durText = pkg['Duration'] || "";
-                durText = durText.replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
+                let durText = (pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
                 document.getElementById('pkg-duration').innerHTML = durText;
                 
                 if(pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
                 document.getElementById('pkg-whatsapp').href = `https://wa.me/917016036767?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
 
-                // Inclusions & Exclusions List Splitter
                 if(pkg['Inclusions']) document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex gap-2"><span class="text-green-500">✔</span> ${i.trim()}</li>`).join('');
                 if(pkg['Exclusions']) document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex gap-2"><span class="text-red-500">✖</span> ${e.trim()}</li>`).join('');
 
-                // NEW ITINERARY PARSING LOGIC (WITH PROPER MEALS)
+                // 100% PERFECT ITINERARY & MEAL PARSING
                 if(pkg['Itinerary']) {
                     document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((dayStr, idx) => {
                         if(!dayStr.trim()) return '';
-                        // Support both old ":" and new "::" formats
-                        let parts = dayStr.includes(' :: ') ? dayStr.split(' :: ') : dayStr.split(' : ');
-                        let title = parts[0] ? parts[0].trim() : "Local Tour";
+                        let parts = dayStr.split('::');
+                        let title = parts[0] ? parts[0].trim() : "Day Tour";
                         let descHtml = parts[1] ? parts[1].trim() : "";
                         let mealData = parts[2] ? parts[2].trim() : "";
-                        
-                        // If it's old format, meals might be mixed in HTML string
-                        if(!dayStr.includes(' :: ') && parts[1]) {
-                            let oldMatch = parts[1].split('<span class="mt-3');
-                            descHtml = oldMatch[0].trim();
-                            // Old meal HTML is too complex to recover perfectly, but it renders if injected directly
-                        }
 
-                        // Build Meal Badges properly
                         let mealBadges = '';
                         if(mealData) {
                             let mealArray = mealData.split(',');
-                            mealBadges = `<div class="mt-3 pt-3 border-t border-gray-100 flex flex-wrap gap-2 items-center"><span class="text-[10px] text-gray-500 font-extrabold uppercase tracking-widest">Meals:</span>`;
+                            mealBadges = `<div class="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-2 items-center"><span class="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest">Meals:</span>`;
                             mealArray.forEach(m => {
-                                let c = m==='No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
-                                        m==='Breakfast' ? 'bg-green-50 text-green-700 border-green-100' :
-                                        m==='Lunch' ? 'bg-orange-50 text-orange-700 border-orange-100' :
-                                        m==='Hi-Tea' ? 'bg-purple-50 text-purple-700 border-purple-100' :
+                                let trimM = m.trim();
+                                if(!trimM) return;
+                                let c = trimM==='No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
+                                        trimM==='Breakfast' ? 'bg-green-50 text-green-700 border-green-100' :
+                                        trimM==='Lunch' ? 'bg-orange-50 text-orange-700 border-orange-100' :
+                                        trimM==='Hi-Tea' ? 'bg-purple-50 text-purple-700 border-purple-100' :
                                         'bg-blue-50 text-blue-700 border-blue-100';
-                                mealBadges += `<span class="${c} border text-[10px] font-bold px-2 py-1 rounded shadow-sm">${m}</span>`;
+                                mealBadges += `<span class="${c} border text-[10px] font-bold px-2.5 py-1 rounded shadow-sm">${trimM}</span>`;
                             });
                             mealBadges += `</div>`;
                         }
@@ -267,24 +261,30 @@
                 
                 data.forEach(p => {
                     if(!p['Package ID']) return;
-                    let c = p['Category'] || 'India';
-                    if(c === 'International') intlDestinations[p['Location']] = p['Location'];
-                    else indiaDestinations[p['Location']] = p['Location'];
+                    let pLocParts = (p['Location'] || "").split('|||');
+                    let pLoc = pLocParts[0];
+                    let pCat = pLocParts[1] || 'India';
+                    let img = p['Image URL'];
+
+                    if(pCat === 'International') intlDestinations[pLoc] = img;
+                    else indiaDestinations[pLoc] = img;
                     
                     // Show in similar if category matches and it's not THIS package
-                    if(p['Package ID'] !== packageId && p['Category'] === pkg['Category']) {
+                    if(p['Package ID'] !== packageId && pCat === currentCat) {
                         let price = '₹' + Number(p['Price']).toLocaleString('en-IN');
                         let pDur = (p['Duration']||"").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
                         
                         similarHTML += `
                         <a href="package.html?id=${p['Package ID']}" class="group carousel-item flex-shrink-0 w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition block">
+                            <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">Group Tour</span>
                             <div class="relative h-36 overflow-hidden">
-                                <img src="${p['Image URL']}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                 <span class="absolute bottom-2 left-2 text-white text-xs font-semibold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${pDur}</span>
                             </div>
                             <div class="px-3 pt-3">
                                 <h3 class="font-bold text-gray-900 text-sm truncate">${p['Title']}</h3>
+                                <p class="text-[11px] text-gray-500 mt-1 truncate">${pLoc}</p>
                                 <div class="flex justify-between items-end mt-3 pt-3 border-t border-gray-100">
                                     <div><p class="text-[10px] text-gray-400">Starting from</p><p class="text-sm font-bold text-brand-black">${price}</p></div>
                                 </div>
@@ -293,18 +293,19 @@
                     }
                 });
 
-                document.getElementById('similar-tours-slider').innerHTML = similarHTML || `<p class="text-sm text-gray-400 p-2">No other packages yet.</p>`;
+                document.getElementById('similar-tours-slider').innerHTML = similarHTML || `<p class="text-sm text-gray-400 p-2">No other similar packages yet.</p>`;
                 buildDropdowns(indiaDestinations, intlDestinations);
 
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
 
-                // Similar Slider Auto-scroll
+                // Auto-scroll logic for Similar Tours
                 const slider = document.getElementById('similar-tours-slider');
                 let scrollAmt = 0;
+                let scrollStep = window.innerWidth > 1024 ? 316 : 276; 
                 setInterval(() => {
                     if (slider.matches(':hover') || slider.matches(':active') || slider.scrollWidth <= slider.clientWidth) return;
-                    scrollAmt += 280; if(scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
+                    scrollAmt += scrollStep; if(scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
                     slider.scrollTo({ left: scrollAmt, behavior: 'smooth' });
                 }, 3500);
 
