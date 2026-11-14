@@ -41,7 +41,7 @@
     <!-- MAIN DASHBOARD -->
     <div id="dashboard-screen" class="hidden w-full h-full flex flex-col md:flex-row overflow-hidden">
         
-        <!-- MOBILE TOP BAR (Solves the half-screen issue) -->
+        <!-- MOBILE TOP BAR -->
         <div class="md:hidden bg-brand-black text-white p-3 flex justify-between items-center shadow-md z-50">
             <span class="text-brand-yellow font-extrabold text-lg">Taara <span class="text-white text-xs">Admin</span></span>
             <div class="flex gap-1.5">
@@ -80,6 +80,7 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package Title *</label>
                             <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
+                        
                         <div class="bg-white border border-brand-yellow p-3 rounded-lg">
                             <label class="block text-xs font-bold text-brand-black mb-1 uppercase">Select Category *</label>
                             <select id="pCategory" required onchange="updateDestinations()" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-brand-yellow outline-none bg-gray-50 font-bold text-sm">
@@ -92,6 +93,17 @@
                             <input list="dest-list" id="pLocation" required placeholder="Type to search..." class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-brand-yellow outline-none bg-gray-50 font-bold text-sm">
                             <datalist id="dest-list"></datalist>
                         </div>
+
+                        <!-- NEW TOUR TYPE SELECTION -->
+                        <div class="md:col-span-2 bg-white border border-gray-300 p-3 rounded-lg">
+                            <label class="block text-xs font-bold text-brand-black mb-1 uppercase">Tour Type *</label>
+                            <select id="pTourType" required class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-brand-yellow outline-none bg-gray-50 font-bold text-sm">
+                                <option value="Group Tour">👥 Group Tour</option>
+                                <option value="Private Tour">🚗 Private Tour</option>
+                                <option value="Customized Tour">✨ Customized Tour</option>
+                            </select>
+                        </div>
+
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
                             <input type="number" id="pPrice" required class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
@@ -146,7 +158,7 @@
                 </div>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-x-auto">
                     <table class="w-full text-left border-collapse whitespace-nowrap md:whitespace-normal">
-                        <thead><tr class="bg-gray-50 border-b text-xs uppercase text-gray-500 font-bold"><th class="p-4">Title & Location</th><th class="p-4">Category</th><th class="p-4">Price</th><th class="p-4 text-center">Actions</th></tr></thead>
+                        <thead><tr class="bg-gray-50 border-b text-xs uppercase text-gray-500 font-bold"><th class="p-4">Title & Details</th><th class="p-4">Price</th><th class="p-4 text-center">Actions</th></tr></thead>
                         <tbody id="package-table-body" class="text-sm divide-y divide-gray-100"></tbody>
                     </table>
                 </div>
@@ -195,7 +207,6 @@
             document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('tab-active'); btn.classList.add('text-gray-400'); });
             document.getElementById('tab-' + tabName).classList.add('tab-active'); document.getElementById('tab-' + tabName).classList.remove('text-gray-400');
             
-            // Mobile Tabs
             document.querySelectorAll('.mob-tab-btn').forEach(btn => { btn.classList.remove('mob-tab-active'); btn.classList.replace('text-brand-black', 'text-gray-300'); btn.classList.replace('bg-brand-yellow', 'bg-white/10'); });
             document.getElementById('mob-tab-' + tabName).classList.add('mob-tab-active');
             document.getElementById('mob-tab-' + tabName).classList.replace('text-gray-300', 'text-brand-black');
@@ -208,18 +219,26 @@
 
         function loadPackages() {
             const tbody = document.getElementById('package-table-body');
-            tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-brand-yellow font-bold animate-pulse">Fetching...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-brand-yellow font-bold animate-pulse">Fetching...</td></tr>`;
             fetch(scriptURL).then(res => res.json()).then(data => {
                 allPackagesData = data;
-                if(data.error || data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">No packages found.</td></tr>`; return; }
+                if(data.error || data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-gray-500">No packages found.</td></tr>`; return; }
                 let html = '';
                 data.forEach(pkg => {
                     if(!pkg['Package ID']) return;
                     let locParts = (pkg['Location'] || "").split('|||');
+                    let locDisp = locParts[0];
                     let catDisp = locParts[1] || 'India';
+                    let typeDisp = locParts[2] || 'Group Tour';
+
                     html += `<tr class="hover:bg-gray-50">
-                        <td class="p-4 border-b border-gray-100"><div class="font-bold text-gray-900">${pkg['Title']}</div><div class="text-xs text-gray-500 mt-1">📍 ${locParts[0]}</div></td>
-                        <td class="p-4 border-b border-gray-100 font-semibold text-xs">${catDisp}</td>
+                        <td class="p-4 border-b border-gray-100">
+                            <div class="font-bold text-gray-900">${pkg['Title']}</div>
+                            <div class="text-[11px] text-gray-500 mt-1 flex items-center gap-2">
+                                <span>📍 ${locDisp} (${catDisp})</span>
+                                <span class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">${typeDisp.replace(' Tour', '')}</span>
+                            </div>
+                        </td>
                         <td class="p-4 border-b border-gray-100 font-bold">₹${Number(pkg['Price']).toLocaleString('en-IN')}</td>
                         <td class="p-4 border-b border-gray-100 text-center space-x-2">
                             <button onclick="editPackage('${pkg['Package ID']}')" class="bg-gray-100 hover:bg-brand-yellow px-3 py-1.5 rounded text-xs font-bold transition">✏️ Edit</button>
@@ -245,11 +264,12 @@
             document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Edit Package`;
             document.getElementById('addBtn').innerHTML = "💾 Update Details"; document.getElementById('cancelEditBtn').classList.remove('hidden');
             
-            // Magic Extract
+            // Extract the 3 hidden parts
             let locParts = (pkg['Location'] || "").split('|||');
             document.getElementById('pCategory').value = locParts[1] || "India";
             updateDestinations(); 
             document.getElementById('pLocation').value = locParts[0] || "";
+            document.getElementById('pTourType').value = locParts[2] || "Group Tour"; // Restoring Tour Type!
             
             document.getElementById('pTitle').value = pkg['Title'] || "";
             document.getElementById('pPrice').value = pkg['Price'] || "";
@@ -314,11 +334,9 @@
             else document.getElementById('itinerary-container').insertAdjacentHTML('beforeend', html);
             updateDayNumbers();
         }
-
         function removeDay(btnElement) { if(document.getElementById('itinerary-container').children.length > 1) { btnElement.closest('.day-entry').remove(); updateDayNumbers(); } }
         function moveUp(btnElement) { const current = btnElement.closest('.day-entry'); const prev = current.previousElementSibling; if(prev) { current.parentNode.insertBefore(current, prev); updateDayNumbers(); } }
         function moveDown(btnElement) { const current = btnElement.closest('.day-entry'); const next = current.nextElementSibling; if(next) { current.parentNode.insertBefore(next, current); updateDayNumbers(); } }
-
         function updateDayNumbers() {
             const days = document.querySelectorAll('.day-entry');
             days.forEach((day, index) => {
@@ -343,24 +361,23 @@
             document.querySelectorAll('.day-entry').forEach(day => {
                 let title = day.querySelector('.day-title').value.trim().replace(/\|/g, '').replace(/::/g, ''); 
                 let descRaw = day.querySelector('.day-desc').value.trim().replace(/\|/g, '').replace(/::/g, '');
-                
                 if(title || descRaw) {
                     let formattedDesc = descRaw.replace(/\n/g, '<br>');
                     let mealStr = Array.from(day.querySelectorAll('.meal-check:checked')).map(c => c.value).join(',');
-                    // SAVING FORMAT: Title :: Description :: Meals
                     itineraryArray.push(`${title} :: ${formattedDesc} :: ${mealStr}`);
                 }
             });
 
-            // MAGIC HACK: Send Category hidden inside Location
+            // 3-PART HACK: Location ||| Category ||| TourType
             let locText = document.getElementById('pLocation').value.trim();
             let catText = document.getElementById('pCategory').value;
-            let secretLocation = locText + "|||" + catText;
+            let tourType = document.getElementById('pTourType').value;
+            let secretLocation = locText + "|||" + catText + "|||" + tourType;
 
             const payload = {
                 action: mode === 'edit' ? "update_package" : "add_package", id: document.getElementById('editPackageId').value,
                 title: document.getElementById('pTitle').value, 
-                location: secretLocation, // Contains both!
+                location: secretLocation, 
                 price: document.getElementById('pPrice').value,
                 duration: document.getElementById('pDuration').value, imageUrl: document.getElementById('pImage').value,
                 pdfLink: document.getElementById('pPdf').value, inclusions: finalInc, exclusions: finalExc, itinerary: itineraryArray.join(' | ')
