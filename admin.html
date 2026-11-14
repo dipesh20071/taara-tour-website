@@ -76,8 +76,6 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package Title *</label>
                             <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
-                        
-                        <!-- NEW SEARCHABLE DESTINATION DROPDOWN -->
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Location / Destination *</label>
                             <input list="destinations-list" id="pLocation" required placeholder="Search destination..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
@@ -98,7 +96,6 @@
                                 <option value="Bhutan"> <option value="Nepal"> <option value="Switzerland">
                             </datalist>
                         </div>
-
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
                             <input type="number" id="pPrice" required placeholder="e.g. 25000" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
@@ -150,7 +147,7 @@
                         <button type="submit" id="addBtn" class="flex-1 bg-brand-yellow text-brand-black font-extrabold py-4 rounded-xl shadow-md hover:-translate-y-0.5 transition flex justify-center items-center gap-2 text-lg">
                             🚀 Publish Package
                         </button>
-                        <button type="button" id="cancelEditBtn" onclick="switchTab('manage')" class="hidden flex-none bg-gray-200 text-gray-800 font-bold py-4 px-6 rounded-xl hover:bg-gray-300 transition">
+                        <button type="button" id="cancelEditBtn" onclick="resetFormToAdd()" class="hidden flex-none bg-gray-200 text-gray-800 font-bold py-4 px-6 rounded-xl hover:bg-gray-300 transition">
                             Cancel Edit
                         </button>
                     </div>
@@ -241,7 +238,8 @@
             });
         }
 
-        function switchTab(tabName) {
+        // TAB LOGIC FIX 
+        function switchTab(tabName, isEditing = false) {
             document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('tab-active'); btn.classList.add('text-gray-400'); });
             document.getElementById('tab-' + tabName).classList.add('tab-active');
             document.getElementById('tab-' + tabName).classList.remove('text-gray-400');
@@ -250,7 +248,10 @@
             
             if(tabName === 'add') {
                 document.getElementById('view-add').classList.remove('hidden');
-                if(document.getElementById('formMode').value !== 'add') resetFormToAdd();
+                // Only reset if we manually clicked "Publish Package" tab, not if we came from "Edit"
+                if(!isEditing && document.getElementById('formMode').value !== 'add') {
+                    resetFormToAdd();
+                }
             } else if(tabName === 'manage') {
                 document.getElementById('view-manage').classList.remove('hidden');
                 loadPackages();
@@ -303,6 +304,9 @@
         function editPackage(id) {
             const pkg = allPackagesData.find(p => p['Package ID'] === id);
             if(!pkg) return;
+            
+            switchTab('add', true); // FIX: Go to add tab in EDIT mode securely
+            
             document.getElementById('formMode').value = "edit";
             document.getElementById('editPackageId').value = id;
             document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Edit Package: <span class="text-brand-yellow">${pkg['Title']}</span>`;
@@ -333,7 +337,6 @@
                     addDay(null, title, descText, rawContent);
                 });
             } else { addDay(); }
-            switchTab('add');
         }
 
         function resetFormToAdd() {
@@ -346,6 +349,7 @@
             document.getElementById('itinerary-container').innerHTML = '';
             document.getElementById('form-msg').classList.add('hidden');
             addDay();
+            switchTab('add');
         }
 
         function getDayHTML(title = "", desc = "", rawHTML = "") {
