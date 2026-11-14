@@ -7,23 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], },
-                    colors: {
-                        brand: {
-                            yellow: '#FFC500', yellowHover: '#E5B100',
-                            black: '#1A1A1A', dark: '#2A2A2A', lightBg: '#F8F9FA'
-                        }
-                    },
-                    boxShadow: {
-                        'float': '0 10px 30px -5px rgba(0, 0, 0, 0.1)',
-                        'nav': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
-                    }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], }, colors: { brand: { yellow: '#FFC500', yellowHover: '#E5B100', black: '#1A1A1A', lightBg: '#F8F9FA' } } } } }
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #F4F7FE; }
@@ -31,13 +15,11 @@
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-container { scroll-snap-type: x mandatory; display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 1rem; }
         .carousel-item { scroll-snap-align: start; flex-shrink: 0; }
-        #loader { display: flex; }
-        #content { display: none; }
+        #loader { display: flex; } #content { display: none; }
     </style>
 </head>
 <body class="pb-20 lg:pb-0 bg-brand-lightBg text-gray-800 antialiased">
 
-    <!-- Loading Overlay -->
     <div id="loader" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-4 text-center">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-brand-yellow mb-4"></div>
         <p class="text-gray-500 font-bold text-lg">Fetching Premium Packages...</p>
@@ -50,56 +32,37 @@
     </button>
 
     <div id="content">
-        <!-- HEADER -->
         <header class="bg-white shadow-nav sticky top-0 z-50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center h-16">
                 <div class="flex items-center gap-6">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg>
                     </button>
-                    
                     <a href="index.html" class="flex items-center gap-2 cursor-pointer">
                         <img src="logo.png" alt="Taara Tour Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">
-                            Taara <span class="text-white text-sm font-semibold tracking-normal">Tours</span>
-                        </div>
+                        <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">Taara <span class="text-white text-sm font-semibold tracking-normal">Tours</span></div>
                     </a>
                     
-                    <!-- MEGA MENU NAVIGATION -->
                     <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-700 ml-4">
                         <a href="index.html" class="text-brand-yellow font-bold">Home</a>
-                        
-                        <!-- India Mega Menu -->
                         <div class="relative group py-2">
                             <a href="#india" class="hover:text-brand-yellow transition flex items-center gap-1">India <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
-                            <div id="nav-india-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50">
-                                <span class="col-span-4 px-2 py-3 text-xs text-gray-400">Loading destinations...</span>
-                            </div>
+                            <div id="nav-india-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
                         </div>
-
-                        <!-- International Mega Menu -->
                         <div class="relative group py-2">
                             <a href="#international" class="hover:text-brand-yellow transition flex items-center gap-1">International <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
-                            <div id="nav-intl-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50">
-                                <span class="col-span-4 px-2 py-3 text-xs text-gray-400">Loading destinations...</span>
-                            </div>
+                            <div id="nav-intl-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
                         </div>
-
                         <a href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition">Customize Tour</a>
                     </nav>
                 </div>
-                
                 <div class="flex items-center gap-3">
-                    <a href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm">
-                        <svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg>
-                        +91 70160 36767
-                    </a>
-                    <button class="bg-brand-black text-white font-bold px-5 py-2 rounded-full text-xs shadow-md hover:bg-gray-800 transition">Enquire Now</button>
+                    <a href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm"><svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg>+91 70160 36767</a>
+                    <button class="bg-brand-black text-white font-bold px-5 py-2 rounded-full text-xs shadow-md">Enquire Now</button>
                 </div>
             </div>
         </header>
 
-        <!-- HERO SECTION WITH SEARCH -->
         <div class="relative w-full h-[55vh] lg:h-[65vh]">
             <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30"></div>
@@ -107,54 +70,35 @@
             <div class="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 max-w-7xl mx-auto pb-10">
                 <h1 class="text-3xl lg:text-5xl font-bold text-white leading-tight mb-2">Your Journey,<br><span class="text-brand-yellow">Our Expertise.</span></h1>
                 <p class="text-sm lg:text-lg text-gray-200 mb-6">Discover the world's most beautiful destinations with Taara.</p>
-                <button class="bg-brand-yellow text-brand-black font-bold px-6 py-2.5 rounded-full w-max shadow-lg text-sm transition hover:scale-105">Explore Destinations</button>
+                <button class="bg-brand-yellow text-brand-black font-bold px-6 py-2.5 rounded-full w-max shadow-lg text-sm transition">Explore Destinations</button>
             </div>
 
-            <!-- Search Box with inner 'X' Clear Button -->
             <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-11/12 max-w-4xl bg-white p-2 rounded-2xl shadow-xl flex items-center justify-between border border-gray-100 z-20">
                 <div class="flex-1 flex items-center px-4 gap-3 border-r border-gray-200 relative">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     <input type="text" id="live-search" placeholder="Search Destinations, Tours..." class="w-full py-2 text-sm focus:outline-none bg-transparent pr-8">
-                    <!-- INNER CLEAR BUTTON -->
-                    <button id="clear-search-btn" onclick="clearSearch()" class="absolute right-3 text-red-500 hover:text-red-700 hidden bg-red-50 p-1.5 rounded-full transition" title="Clear Search">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
+                    <button id="clear-search-btn" onclick="clearSearch()" class="absolute right-3 text-red-500 hover:text-red-700 hidden bg-red-50 p-1.5 rounded-full transition" title="Clear Search"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                 </div>
-                <button class="bg-brand-black text-white p-3 rounded-xl ml-2 hover:bg-gray-800 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
+                <button class="bg-brand-black text-white p-3 rounded-xl ml-2 hover:bg-gray-800 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
             </div>
         </div>
 
         <main id="explore-section" class="max-w-7xl mx-auto px-4 pt-16 pb-12 space-y-12 overflow-hidden">
-
             <section id="india">
                 <div class="mb-4 flex justify-between items-end">
-                    <div>
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore by Region</p>
-                        <h2 class="text-2xl font-extrabold text-brand-black">India <span class="text-brand-yellow">Destinations</span></h2>
-                    </div>
+                    <div><p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore by Region</p><h2 class="text-2xl font-extrabold text-brand-black">India <span class="text-brand-yellow">Destinations</span></h2></div>
                 </div>
-                <!-- Destinations Card Slider -->
                 <div id="india-destinations-slider" class="carousel-container hide-scroll mb-6"></div>
-                
-                <div class="mb-4">
-                    <h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Best Selling <span class="text-brand-yellow">India Packages</span></h2>
-                </div>
+                <div class="mb-4"><h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Best Selling <span class="text-brand-yellow">India Packages</span></h2></div>
                 <div id="india-packages-grid" class="carousel-container hide-scroll"></div>
             </section>
 
             <section id="international" class="mt-8 border-t border-gray-200 pt-8">
-                <div class="mb-4">
-                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore The World</p>
-                    <h2 class="text-2xl font-extrabold text-brand-black">International <span class="text-brand-yellow">Destinations</span></h2>
+                <div class="mb-4 flex justify-between items-end">
+                    <div><p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore The World</p><h2 class="text-2xl font-extrabold text-brand-black">International <span class="text-brand-yellow">Destinations</span></h2></div>
                 </div>
-                <!-- Destinations Card Slider -->
                 <div id="intl-destinations-slider" class="carousel-container hide-scroll mb-6"></div>
-                
-                <div class="mb-4">
-                    <h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Premium <span class="text-brand-yellow">International Tours</span></h2>
-                </div>
+                <div class="mb-4"><h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Premium <span class="text-brand-yellow">International Tours</span></h2></div>
                 <div id="intl-packages-grid" class="carousel-container hide-scroll"></div>
             </section>
 
@@ -191,50 +135,31 @@
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Contact Us</h4>
                     <ul class="text-sm text-gray-400 space-y-4">
-                        <li class="flex items-start gap-3"><a href="tel:+917016036767" class="block hover:text-brand-yellow transition">+91 70160 36767</a></li>
-                        <li class="flex items-center gap-3"><a href="mailto:taaratour@gmail.com" class="hover:text-brand-yellow transition">taaratour@gmail.com</a></li>
+                        <li class="flex items-start gap-3"><a href="tel:+917016036767" class="hover:text-brand-yellow">+91 70160 36767</a></li>
+                        <li class="flex items-center gap-3"><a href="mailto:taaratour@gmail.com" class="hover:text-brand-yellow">taaratour@gmail.com</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="max-w-6xl mx-auto px-5 mt-10 pt-6 border-t border-[#333] text-xs text-gray-500 font-medium text-center flex justify-between items-center gap-2">
-                <p>Taara Tour & Travels Copyright © 2026. All Rights Reserved.</p>
-            </div>
+            <div class="max-w-6xl mx-auto px-5 mt-10 pt-6 border-t border-[#333] text-xs text-gray-500 text-center"><p>Taara Tour & Travels Copyright © 2026.</p></div>
         </footer>
 
         <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] flex justify-around items-center p-3 z-50 rounded-t-xl">
-            <a href="index.html" class="flex flex-col items-center text-brand-yellow">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
-                <span class="text-[10px] font-bold mt-1">Home</span>
-            </a>
-            <a href="#india" class="flex flex-col items-center text-gray-400 hover:text-brand-black transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="text-[10px] font-medium mt-1">Packages</span>
-            </a>
-            <a href="https://wa.me/917016036767" target="_blank" class="flex flex-col items-center text-gray-400 hover:text-brand-black transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                <span class="text-[10px] font-medium mt-1">WhatsApp</span>
-            </a>
+            <a href="index.html" class="flex flex-col items-center text-brand-yellow"><span class="text-[10px] font-bold mt-1">Home</span></a>
+            <a href="#india" class="flex flex-col items-center text-gray-400"><span class="text-[10px] font-medium mt-1">Packages</span></a>
         </div>
     </div>
 
-    <!-- MAIN LOGIC (SEARCH, CLEAR, & MEGA-MENU) -->
+    <!-- MAIN LOGIC (Magic Parsing & Search) -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
 
-        // Filter and Clear logic
         function filterContent(keyword) {
             const query = keyword.toLowerCase();
             const floatingClearBtn = document.getElementById('floating-clear-btn');
             const innerClearBtn = document.getElementById('clear-search-btn');
             
-            // Show both clear buttons if text exists
-            if(query.length > 0) {
-                floatingClearBtn.classList.remove('hidden');
-                innerClearBtn.classList.remove('hidden');
-            } else {
-                floatingClearBtn.classList.add('hidden');
-                innerClearBtn.classList.add('hidden');
-            }
+            if(query.length > 0) { floatingClearBtn.classList.remove('hidden'); innerClearBtn.classList.remove('hidden'); } 
+            else { floatingClearBtn.classList.add('hidden'); innerClearBtn.classList.add('hidden'); }
 
             document.querySelectorAll('.filterable-item').forEach(card => {
                 const text = card.innerText.toLowerCase();
@@ -242,37 +167,17 @@
             });
         }
 
-        // Triggered by 'X' buttons
-        function clearSearch() {
-            const searchInput = document.getElementById('live-search');
-            searchInput.value = ''; 
-            filterContent(''); 
-        }
-
-        function filterAndScroll(loc) {
-            const searchInput = document.getElementById('live-search');
-            searchInput.value = loc;
-            filterContent(loc);
-            document.getElementById('explore-section').scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
-
+        function clearSearch() { document.getElementById('live-search').value = ''; filterContent(''); }
+        function filterAndScroll(loc) { document.getElementById('live-search').value = loc; filterContent(loc); document.getElementById('explore-section').scrollIntoView({behavior: 'smooth', block: 'start'}); }
         document.getElementById('live-search').addEventListener('input', (e) => filterContent(e.target.value));
 
-        // Build Multi-column Mega Menu
         function buildDropdowns(indiaData, intlData) {
             const indDropdown = document.getElementById('nav-india-dropdown');
             const intlDropdown = document.getElementById('nav-intl-dropdown');
-            
-            let indHtml = '';
-            for(let loc in indiaData) {
-                indHtml += `<a href="#explore-section" onclick="filterAndScroll('${loc}')" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
-            }
+            let indHtml = ''; let intlHtml = '';
+            for(let loc in indiaData) indHtml += `<a href="#explore-section" onclick="filterAndScroll('${loc}')" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate">${loc}</a>`;
+            for(let loc in intlData) intlHtml += `<a href="#explore-section" onclick="filterAndScroll('${loc}')" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate">${loc}</a>`;
             indDropdown.innerHTML = indHtml || `<span class="col-span-4 px-2 py-3 text-xs text-gray-400">No destinations</span>`;
-
-            let intlHtml = '';
-            for(let loc in intlData) {
-                intlHtml += `<a href="#explore-section" onclick="filterAndScroll('${loc}')" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
-            }
             intlDropdown.innerHTML = intlHtml || `<span class="col-span-4 px-2 py-3 text-xs text-gray-400">No destinations</span>`;
         }
 
@@ -290,86 +195,69 @@
         }
 
         function initAutoScroll() {
-            const carousels = document.querySelectorAll('.carousel-container');
-            carousels.forEach(c => {
-                let scrollAmount = 0;
-                let scrollStep = window.innerWidth > 1024 ? 316 : 276; 
+            document.querySelectorAll('.carousel-container').forEach(c => {
+                let scrollAmount = 0; let scrollStep = window.innerWidth > 1024 ? 316 : 276; 
                 setInterval(() => {
                     if (c.matches(':hover') || c.matches(':active') || c.scrollWidth <= c.clientWidth) return;
-                    scrollAmount += scrollStep;
-                    if (scrollAmount >= c.scrollWidth - c.clientWidth + 10) scrollAmount = 0;
+                    scrollAmount += scrollStep; if (scrollAmount >= c.scrollWidth - c.clientWidth + 10) scrollAmount = 0;
                     c.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 }, 3500); 
             });
         }
 
-        fetch(scriptURL)
-            .then(res => res.json())
-            .then(data => {
-                const indiaGrid = document.getElementById('india-packages-grid');
-                const intlGrid = document.getElementById('intl-packages-grid');
+        fetch(scriptURL).then(res => res.json()).then(data => {
+            if(data.error) throw new Error();
+            let indiaHTML = ''; let intlHTML = '';
+            let indiaDestinations = {}; let intlDestinations = {};
+
+            data.forEach(pkg => {
+                if(!pkg['Package ID']) return; 
                 
-                if(data.error) {
-                    indiaGrid.innerHTML = `<p class="text-red-500 font-bold p-4">Error loading.</p>`;
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('content').style.display = 'block';
-                    return;
-                }
+                // Magic Extract Category from Location
+                let locParts = (pkg['Location'] || "").split('|||');
+                let loc = locParts[0]; 
+                let cat = locParts[1] || 'India';
+                let img = pkg['Image URL']; 
 
-                let indiaHTML = ''; let intlHTML = '';
-                let indiaDestinations = {}; let intlDestinations = {};
+                if(cat === 'International') { if(!intlDestinations[loc]) intlDestinations[loc] = img; } 
+                else { if(!indiaDestinations[loc]) indiaDestinations[loc] = img; }
 
-                data.forEach(pkg => {
-                    if(!pkg['Package ID']) return; 
-                    let loc = pkg['Location']; let img = pkg['Image URL']; let cat = pkg['Category'] || 'India';
-                    
-                    if(cat === 'International') { if(!intlDestinations[loc]) intlDestinations[loc] = img; } 
-                    else { if(!indiaDestinations[loc]) indiaDestinations[loc] = img; }
+                const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
+                let durText = (pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
 
-                    const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
-                    let durText = (pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
-
-                    const cardHTML = `
-                    <div class="filterable-item carousel-item w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition group">
-                        <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">Group Tour</span>
-                        <div class="relative h-36 overflow-hidden">
-                            <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <span class="absolute bottom-2 left-2 text-white text-xs font-semibold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${durText}</span>
+                const cardHTML = `
+                <div class="filterable-item carousel-item w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition group">
+                    <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">Group Tour</span>
+                    <div class="relative h-36 overflow-hidden">
+                        <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <span class="absolute bottom-2 left-2 text-white text-xs font-semibold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${durText}</span>
+                    </div>
+                    <div class="px-3 pt-3">
+                        <h3 class="font-bold text-gray-900 text-sm leading-tight truncate">${pkg['Title']}</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 truncate">${loc}</p>
+                        <div class="flex justify-between items-end mt-3 pt-3 border-t border-gray-100">
+                            <div><p class="text-[10px] text-gray-400">Starting from</p><p class="text-sm font-bold text-brand-black">${priceFmt}</p></div>
+                            <a href="package.html?id=${pkg['Package ID']}" class="bg-brand-black text-white text-[11px] font-bold px-4 py-1.5 rounded-full hover:bg-brand-yellow hover:text-black transition">View</a>
                         </div>
-                        <div class="px-3 pt-3">
-                            <h3 class="font-bold text-gray-900 text-sm leading-tight truncate">${pkg['Title']}</h3>
-                            <p class="text-[11px] text-gray-500 mt-1 truncate">${loc}</p>
-                            <div class="flex justify-between items-end mt-3 pt-3 border-t border-gray-100">
-                                <div>
-                                    <p class="text-[10px] text-gray-400">Starting from</p>
-                                    <p class="text-sm font-bold text-brand-black">${priceFmt}</p>
-                                </div>
-                                <a href="package.html?id=${pkg['Package ID']}" class="bg-brand-black text-white text-[11px] font-bold px-4 py-1.5 rounded-full hover:bg-brand-yellow hover:text-black transition">View</a>
-                            </div>
-                        </div>
-                    </div>`;
+                    </div>
+                </div>`;
 
-                    if(cat === 'International') intlHTML += cardHTML;
-                    else indiaHTML += cardHTML;
-                });
-
-                buildDropdowns(indiaDestinations, intlDestinations);
-                document.getElementById('india-destinations-slider').innerHTML = buildDestinationCards(indiaDestinations);
-                document.getElementById('intl-destinations-slider').innerHTML = buildDestinationCards(intlDestinations);
-
-                indiaGrid.innerHTML = indiaHTML || `<div class="text-gray-400 italic text-sm p-4">No India packages found.</div>`;
-                intlGrid.innerHTML = intlHTML || `<div class="text-gray-400 italic text-sm p-4">No International packages found.</div>`;
-
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-                
-                // Allow UI to render before initializing scroll
-                setTimeout(initAutoScroll, 1000);
-            }).catch(err => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
+                if(cat === 'International') intlHTML += cardHTML; else indiaHTML += cardHTML;
             });
+
+            buildDropdowns(indiaDestinations, intlDestinations);
+            document.getElementById('india-destinations-slider').innerHTML = buildDestinationCards(indiaDestinations);
+            document.getElementById('intl-destinations-slider').innerHTML = buildDestinationCards(intlDestinations);
+
+            document.getElementById('india-packages-grid').innerHTML = indiaHTML || `<div class="text-gray-400 italic text-sm p-4">No India packages found.</div>`;
+            document.getElementById('intl-packages-grid').innerHTML = intlHTML || `<div class="text-gray-400 italic text-sm p-4">No International packages found.</div>`;
+
+            document.getElementById('loader').style.display = 'none'; document.getElementById('content').style.display = 'block';
+            setTimeout(initAutoScroll, 1000);
+        }).catch(err => {
+            document.getElementById('loader').style.display = 'none'; document.getElementById('content').style.display = 'block';
+        });
     </script>
 </body>
 </html>
