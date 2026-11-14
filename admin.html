@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taara Tours - Admin Panel</title>
+    <title>Taara Tours - Premium Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -29,17 +29,16 @@
             
             <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Email Address</label>
-                <input type="email" required id="adminEmail" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50">
+                <input type="email" required id="adminEmail" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50" placeholder="admin@taaratour.in">
             </div>
             <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Password</label>
-                <input type="password" required id="adminPass" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50">
+                <input type="password" required id="adminPass" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-yellow bg-gray-50" placeholder="••••••••">
             </div>
             <button type="submit" id="loginBtn" class="w-full bg-brand-yellow text-brand-black font-extrabold py-3.5 rounded-lg shadow-sm hover:scale-[1.02] transition">
                 Login to Dashboard
             </button>
         </form>
-        <p class="text-center text-xs text-gray-400 mt-6">taaratour@gmail.com | System Admin</p>
     </div>
 
     <!-- 2. MAIN DASHBOARD (Hidden initially) -->
@@ -55,7 +54,7 @@
                 <button class="w-full text-left px-4 py-3 bg-white/10 text-brand-yellow font-bold rounded-lg transition flex items-center gap-2">
                     ➕ Add New Package
                 </button>
-                <a href="index.html" class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2 block">
+                <a href="index.html" target="_blank" class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2 block">
                     🌐 View Website
                 </a>
             </nav>
@@ -71,57 +70,80 @@
                     <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Launch New Package
                 </h2>
                 
-                <form id="addPackageForm" onsubmit="addPackage(event)" class="space-y-6">
+                <form id="addPackageForm" onsubmit="addPackage(event)" class="space-y-8">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                    <!-- Basic Details -->
+                    <div class="bg-gray-50 p-5 rounded-xl border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package Title *</label>
-                            <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <input type="text" id="pTitle" required placeholder="e.g. Dubai Premium Tour" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-white">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Location *</label>
-                            <input type="text" id="pLocation" required placeholder="e.g. Dubai, Abu Dhabi" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <input type="text" id="pLocation" required placeholder="e.g. Dubai, Abu Dhabi" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-white">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
-                            <input type="number" id="pPrice" required placeholder="e.g. 25000" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <input type="number" id="pPrice" required placeholder="e.g. 25000" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-white">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Duration *</label>
-                            <input type="text" id="pDuration" required placeholder="e.g. 5D 4N" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <input type="text" id="pDuration" required placeholder="e.g. 5 Days 4 Nights" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-white">
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Cover Image Link *</label>
-                            <input type="url" id="pImage" required placeholder="https://..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <input type="url" id="pImage" required placeholder="https://unsplash.com/..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-white">
+                        </div>
+                    </div>
+
+                    <!-- Inclusions & Exclusions -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-green-700 mb-1 uppercase">Inclusions (Comma Separated) *</label>
+                            <textarea id="pInc" required rows="3" placeholder="Hotels, Breakfast, Cab, Safari..." class="w-full px-4 py-2.5 border border-green-200 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none bg-green-50/30"></textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Google Drive PDF Link</label>
-                            <input type="url" id="pPdf" placeholder="Optional for now" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50">
+                            <label class="block text-xs font-bold text-red-700 mb-1 uppercase">Exclusions (Comma Separated) *</label>
+                            <textarea id="pExc" required rows="3" placeholder="Flights, Lunch, Personal Expenses..." class="w-full px-4 py-2.5 border border-red-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none bg-red-50/30"></textarea>
                         </div>
                     </div>
 
+                    <!-- SMART ITINERARY BUILDER -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Inclusions (Comma Separated) *</label>
-                        <textarea id="pInc" required rows="2" placeholder="Hotels, Breakfast, Cab, Safari..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Exclusions (Comma Separated) *</label>
-                        <textarea id="pExc" required rows="2" placeholder="Flights, Lunch, Personal Expenses..." class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
+                        <div class="flex justify-between items-center mb-3 border-b pb-2">
+                            <label class="block text-sm font-bold text-gray-900 uppercase">Day-wise Itinerary Builder *</label>
+                            <button type="button" onclick="addDay()" class="text-xs font-bold bg-brand-black text-white px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-gray-800 transition">
+                                ➕ Add Day
+                            </button>
+                        </div>
+                        
+                        <div id="itinerary-container" class="space-y-4">
+                            <!-- Day 1 Default -->
+                            <div class="day-entry bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative group">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="day-number bg-brand-yellow text-brand-black text-xs font-bold px-2 py-1 rounded">Day 1</span>
+                                    <!-- Remove button hidden for Day 1, visible for others -->
+                                    <button type="button" onclick="removeDay(this)" class="text-red-500 hover:text-red-700 font-bold text-xs flex items-center gap-1 hidden">
+                                        🗑️ Remove
+                                    </button>
+                                </div>
+                                <input type="text" placeholder="Day Title (e.g. Arrival in Dubai)" required class="day-title w-full px-3 py-2 border rounded-md mb-3 text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50">
+                                <textarea placeholder="Day Description (e.g. Arrive at the airport and transfer to your premium hotel...)" required class="day-desc w-full px-3 py-2 border rounded-md text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50" rows="2"></textarea>
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Day-wise Itinerary (Use Pipe | to separate days) *</label>
-                        <textarea id="pIti" required rows="4" placeholder="Arrival in Dubai: Relax | Desert Safari: Enjoy BBQ | City Tour: Burj Khalifa" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow bg-gray-50"></textarea>
-                        <p class="text-[10px] text-gray-500 mt-1">Format: Title : Description | Title : Description</p>
+                    <!-- PDF Link -->
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Google Drive PDF Link (Optional)</label>
+                        <input type="url" id="pPdf" placeholder="https://drive.google.com/..." class="w-full px-4 py-2 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                     </div>
 
-                    <div id="form-msg" class="hidden text-sm font-bold text-center p-3 rounded-lg"></div>
+                    <!-- Status Message Box -->
+                    <div id="form-msg" class="hidden text-sm font-bold text-left p-4 rounded-lg border"></div>
 
-                    <button type="submit" id="addBtn" class="w-full md:w-auto px-8 bg-brand-yellow text-brand-black font-extrabold py-3.5 rounded-lg shadow-sm hover:scale-105 transition flex justify-center items-center gap-2">
-                        🚀 Publish to Website
+                    <button type="submit" id="addBtn" class="w-full md:w-auto px-10 bg-brand-yellow text-brand-black font-extrabold py-4 rounded-xl shadow-md hover:-translate-y-0.5 transition flex justify-center items-center gap-2 text-lg">
+                        🚀 Publish Package to Website
                     </button>
                 </form>
             </div>
@@ -130,8 +152,8 @@
 
     <script>
         // =====================================
-        // YAHAN APNI NAYI SCRIPT URL DAALEIN
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
+        // YAHAN APNI LATEST GOOGLE SCRIPT URL DAALEIN
+        const scriptURL = 'YOUR_NEW_WEB_APP_URL_HERE';
         // =====================================
 
         const loginScreen = document.getElementById('login-screen');
@@ -177,23 +199,76 @@
                     localStorage.setItem('taara_admin_name', data.name);
                     showDashboard(data.name);
                 } else {
-                    errBox.innerText = data.message || "Invalid Credentials!";
+                    errBox.innerText = data.message || data.error || "Invalid Credentials!";
                     errBox.classList.remove('hidden');
                     btn.innerText = "Login to Dashboard";
                 }
             }).catch(err => {
-                errBox.innerText = "Connection Error!";
+                errBox.innerText = "Network Error: Google Script link check karein.";
                 errBox.classList.remove('hidden');
                 btn.innerText = "Login to Dashboard";
             });
         }
 
+        // --- SMART ITINERARY BUILDER LOGIC ---
+        function addDay() {
+            const container = document.getElementById('itinerary-container');
+            const dayCount = container.children.length + 1;
+            
+            const dayHTML = `
+                <div class="day-entry bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative group mt-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="day-number bg-brand-yellow text-brand-black text-xs font-bold px-2 py-1 rounded">Day ${dayCount}</span>
+                        <button type="button" onclick="removeDay(this)" class="text-red-500 hover:text-red-700 font-bold text-xs flex items-center gap-1">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                    <input type="text" placeholder="Day Title (e.g. City Tour)" required class="day-title w-full px-3 py-2 border rounded-md mb-3 text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50">
+                    <textarea placeholder="Day Description..." required class="day-desc w-full px-3 py-2 border rounded-md text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50" rows="2"></textarea>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', dayHTML);
+        }
+
+        function removeDay(btnElement) {
+            btnElement.closest('.day-entry').remove();
+            updateDayNumbers();
+        }
+
+        function updateDayNumbers() {
+            const days = document.querySelectorAll('.day-entry');
+            days.forEach((day, index) => {
+                day.querySelector('.day-number').innerText = 'Day ' + (index + 1);
+                // Hide remove button on the very first day
+                const removeBtn = day.querySelector('button');
+                if(index === 0) removeBtn.classList.add('hidden');
+                else removeBtn.classList.remove('hidden');
+            });
+        }
+
+        // --- PUBLISH PACKAGE LOGIC ---
         function addPackage(e) {
             e.preventDefault();
             const btn = document.getElementById('addBtn');
             const msgBox = document.getElementById('form-msg');
-            btn.innerText = "Publishing...";
+            btn.innerText = "Publishing to Website...";
+            msgBox.classList.add('hidden');
             
+            // Build the Itinerary String behind the scenes
+            let itineraryArray = [];
+            document.querySelectorAll('.day-entry').forEach(day => {
+                let title = day.querySelector('.day-title').value.trim();
+                let desc = day.querySelector('.day-desc').value.trim();
+                // Replace pipes in user input to prevent data corruption
+                title = title.replace(/\|/g, ''); 
+                desc = desc.replace(/\|/g, '');
+                
+                if(title || desc) {
+                    itineraryArray.push(`${title} : ${desc}`);
+                }
+            });
+            const compiledItinerary = itineraryArray.join(' | ');
+
             const payload = {
                 action: "add_package",
                 title: document.getElementById('pTitle').value,
@@ -204,7 +279,7 @@
                 pdfLink: document.getElementById('pPdf').value,
                 inclusions: document.getElementById('pInc').value,
                 exclusions: document.getElementById('pExc').value,
-                itinerary: document.getElementById('pIti').value
+                itinerary: compiledItinerary // Sending the compiled string
             };
 
             fetch(scriptURL, {
@@ -212,19 +287,33 @@
                 body: JSON.stringify(payload),
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).then(res => res.json()).then(data => {
+                msgBox.classList.remove('hidden');
                 if(data.result === 'success') {
-                    msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-green-100 text-green-700";
-                    msgBox.innerHTML = `✅ Package Published! Live Link: <a href="package.html?id=${data.newId}" target="_blank" class="underline">View Here</a>`;
+                    msgBox.className = "text-sm font-bold p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 block";
+                    msgBox.innerHTML = `✅ <strong>Successfully Published!</strong><br><br>The package is now live on your website. <a href="package.html?id=${data.newId}" target="_blank" class="underline text-green-800 ml-2">Click here to view it live ↗</a>`;
                     document.getElementById('addPackageForm').reset();
+                    // Reset days to 1
+                    document.getElementById('itinerary-container').innerHTML = `
+                        <div class="day-entry bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative group">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="day-number bg-brand-yellow text-brand-black text-xs font-bold px-2 py-1 rounded">Day 1</span>
+                                <button type="button" onclick="removeDay(this)" class="text-red-500 hover:text-red-700 font-bold text-xs flex items-center gap-1 hidden">🗑️ Remove</button>
+                            </div>
+                            <input type="text" placeholder="Day Title (e.g. Arrival)" required class="day-title w-full px-3 py-2 border rounded-md mb-3 text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50">
+                            <textarea placeholder="Day Description..." required class="day-desc w-full px-3 py-2 border rounded-md text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none bg-gray-50" rows="2"></textarea>
+                        </div>
+                    `;
                 } else {
-                    msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-red-100 text-red-700";
-                    msgBox.innerText = "❌ Failed to publish: " + data.error;
+                    // CATCHING EXACT GOOGLE ERRORS NOW
+                    msgBox.className = "text-sm font-bold p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 block";
+                    msgBox.innerHTML = `❌ <strong>Failed to publish:</strong><br><span class="font-normal mt-1 block">${data.message || data.error || "Google Script rejected the data."}</span>`;
                 }
-                btn.innerHTML = "🚀 Publish to Website";
+                btn.innerHTML = "🚀 Publish Package to Website";
             }).catch(err => {
-                msgBox.className = "text-sm font-bold text-center p-3 rounded-lg bg-red-100 text-red-700";
-                msgBox.innerText = "❌ Connection Error!";
-                btn.innerHTML = "🚀 Publish to Website";
+                msgBox.classList.remove('hidden');
+                msgBox.className = "text-sm font-bold p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 block";
+                msgBox.innerHTML = `❌ <strong>Connection Error!</strong><br><span class="font-normal mt-1 block">Ensure your Apps Script is deployed as 'Anyone'. Technical detail: ${err.message}</span>`;
+                btn.innerHTML = "🚀 Publish Package to Website";
             });
         }
     </script>
