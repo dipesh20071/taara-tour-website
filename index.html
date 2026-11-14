@@ -37,21 +37,19 @@
 </head>
 <body class="pb-20 lg:pb-0 bg-brand-lightBg text-gray-800 antialiased">
 
-    <!-- Loading Overlay -->
     <div id="loader" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-4 text-center">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-brand-yellow mb-4"></div>
         <p class="text-gray-500 font-bold text-lg">Fetching Best Packages...</p>
     </div>
 
     <div id="content">
-        <!-- GLOBAL STICKY HEADER -->
         <header class="bg-white shadow-nav sticky top-0 z-50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center h-16">
                 <div class="flex items-center gap-6">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg>
                     </button>
-                    <!-- LOGO -->
+                    
                     <a href="index.html" class="flex items-center gap-2 cursor-pointer">
                         <img src="logo.png" alt="Taara Tour Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">
@@ -77,7 +75,6 @@
             </div>
         </header>
 
-        <!-- Premium Hero Section -->
         <div class="relative w-full h-[55vh] lg:h-[65vh]">
             <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30"></div>
@@ -92,7 +89,6 @@
                 </button>
             </div>
 
-            <!-- Floating Search Box -->
             <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-11/12 max-w-4xl bg-white p-2 rounded-2xl shadow-xl flex items-center justify-between border border-gray-100 z-20">
                 <div class="flex-1 flex items-center px-4 gap-3 border-r border-gray-200">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -106,60 +102,95 @@
 
         <main class="max-w-7xl mx-auto px-4 pt-16 pb-12 space-y-12 overflow-hidden">
 
-            <!-- India Destinations Carousel -->
             <section id="india">
                 <div class="mb-4">
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore by Region</p>
                     <h2 class="text-2xl font-extrabold text-brand-black">India <span class="text-brand-yellow">Destinations</span></h2>
                 </div>
                 
-                <div class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container">
-                    <a href="#" class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                <div class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container mb-6">
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
                         <img src="https://images.unsplash.com/photo-1626714241088-2921021bc820?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Himachal</span>
-                    </a>
-                    <a href="#" class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
                         <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Kerala</span>
-                    </a>
-                    <a href="#" class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
                         <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Goa</span>
-                    </a>
-                    <a href="#" class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
                         <img src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Kashmir</span>
-                    </a>
-                    <a href="#" class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
                         <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Rajasthan</span>
-                    </a>
+                    </div>
                 </div>
-            </section>
 
-            <!-- ================= DYNAMIC: BEST SELLING PACKAGES ================= -->
-            <section id="trending-packages">
                 <div class="flex justify-between items-end mb-4">
                     <div>
-                        <h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Best Selling <span class="text-brand-yellow">Tour Packages</span></h2>
-                        <p class="text-xs text-gray-500 mt-1">Highest rated tours fetched directly from Admin Panel</p>
+                        <h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Best Selling <span class="text-brand-yellow">India Packages</span></h2>
                     </div>
-                    <a href="#" class="text-xs font-bold bg-white border border-gray-200 px-3 py-1.5 rounded-full shadow-sm text-gray-700">View All</a>
                 </div>
-
-                <!-- Google Sheet Data Will Inject Here -->
-                <div id="dynamic-package-grid" class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container">
+                <div id="india-packages-grid" class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container">
                     <div class="text-gray-400 italic text-sm p-4">Loading exclusive packages...</div>
                 </div>
             </section>
 
-            <!-- Why Choose Taara -->
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <section id="international" class="mt-8 border-t border-gray-200 pt-8">
+                <div class="mb-4">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Explore The World</p>
+                    <h2 class="text-2xl font-extrabold text-brand-black">International <span class="text-brand-yellow">Destinations</span></h2>
+                </div>
+                
+                <div class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container mb-6">
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Dubai</span>
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Bali</span>
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Thailand</span>
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Maldives</span>
+                    </div>
+                    <div class="carousel-item flex-shrink-0 relative w-28 h-36 lg:w-36 lg:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 text-white font-bold text-sm">Europe</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl lg:text-2xl font-extrabold text-brand-black">Premium <span class="text-brand-yellow">International Tours</span></h2>
+                    </div>
+                </div>
+                <div id="intl-packages-grid" class="flex overflow-x-auto hide-scroll gap-4 pb-4 carousel-container">
+                    <div class="text-gray-400 italic text-sm p-4">Loading exclusive packages...</div>
+                </div>
+            </section>
+
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mt-8">
                 <h2 class="text-lg font-bold text-brand-black mb-4">Why Choose <span class="text-brand-yellow">Taara?</span></h2>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     <div class="flex items-center gap-3 p-3 bg-[#f8f9fa] rounded-xl border border-gray-200">
@@ -180,14 +211,11 @@
                     </div>
                 </div>
             </section>
-
         </main>
 
-        <!-- GLOBAL 4-COLUMN FOOTER -->
         <footer class="bg-[#111111] text-white pt-12 pb-24 lg:pb-12 border-t-[5px] border-brand-yellow">
             <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
-                <!-- 1. Branding & Address -->
                 <div class="col-span-1 lg:col-span-1">
                     <div class="mb-4">
                         <img src="logo.png" alt="Taara Tour Logo" class="h-12 lg:h-14 object-contain bg-white/10 p-1.5 rounded-lg border border-white/20" onerror="this.style.display='none'">
@@ -205,7 +233,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Contact Us (Direct Info) -->
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Contact Us</h4>
                     <ul class="text-sm text-gray-400 space-y-4">
@@ -223,7 +250,6 @@
                     </ul>
                 </div>
 
-                <!-- 3. Quick Links -->
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Quick Links</h4>
                     <ul class="text-sm text-gray-400 space-y-3">
@@ -233,7 +259,6 @@
                     </ul>
                 </div>
                 
-                <!-- 4. Support -->
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-5 text-sm uppercase tracking-wider">Support</h4>
                     <ul class="text-sm text-gray-400 space-y-3">
@@ -251,7 +276,6 @@
             </div>
         </footer>
 
-        <!-- Mobile App Style Nav -->
         <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] flex justify-around items-center p-3 z-50 rounded-t-xl">
             <a href="index.html" class="flex flex-col items-center text-brand-yellow">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
@@ -274,23 +298,30 @@
         fetch(scriptURL)
             .then(res => res.json())
             .then(data => {
-                const grid = document.getElementById('dynamic-package-grid');
+                const indiaGrid = document.getElementById('india-packages-grid');
+                const intlGrid = document.getElementById('intl-packages-grid');
+                
                 if(data.error) {
-                    grid.innerHTML = `<p class="text-red-500 font-bold p-4">Error loading packages.</p>`;
+                    indiaGrid.innerHTML = `<p class="text-red-500 font-bold p-4">Error loading packages.</p>`;
+                    intlGrid.innerHTML = `<p class="text-red-500 font-bold p-4">Error loading packages.</p>`;
                     document.getElementById('loader').style.display = 'none';
                     document.getElementById('content').style.display = 'block';
                     return;
                 }
 
-                let cardsHTML = '';
+                let indiaHTML = '';
+                let intlHTML = '';
+
                 data.forEach(pkg => {
+                    if(!pkg['Package ID']) return; 
+
                     const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
                     let durText = pkg['Duration'] || "";
                     durText = durText.replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D");
                     durText = durText.replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N");
                     durText = durText.replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
 
-                    cardsHTML += `
+                    const cardHTML = `
                     <div class="carousel-item flex-shrink-0 w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition">
                         <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">Group Tour</span>
                         <div class="relative h-36">
@@ -310,14 +341,26 @@
                             </div>
                         </div>
                     </div>`;
+
+                    if(pkg['Category'] === 'International') {
+                        intlHTML += cardHTML;
+                    } else {
+                        indiaHTML += cardHTML;
+                    }
                 });
 
-                grid.innerHTML = cardsHTML;
+                if(!indiaHTML) indiaHTML = `<div class="text-gray-400 italic text-sm p-4">No India packages found. Please add from Admin Panel.</div>`;
+                if(!intlHTML) intlHTML = `<div class="text-gray-400 italic text-sm p-4">No International packages found. Please add from Admin Panel.</div>`;
+
+                indiaGrid.innerHTML = indiaHTML;
+                intlGrid.innerHTML = intlHTML;
+
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
             })
             .catch(err => {
-                document.getElementById('dynamic-package-grid').innerHTML = `<p class="text-red-500 font-bold p-4">Connection Failed.</p>`;
+                document.getElementById('india-packages-grid').innerHTML = `<p class="text-red-500 font-bold p-4">Connection Failed.</p>`;
+                document.getElementById('intl-packages-grid').innerHTML = `<p class="text-red-500 font-bold p-4">Connection Failed.</p>`;
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
             });
