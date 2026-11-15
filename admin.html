@@ -69,12 +69,12 @@
         <div class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-10 relative">
             <div id="view-add" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8 transition-all">
                 
-                <!-- REAL GEMINI AI ASSISTANT BANNER -->
+                <!-- GEMINI AI ASSISTANT BANNER -->
                 <div class="bg-gradient-to-r from-gray-900 to-brand-black p-4 rounded-xl text-white mb-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-md">
                     <div>
-                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Real Gemini AI</span>
+                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Secure Gemini AI</span>
                         <h3 class="font-bold text-sm mt-1">Need help writing itineraries or descriptions?</h3>
-                        <p class="text-xs text-gray-300">Powered by your Gemini API key for instant smart generation.</p>
+                        <p class="text-xs text-gray-300">Powered via secure backend connection for instant generation.</p>
                     </div>
                     <div class="flex gap-2 w-full md:w-auto">
                         <input type="text" id="ai-prompt-input" placeholder="e.g. 4 Days Goa Tour..." class="px-3 py-1.5 rounded text-xs text-black outline-none flex-1 md:w-48">
@@ -108,7 +108,7 @@
                             <datalist id="dest-list"></datalist>
                         </div>
 
-                        <!-- TOUR TYPE & TIERED PRICING (FOR BOTH GROUP & PRIVATE) -->
+                        <!-- TOUR TYPE & TIERED PRICING -->
                         <div class="md:col-span-2 bg-white border border-gray-300 p-4 rounded-lg space-y-3">
                             <div class="flex justify-between items-center">
                                 <label class="block text-xs font-bold text-brand-black uppercase">Tour Type *</label>
@@ -122,7 +122,6 @@
                                 <option value="Customized Tour">✨ Customized Tour</option>
                             </select>
 
-                            <!-- TIERED PRICING FIELDS (Available for Group & Private) -->
                             <div id="tierPricingContainer" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-gray-100">
                                 <div><label class="block text-[10px] font-bold text-gray-600 uppercase">1 Person Rate</label><input type="number" id="tier1" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-600 uppercase">2 Person Rate</label><input type="number" id="tier2" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
@@ -217,9 +216,6 @@
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
         
-        // Permanent Gemini API Key inserted directly from user context
-        const GEMINI_API_KEY = 'AQ.Ab8RN6Le-C9Qm4kjJPEAVfRICb69fI9JroZNDVCNjOzxkqzYNQ'; 
-
         const indiaList = ["Andaman", "Andhra Pradesh", "Arunachal", "Assam", "Ayodhya", "Bihar", "Chandigarh", "Coorg", "Darjeeling", "Delhi", "Goa", "Gujarat", "Himachal Pradesh", "Jammu and Kashmir", "Karnataka", "Kerala", "Kutch", "Ladakh", "Lakshadweep", "Lonavala", "Madhya Pradesh", "Mahabaleshwar", "Maharashtra", "Manali", "Meghalaya", "Mumbai", "Odisha", "Punjab", "Rajasthan", "Rishikesh", "Sikkim", "Shimla", "Tamil Nadu", "Udaipur", "Ujjain", "Uttarakhand", "Uttar Pradesh", "Varanasi", "West Bengal"];
         const intlList = ["Almaty", "Australia", "Azerbaijan", "Baku", "Bali", "Bhutan", "Cambodia", "Canada", "Dubai", "Egypt", "Europe", "France", "Germany", "Greece", "Hong Kong", "Indonesia", "Italy", "Japan", "Kenya", "Malaysia", "Maldives", "Mauritius", "Nepal", "New Zealand", "Oman", "Philippines", "Qatar", "Russia", "Saudi Arabia", "Seychelles", "Singapore", "South Africa", "South Korea", "Spain", "Sri Lanka", "Switzerland", "Thailand", "Turkey", "USA", "UK", "Vietnam"];
         
@@ -235,53 +231,46 @@
             document.getElementById('offerTimerFields').classList.toggle('hidden', !isChecked);
         }
 
-        // REAL GEMINI API CALL FOR ITINERARY & PACKAGE DETAILS
-        async function askGeminiAI() {
+        // SECURE GEMINI AI CALL VIA BACKEND
+        function askGeminiAI() {
             const prompt = document.getElementById('ai-prompt-input').value.trim();
             if(!prompt) { alert("Please type a topic or destination for AI (e.g., Goa 4 Days)"); return; }
             
             const btn = event.target;
             btn.innerText = "Gemini is writing...";
             
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `Generate a travel package for: "${prompt}". Return ONLY a raw JSON object (no markdown formatting, no backticks) with keys: title, inclusions (comma separated string), exclusions (comma separated string), and itinerary (array of objects with keys 'title' and 'description').`
-                            }]
-                        }]
-                    })
-                });
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "generate_ai", prompt: prompt }),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerText = "✨ Generate with AI";
+                if(data.result === 'success' && data.aiData) {
+                    const aiData = data.aiData;
+                    document.getElementById('pTitle').value = aiData.title || prompt;
+                    document.getElementById('pInc').value = (aiData.inclusions || "").replace(/,\s*/g, '\n');
+                    document.getElementById('pExc').value = (aiData.exclusions || "").replace(/,\s*/g, '\n');
 
-                const result = await response.json();
-                let rawText = result.candidates[0].content.parts[0].text;
-                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-                const aiData = JSON.parse(rawText);
-
-                document.getElementById('pTitle').value = aiData.title || prompt;
-                document.getElementById('pInc').value = (aiData.inclusions || "").replace(/,\s*/g, '\n');
-                document.getElementById('pExc').value = (aiData.exclusions || "").replace(/,\s*/g, '\n');
-
-                const container = document.getElementById('itinerary-container');
-                container.innerHTML = '';
-                if(aiData.itinerary && Array.isArray(aiData.itinerary)) {
-                    aiData.itinerary.forEach(day => {
-                        addDay(null, day.title || "Tour Day", day.description || "", "Breakfast,Dinner");
-                    });
+                    const container = document.getElementById('itinerary-container');
+                    container.innerHTML = '';
+                    if(aiData.itinerary && Array.isArray(aiData.itinerary)) {
+                        aiData.itinerary.forEach(day => {
+                            addDay(null, day.title || "Tour Day", day.description || "", "Breakfast,Dinner");
+                        });
+                    } else {
+                        addDay(null, "Day 1", "Explore local attractions.", "Breakfast");
+                    }
+                    alert("Gemini AI successfully generated the package details!");
                 } else {
-                    addDay(null, "Day 1", "Explore local attractions.", "Breakfast");
+                    alert("AI Generation failed. Please try again.");
                 }
-
+            })
+            .catch(err => {
                 btn.innerText = "✨ Generate with AI";
-                alert("Gemini AI successfully generated the package details!");
-            } catch (err) {
-                console.error(err);
-                btn.innerText = "✨ Generate with AI";
-                alert("AI Generation failed. Please check your API key or network.");
-            }
+                alert("Network error during AI generation.");
+            });
         }
 
         function updateDestinations() {
@@ -322,235 +311,4 @@
             document.getElementById('mob-tab-' + tabName).classList.replace('text-gray-300', 'text-brand-black');
             document.getElementById('mob-tab-' + tabName).classList.replace('bg-white/10', 'bg-brand-yellow');
 
-            document.getElementById('view-add').classList.add('hidden'); document.getElementById('view-manage').classList.add('hidden');
-            if(tabName === 'add') { document.getElementById('view-add').classList.remove('hidden'); if(!isEditing && document.getElementById('formMode').value !== 'add') resetFormToAdd(); } 
-            else if(tabName === 'manage') { document.getElementById('view-manage').classList.remove('hidden'); loadPackages(); }
-        }
-
-        function loadPackages() {
-            const tbody = document.getElementById('package-table-body');
-            tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-brand-yellow font-bold animate-pulse">Fetching...</td></tr>`;
-            fetch(scriptURL).then(res => res.json()).then(data => {
-                allPackagesData = data;
-                if(data.error || data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-gray-500">No packages found.</td></tr>`; return; }
-                let html = '';
-                data.forEach(pkg => {
-                    if(!pkg['Package ID']) return;
-                    let locParts = (pkg['Location'] || "").split('|||');
-                    let locDisp = locParts[0];
-                    let catDisp = locParts[1] || 'India';
-                    let typeDisp = locParts[2] || 'Group Tour';
-
-                    html += `<tr class="hover:bg-gray-50">
-                        <td class="p-4 border-b border-gray-100">
-                            <div class="font-bold text-gray-900">${pkg['Title']}</div>
-                            <div class="text-[11px] text-gray-500 mt-1 flex items-center gap-2">
-                                <span>📍 ${locDisp} (${catDisp})</span>
-                                <span class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">${typeDisp.replace(' Tour', '')}</span>
-                            </div>
-                        </td>
-                        <td class="p-4 border-b border-gray-100 font-bold">₹${Number(pkg['Price']).toLocaleString('en-IN')}</td>
-                        <td class="p-4 border-b border-gray-100 text-center space-x-2">
-                            <button onclick="editPackage('${pkg['Package ID']}')" class="bg-gray-100 hover:bg-brand-yellow px-3 py-1.5 rounded text-xs font-bold transition">✏️ Edit</button>
-                            <button onclick="deletePackage('${pkg['Package ID']}')" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded text-xs font-bold transition">🗑️ Delete</button>
-                        </td>
-                    </tr>`;
-                });
-                tbody.innerHTML = html;
-            });
-        }
-
-        function deletePackage(id) {
-            if(!confirm("Are you sure?")) return;
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "delete_package", id: id }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } })
-            .then(res => res.json()).then(data => { if(data.result === 'success') loadPackages(); else alert("Error deleting"); });
-        }
-
-        function editPackage(id) {
-            const pkg = allPackagesData.find(p => p['Package ID'] === id);
-            if(!pkg) return;
-            switchTab('add', true);
-            document.getElementById('formMode').value = "edit"; document.getElementById('editPackageId').value = id;
-            document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Edit Package`;
-            document.getElementById('addBtn').innerHTML = "💾 Update Details"; document.getElementById('cancelEditBtn').classList.remove('hidden');
-            
-            let locParts = (pkg['Location'] || "").split('|||');
-            document.getElementById('pCategory').value = locParts[1] || "India";
-            updateDestinations(); 
-            document.getElementById('pLocation').value = locParts[0] || "";
-            document.getElementById('pTourType').value = locParts[2] || "Group Tour"; 
-            
-            if(locParts[3]) {
-                document.getElementById('enableTierToggle').checked = true;
-                toggleTierPricing();
-                let tiers = locParts[3].split(':::');
-                document.getElementById('tier1').value = tiers[0] || '';
-                document.getElementById('tier2').value = tiers[1] || '';
-                document.getElementById('tier4').value = tiers[2] || '';
-                document.getElementById('tier6').value = tiers[3] || '';
-                document.getElementById('tier8').value = tiers[4] || '';
-                document.getElementById('tierExtraAdult').value = tiers[5] || '';
-                document.getElementById('tierChildBed').value = tiers[6] || '';
-                document.getElementById('tierChildNoBed').value = tiers[7] || '';
-            }
-
-            if(locParts[4]) {
-                document.getElementById('enableOfferTimer').checked = true;
-                toggleOfferTimer();
-                let timerParts = locParts[4].split('***');
-                document.getElementById('offerExpiry').value = timerParts[0] || '';
-                document.getElementById('offerText').value = timerParts[1] || '';
-            }
-            
-            document.getElementById('pTitle').value = pkg['Title'] || "";
-            document.getElementById('pPrice').value = pkg['Price'] || "";
-            document.getElementById('pDuration').value = pkg['Duration'] || "";
-            document.getElementById('pImage').value = pkg['Image URL'] || "";
-            document.getElementById('pPdf').value = pkg['PDF Link'] || "";
-            document.getElementById('pInc').value = (pkg['Inclusions'] || "").replace(/,\s*/g, '\n');
-            document.getElementById('pExc').value = (pkg['Exclusions'] || "").replace(/,\s*/g, '\n');
-
-            const container = document.getElementById('itinerary-container'); container.innerHTML = ''; 
-            if(pkg['Itinerary']) {
-                let days = pkg['Itinerary'].split('|');
-                days.forEach(dayStr => {
-                    if(!dayStr.trim()) return;
-                    let parts = dayStr.includes(' :: ') ? dayStr.split(' :: ') : dayStr.split(' : ');
-                    let title = parts[0] ? parts[0].trim() : "";
-                    let desc = parts[1] ? parts[1].replace(/<br>/g, '\n').trim() : "";
-                    let meals = parts[2] ? parts[2].trim() : "";
-                    addDay(null, title, desc, meals);
-                });
-            } else { addDay(); }
-        }
-
-        function resetFormToAdd() {
-            document.getElementById('addPackageForm').reset(); document.getElementById('formMode').value = "add";
-            document.getElementById('editPackageId').value = ""; document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Launch New Package`;
-            document.getElementById('addBtn').innerHTML = "🚀 Publish Package"; document.getElementById('cancelEditBtn').classList.add('hidden');
-            document.getElementById('itinerary-container').innerHTML = ''; document.getElementById('form-msg').classList.add('hidden');
-            document.getElementById('tierPricingContainer').classList.add('hidden');
-            document.getElementById('offerTimerFields').classList.add('hidden');
-            updateDestinations(); addDay(); switchTab('add');
-        }
-
-        function getDayHTML(title = "", desc = "", mealsStr = "") {
-            const check = (m) => mealsStr.includes(m) ? 'checked' : '';
-            return `
-                <div class="day-entry bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative group mt-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="day-number bg-brand-yellow text-brand-black text-xs font-bold px-2 py-1 rounded">Day X</span>
-                        <div class="flex items-center gap-1.5 md:gap-3">
-                            <button type="button" onclick="moveUp(this)" class="move-up-btn text-gray-400 hover:text-brand-black">⬆️</button>
-                            <button type="button" onclick="moveDown(this)" class="move-down-btn text-gray-400 hover:text-brand-black">⬇️</button>
-                            <button type="button" onclick="addDay(this)" class="text-green-600 font-bold text-[10px] md:text-xs bg-green-50 px-2 py-1 rounded">➕ Next</button>
-                            <button type="button" onclick="removeDay(this)" class="remove-btn text-red-500 font-bold text-[10px] md:text-xs bg-red-50 px-2 py-1 rounded">🗑️ Drop</button>
-                        </div>
-                    </div>
-                    <input type="text" value="${title}" required class="day-title w-full px-3 py-2 border rounded-md mb-3 text-sm outline-none bg-gray-50 focus:border-brand-yellow">
-                    <textarea required class="day-desc w-full px-3 py-2 border rounded-md text-sm outline-none bg-gray-50 leading-relaxed focus:border-brand-yellow" rows="3">${desc}</textarea>
-                    <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
-                        <span class="text-[10px] font-extrabold text-gray-500 uppercase">Meals:</span>
-                        <label class="text-xs font-bold"><input type="checkbox" value="No Meal" class="meal-check w-4 h-4" ${check('No Meal')}> No Meal</label>
-                        <label class="text-xs font-bold"><input type="checkbox" value="Breakfast" class="meal-check w-4 h-4" ${check('Breakfast')}> Breakfast</label>
-                        <label class="text-xs font-bold"><input type="checkbox" value="Lunch" class="meal-check w-4 h-4" ${check('Lunch')}> Lunch</label>
-                        <label class="text-xs font-bold"><input type="checkbox" value="Hi-Tea" class="meal-check w-4 h-4" ${check('Hi-Tea')}> Hi-Tea</label>
-                        <label class="text-xs font-bold"><input type="checkbox" value="Dinner" class="meal-check w-4 h-4" ${check('Dinner')}> Dinner</label>
-                    </div>
-                </div>
-            `;
-        }
-
-        function addDay(btnElement = null, title="", desc="", meals="") {
-            const html = getDayHTML(title, desc, meals);
-            if(btnElement) btnElement.closest('.day-entry').insertAdjacentHTML('afterend', html);
-            else document.getElementById('itinerary-container').insertAdjacentHTML('beforeend', html);
-            updateDayNumbers();
-        }
-        function removeDay(btnElement) { if(document.getElementById('itinerary-container').children.length > 1) { btnElement.closest('.day-entry').remove(); updateDayNumbers(); } }
-        function moveUp(btnElement) { const current = btnElement.closest('.day-entry'); const prev = current.previousElementSibling; if(prev) { current.parentNode.insertBefore(current, prev); updateDayNumbers(); } }
-        function moveDown(btnElement) { const current = btnElement.closest('.day-entry'); const next = current.nextElementSibling; if(next) { current.parentNode.insertBefore(next, current); updateDayNumbers(); } }
-        function updateDayNumbers() {
-            const days = document.querySelectorAll('.day-entry');
-            days.forEach((day, index) => {
-                day.querySelector('.day-number').innerText = 'Day ' + (index + 1);
-                day.querySelector('.move-up-btn').style.display = index === 0 ? 'none' : 'block';
-                day.querySelector('.move-down-btn').style.display = index === days.length - 1 ? 'none' : 'block';
-                day.querySelector('.remove-btn').style.display = days.length === 1 ? 'none' : 'flex';
-            });
-        }
-
-        function submitPackage(e) {
-            e.preventDefault();
-            const btn = document.getElementById('addBtn'); const msgBox = document.getElementById('form-msg');
-            const mode = document.getElementById('formMode').value; 
-            btn.innerText = "Processing..."; msgBox.classList.add('hidden');
-            
-            let finalInc = document.getElementById('pInc').value.trim().replace(/\n/g, ', ').replace(/,+/g, ',').trim();
-            let finalExc = document.getElementById('pExc').value.trim().replace(/\n/g, ', ').replace(/,+/g, ',').trim();
-            if(finalInc.endsWith(',')) finalInc = finalInc.slice(0, -1); if(finalExc.endsWith(',')) finalExc = finalExc.slice(0, -1);
-
-            let itineraryArray = [];
-            document.querySelectorAll('.day-entry').forEach(day => {
-                let title = day.querySelector('.day-title').value.trim().replace(/\|/g, '').replace(/::/g, ''); 
-                let descRaw = day.querySelector('.day-desc').value.trim().replace(/\|/g, '').replace(/::/g, '');
-                if(title || descRaw) {
-                    let formattedDesc = descRaw.replace(/\n/g, '<br>');
-                    let mealStr = Array.from(day.querySelectorAll('.meal-check:checked')).map(c => c.value).join(',');
-                    itineraryArray.push(`${title} :: ${formattedDesc} :: ${mealStr}`);
-                }
-            });
-
-            let locText = document.getElementById('pLocation').value.trim();
-            let catText = document.getElementById('pCategory').value;
-            let tourType = document.getElementById('pTourType').value;
-            
-            let tierStr = "";
-            if(document.getElementById('enableTierToggle').checked) {
-                tierStr = [
-                    document.getElementById('tier1').value || 0,
-                    document.getElementById('tier2').value || 0,
-                    document.getElementById('tier4').value || 0,
-                    document.getElementById('tier6').value || 0,
-                    document.getElementById('tier8').value || 0,
-                    document.getElementById('tierExtraAdult').value || 0,
-                    document.getElementById('tierChildBed').value || 0,
-                    document.getElementById('tierChildNoBed').value || 0
-                ].join(':::');
-            }
-
-            let timerStr = "";
-            if(document.getElementById('enableOfferTimer').checked) {
-                let expiry = document.getElementById('offerExpiry').value;
-                let text = document.getElementById('offerText').value || "Special Offer";
-                if(expiry) timerStr = expiry + "***" + text;
-            }
-
-            let secretLocation = `${locText}|||${catText}|||${tourType}|||${tierStr}|||${timerStr}`;
-
-            const payload = {
-                action: mode === 'edit' ? "update_package" : "add_package", id: document.getElementById('editPackageId').value,
-                title: document.getElementById('pTitle').value, 
-                location: secretLocation, 
-                price: document.getElementById('pPrice').value,
-                duration: document.getElementById('pDuration').value, imageUrl: document.getElementById('pImage').value,
-                pdfLink: document.getElementById('pPdf').value, inclusions: finalInc, exclusions: finalExc, itinerary: itineraryArray.join(' | ')
-            };
-
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-            }).then(res => res.json()).then(data => {
-                msgBox.classList.remove('hidden');
-                if(data.result === 'success') {
-                    msgBox.className = "text-sm font-bold p-4 rounded-xl bg-green-50 text-green-700 block";
-                    msgBox.innerHTML = `✅ <strong>Successfully ${mode==='edit'?'Updated':'Published'}!</strong>`;
-                    setTimeout(resetFormToAdd, 2000);
-                } else {
-                    msgBox.className = "text-sm font-bold p-4 rounded-xl bg-red-50 text-red-700 block";
-                    msgBox.innerHTML = `❌ <strong>Failed:</strong> ${data.message || data.error}`;
-                }
-                btn.innerHTML = mode==='edit' ? "💾 Update Package" : "🚀 Publish Package";
-            });
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('view-add').classList.add('hidden'); document.getElementById('view-manage').classList.add
