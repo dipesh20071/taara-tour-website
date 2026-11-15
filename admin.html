@@ -69,12 +69,12 @@
         <div class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-10 relative">
             <div id="view-add" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8 transition-all">
                 
-                <!-- AI ASSISTANT BANNER -->
+                <!-- REAL GEMINI AI ASSISTANT BANNER -->
                 <div class="bg-gradient-to-r from-gray-900 to-brand-black p-4 rounded-xl text-white mb-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-md">
                     <div>
-                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">AI Assistant</span>
+                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Real Gemini AI</span>
                         <h3 class="font-bold text-sm mt-1">Need help writing itineraries or descriptions?</h3>
-                        <p class="text-xs text-gray-300">Type destination/topic below to generate instantly.</p>
+                        <p class="text-xs text-gray-300">Powered by your Gemini API key for instant smart generation.</p>
                     </div>
                     <div class="flex gap-2 w-full md:w-auto">
                         <input type="text" id="ai-prompt-input" placeholder="e.g. 4 Days Goa Tour..." class="px-3 py-1.5 rounded text-xs text-black outline-none flex-1 md:w-48">
@@ -217,6 +217,9 @@
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
         
+        // Permanent Gemini API Key inserted directly from user context
+        const GEMINI_API_KEY = 'AQ.Ab8RN6Le-C9Qm4kjJPEAVfRICb69fI9JroZNDVCNjOzxkqzYNQ'; 
+
         const indiaList = ["Andaman", "Andhra Pradesh", "Arunachal", "Assam", "Ayodhya", "Bihar", "Chandigarh", "Coorg", "Darjeeling", "Delhi", "Goa", "Gujarat", "Himachal Pradesh", "Jammu and Kashmir", "Karnataka", "Kerala", "Kutch", "Ladakh", "Lakshadweep", "Lonavala", "Madhya Pradesh", "Mahabaleshwar", "Maharashtra", "Manali", "Meghalaya", "Mumbai", "Odisha", "Punjab", "Rajasthan", "Rishikesh", "Sikkim", "Shimla", "Tamil Nadu", "Udaipur", "Ujjain", "Uttarakhand", "Uttar Pradesh", "Varanasi", "West Bengal"];
         const intlList = ["Almaty", "Australia", "Azerbaijan", "Baku", "Bali", "Bhutan", "Cambodia", "Canada", "Dubai", "Egypt", "Europe", "France", "Germany", "Greece", "Hong Kong", "Indonesia", "Italy", "Japan", "Kenya", "Malaysia", "Maldives", "Mauritius", "Nepal", "New Zealand", "Oman", "Philippines", "Qatar", "Russia", "Saudi Arabia", "Seychelles", "Singapore", "South Africa", "South Korea", "Spain", "Sri Lanka", "Switzerland", "Thailand", "Turkey", "USA", "UK", "Vietnam"];
         
@@ -232,28 +235,53 @@
             document.getElementById('offerTimerFields').classList.toggle('hidden', !isChecked);
         }
 
-        // AI ASSISTANT GENERATOR
-        function askGeminiAI() {
+        // REAL GEMINI API CALL FOR ITINERARY & PACKAGE DETAILS
+        async function askGeminiAI() {
             const prompt = document.getElementById('ai-prompt-input').value.trim();
             if(!prompt) { alert("Please type a topic or destination for AI (e.g., Goa 4 Days)"); return; }
             
             const btn = event.target;
-            btn.innerText = "Thinking...";
+            btn.innerText = "Gemini is writing...";
             
-            setTimeout(() => {
-                document.getElementById('pTitle').value = prompt.charAt(0).toUpperCase() + prompt.slice(1) + " Holiday Experience";
-                document.getElementById('pInc').value = "Premium 4-Star Accommodation\nDaily Breakfast & Dinner\nAll Sightseeing in Private AC Cab\nAirport Transfers";
-                document.getElementById('pExc').value = "Airfare / Train Tickets\nPersonal Expenses\nEntry Fees to Monuments";
-                
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `Generate a travel package for: "${prompt}". Return ONLY a raw JSON object (no markdown formatting, no backticks) with keys: title, inclusions (comma separated string), exclusions (comma separated string), and itinerary (array of objects with keys 'title' and 'description').`
+                            }]
+                        }]
+                    })
+                });
+
+                const result = await response.json();
+                let rawText = result.candidates[0].content.parts[0].text;
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const aiData = JSON.parse(rawText);
+
+                document.getElementById('pTitle').value = aiData.title || prompt;
+                document.getElementById('pInc').value = (aiData.inclusions || "").replace(/,\s*/g, '\n');
+                document.getElementById('pExc').value = (aiData.exclusions || "").replace(/,\s*/g, '\n');
+
                 const container = document.getElementById('itinerary-container');
                 container.innerHTML = '';
-                addDay(null, "Arrival & Leisure", "Arrive at destination. Check-in to hotel. Evening is free for leisure or local market exploration.", "Dinner");
-                addDay(null, "Full Day Sightseeing", "After breakfast, proceed for full day city tour covering major hotspots and scenic viewpoints.", "Breakfast,Dinner");
-                addDay(null, "Departure", "Enjoy breakfast, check-out from hotel and transfer to airport/station for your return journey.", "Breakfast");
-                
+                if(aiData.itinerary && Array.isArray(aiData.itinerary)) {
+                    aiData.itinerary.forEach(day => {
+                        addDay(null, day.title || "Tour Day", day.description || "", "Breakfast,Dinner");
+                    });
+                } else {
+                    addDay(null, "Day 1", "Explore local attractions.", "Breakfast");
+                }
+
                 btn.innerText = "✨ Generate with AI";
-                alert("AI successfully generated title, inclusions, exclusions and itinerary!");
-            }, 800);
+                alert("Gemini AI successfully generated the package details!");
+            } catch (err) {
+                console.error(err);
+                btn.innerText = "✨ Generate with AI";
+                alert("AI Generation failed. Please check your API key or network.");
+            }
         }
 
         function updateDestinations() {
@@ -281,7 +309,7 @@
             fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "login", email: document.getElementById('adminEmail').value, password: document.getElementById('adminPass').value }), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).then(res => res.json()).then(data => {
                 if(data.result === 'success') { localStorage.setItem('taara_admin_logged_in', 'true'); localStorage.setItem('taara_admin_name', data.name); showDashboard(data.name); } 
-                else { errBox.innerText = "Invalid Credentials!"; errBox.classList.add('hidden'); btn.innerText = "Login to Dashboard"; }
+                else { errBox.innerText = "Invalid Credentials!"; errBox.classList.remove('hidden'); btn.innerText = "Login to Dashboard"; }
             });
         }
 
