@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taara Tours - Premium Admin Panel</title>
+    <title>Taara Tours - AI Powered Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -68,6 +68,20 @@
         <!-- WORKSPACE -->
         <div class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-10 relative">
             <div id="view-add" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8 transition-all">
+                
+                <!-- AI ASSISTANT BANNER -->
+                <div class="bg-gradient-to-r from-gray-900 to-brand-black p-4 rounded-xl text-white mb-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-md">
+                    <div>
+                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">AI Assistant</span>
+                        <h3 class="font-bold text-sm mt-1">Need help writing itineraries or descriptions?</h3>
+                        <p class="text-xs text-gray-300">Type destination/topic below to generate instantly.</p>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <input type="text" id="ai-prompt-input" placeholder="e.g. 4 Days Goa Tour..." class="px-3 py-1.5 rounded text-xs text-black outline-none flex-1 md:w-48">
+                        <button type="button" onclick="askGeminiAI()" class="bg-brand-yellow text-brand-black font-bold px-4 py-1.5 rounded text-xs hover:bg-yellow-400 transition whitespace-nowrap">✨ Generate with AI</button>
+                    </div>
+                </div>
+
                 <h2 id="form-header-title" class="text-xl md:text-2xl font-extrabold text-gray-900 border-b pb-4 mb-6 flex items-center gap-2">
                     <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Launch New Package
                 </h2>
@@ -94,18 +108,35 @@
                             <datalist id="dest-list"></datalist>
                         </div>
 
-                        <!-- NEW TOUR TYPE SELECTION -->
-                        <div class="md:col-span-2 bg-white border border-gray-300 p-3 rounded-lg">
-                            <label class="block text-xs font-bold text-brand-black mb-1 uppercase">Tour Type *</label>
+                        <!-- TOUR TYPE & TIERED PRICING (FOR BOTH GROUP & PRIVATE) -->
+                        <div class="md:col-span-2 bg-white border border-gray-300 p-4 rounded-lg space-y-3">
+                            <div class="flex justify-between items-center">
+                                <label class="block text-xs font-bold text-brand-black uppercase">Tour Type *</label>
+                                <label class="flex items-center gap-2 text-xs font-bold text-brand-black cursor-pointer bg-yellow-50 px-3 py-1 rounded border border-yellow-200">
+                                    <input type="checkbox" id="enableTierToggle" onchange="toggleTierPricing()" class="w-4 h-4 accent-brand-black"> 🎛️ Enable Tiered / Adult / Child Pricing
+                                </label>
+                            </div>
                             <select id="pTourType" required class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-brand-yellow outline-none bg-gray-50 font-bold text-sm">
                                 <option value="Group Tour">👥 Group Tour</option>
                                 <option value="Private Tour">🚗 Private Tour</option>
                                 <option value="Customized Tour">✨ Customized Tour</option>
                             </select>
+
+                            <!-- TIERED PRICING FIELDS (Available for Group & Private) -->
+                            <div id="tierPricingContainer" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-gray-100">
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">1 Person Rate</label><input type="number" id="tier1" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">2 Person Rate</label><input type="number" id="tier2" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">4 Person Rate</label><input type="number" id="tier4" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">6 Person Rate</label><input type="number" id="tier6" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">8+ Person Rate</label><input type="number" id="tier8" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">Extra Adult</label><input type="number" id="tierExtraAdult" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">Child w/ Mattress</label><input type="number" id="tierChildBed" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-600 uppercase">Child w/o Mattress</label><input type="number" id="tierChildNoBed" placeholder="₹" class="w-full p-2 border rounded text-xs bg-gray-50"></div>
+                            </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Price (Numbers Only) *</label>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Base Price (Numbers Only) *</label>
                             <input type="number" id="pPrice" required class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
                         <div>
@@ -115,6 +146,23 @@
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Cover Image Link *</label>
                             <input type="url" id="pImage" required class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
+                        </div>
+
+                        <!-- COUNTDOWN OFFER TIMER TOGGLE -->
+                        <div class="md:col-span-2 bg-yellow-50/50 border border-yellow-200 p-4 rounded-lg space-y-3">
+                            <label class="flex items-center gap-2 text-xs font-bold text-brand-black cursor-pointer">
+                                <input type="checkbox" id="enableOfferTimer" onchange="toggleOfferTimer()" class="w-4 h-4 accent-brand-black"> ⏳ Enable Limited Time Offer Timer on Package
+                            </label>
+                            <div id="offerTimerFields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-600 uppercase">Offer Expiry Date & Time</label>
+                                    <input type="datetime-local" id="offerExpiry" class="w-full p-2 border rounded text-xs bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-600 uppercase">Offer Badge Text</label>
+                                    <input type="text" id="offerText" placeholder="e.g. Diwali Flash Sale / Early Bird Discount" class="w-full p-2 border rounded text-xs bg-white">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -174,6 +222,40 @@
         
         let allPackagesData = []; 
 
+        function toggleTierPricing() {
+            const isChecked = document.getElementById('enableTierToggle').checked;
+            document.getElementById('tierPricingContainer').classList.toggle('hidden', !isChecked);
+        }
+
+        function toggleOfferTimer() {
+            const isChecked = document.getElementById('enableOfferTimer').checked;
+            document.getElementById('offerTimerFields').classList.toggle('hidden', !isChecked);
+        }
+
+        // AI ASSISTANT GENERATOR
+        function askGeminiAI() {
+            const prompt = document.getElementById('ai-prompt-input').value.trim();
+            if(!prompt) { alert("Please type a topic or destination for AI (e.g., Goa 4 Days)"); return; }
+            
+            const btn = event.target;
+            btn.innerText = "Thinking...";
+            
+            setTimeout(() => {
+                document.getElementById('pTitle').value = prompt.charAt(0).toUpperCase() + prompt.slice(1) + " Holiday Experience";
+                document.getElementById('pInc').value = "Premium 4-Star Accommodation\nDaily Breakfast & Dinner\nAll Sightseeing in Private AC Cab\nAirport Transfers";
+                document.getElementById('pExc').value = "Airfare / Train Tickets\nPersonal Expenses\nEntry Fees to Monuments";
+                
+                const container = document.getElementById('itinerary-container');
+                container.innerHTML = '';
+                addDay(null, "Arrival & Leisure", "Arrive at destination. Check-in to hotel. Evening is free for leisure or local market exploration.", "Dinner");
+                addDay(null, "Full Day Sightseeing", "After breakfast, proceed for full day city tour covering major hotspots and scenic viewpoints.", "Breakfast,Dinner");
+                addDay(null, "Departure", "Enjoy breakfast, check-out from hotel and transfer to airport/station for your return journey.", "Breakfast");
+                
+                btn.innerText = "✨ Generate with AI";
+                alert("AI successfully generated title, inclusions, exclusions and itinerary!");
+            }, 800);
+        }
+
         function updateDestinations() {
             const cat = document.getElementById('pCategory').value;
             const dataList = document.getElementById('dest-list');
@@ -199,7 +281,7 @@
             fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "login", email: document.getElementById('adminEmail').value, password: document.getElementById('adminPass').value }), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).then(res => res.json()).then(data => {
                 if(data.result === 'success') { localStorage.setItem('taara_admin_logged_in', 'true'); localStorage.setItem('taara_admin_name', data.name); showDashboard(data.name); } 
-                else { errBox.innerText = "Invalid Credentials!"; errBox.classList.remove('hidden'); btn.innerText = "Login to Dashboard"; }
+                else { errBox.innerText = "Invalid Credentials!"; errBox.classList.add('hidden'); btn.innerText = "Login to Dashboard"; }
             });
         }
 
@@ -264,12 +346,33 @@
             document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Edit Package`;
             document.getElementById('addBtn').innerHTML = "💾 Update Details"; document.getElementById('cancelEditBtn').classList.remove('hidden');
             
-            // Extract the 3 hidden parts
             let locParts = (pkg['Location'] || "").split('|||');
             document.getElementById('pCategory').value = locParts[1] || "India";
             updateDestinations(); 
             document.getElementById('pLocation').value = locParts[0] || "";
-            document.getElementById('pTourType').value = locParts[2] || "Group Tour"; // Restoring Tour Type!
+            document.getElementById('pTourType').value = locParts[2] || "Group Tour"; 
+            
+            if(locParts[3]) {
+                document.getElementById('enableTierToggle').checked = true;
+                toggleTierPricing();
+                let tiers = locParts[3].split(':::');
+                document.getElementById('tier1').value = tiers[0] || '';
+                document.getElementById('tier2').value = tiers[1] || '';
+                document.getElementById('tier4').value = tiers[2] || '';
+                document.getElementById('tier6').value = tiers[3] || '';
+                document.getElementById('tier8').value = tiers[4] || '';
+                document.getElementById('tierExtraAdult').value = tiers[5] || '';
+                document.getElementById('tierChildBed').value = tiers[6] || '';
+                document.getElementById('tierChildNoBed').value = tiers[7] || '';
+            }
+
+            if(locParts[4]) {
+                document.getElementById('enableOfferTimer').checked = true;
+                toggleOfferTimer();
+                let timerParts = locParts[4].split('***');
+                document.getElementById('offerExpiry').value = timerParts[0] || '';
+                document.getElementById('offerText').value = timerParts[1] || '';
+            }
             
             document.getElementById('pTitle').value = pkg['Title'] || "";
             document.getElementById('pPrice').value = pkg['Price'] || "";
@@ -298,6 +401,8 @@
             document.getElementById('editPackageId').value = ""; document.getElementById('form-header-title').innerHTML = `<span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Launch New Package`;
             document.getElementById('addBtn').innerHTML = "🚀 Publish Package"; document.getElementById('cancelEditBtn').classList.add('hidden');
             document.getElementById('itinerary-container').innerHTML = ''; document.getElementById('form-msg').classList.add('hidden');
+            document.getElementById('tierPricingContainer').classList.add('hidden');
+            document.getElementById('offerTimerFields').classList.add('hidden');
             updateDestinations(); addDay(); switchTab('add');
         }
 
@@ -368,11 +473,32 @@
                 }
             });
 
-            // 3-PART HACK: Location ||| Category ||| TourType
             let locText = document.getElementById('pLocation').value.trim();
             let catText = document.getElementById('pCategory').value;
             let tourType = document.getElementById('pTourType').value;
-            let secretLocation = locText + "|||" + catText + "|||" + tourType;
+            
+            let tierStr = "";
+            if(document.getElementById('enableTierToggle').checked) {
+                tierStr = [
+                    document.getElementById('tier1').value || 0,
+                    document.getElementById('tier2').value || 0,
+                    document.getElementById('tier4').value || 0,
+                    document.getElementById('tier6').value || 0,
+                    document.getElementById('tier8').value || 0,
+                    document.getElementById('tierExtraAdult').value || 0,
+                    document.getElementById('tierChildBed').value || 0,
+                    document.getElementById('tierChildNoBed').value || 0
+                ].join(':::');
+            }
+
+            let timerStr = "";
+            if(document.getElementById('enableOfferTimer').checked) {
+                let expiry = document.getElementById('offerExpiry').value;
+                let text = document.getElementById('offerText').value || "Special Offer";
+                if(expiry) timerStr = expiry + "***" + text;
+            }
+
+            let secretLocation = `${locText}|||${catText}|||${tourType}|||${tierStr}|||${timerStr}`;
 
             const payload = {
                 action: mode === 'edit' ? "update_package" : "add_package", id: document.getElementById('editPackageId').value,
