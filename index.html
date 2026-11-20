@@ -16,13 +16,67 @@
         .carousel-container { scroll-snap-type: x mandatory; display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 1rem; }
         .carousel-item { scroll-snap-align: start; flex-shrink: 0; }
         #loader { display: flex; } #content { display: none; }
+
+        /* Travel Icon Flip & Wipe Animation */
+        .travel-icon-stage {
+            perspective: 650px;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto;
+        }
+        .travel-icon-flipper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.35rem;
+            background: #1A1A1A;
+            color: #FFC500;
+            border-radius: 20px;
+            border-bottom: 4px solid #FFC500;
+            box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.18);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s ease;
+            transform-style: preserve-3d;
+        }
+        .icon-flip-wipe {
+            transform: rotateY(90deg) translateX(10px) scale(0.85);
+            opacity: 0.25;
+        }
+
+        /* Typewriter Blinking Cursor */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2.5px;
+            height: 1.05em;
+            background-color: #FFC500;
+            vertical-align: text-bottom;
+            margin-left: 3px;
+            animation: blinkCursor 0.75s infinite;
+        }
+        @keyframes blinkCursor {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="pb-20 lg:pb-0 bg-brand-lightBg text-gray-800 antialiased">
 
-    <div id="loader" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-4 text-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-brand-yellow mb-4"></div>
-        <p class="text-gray-500 font-bold text-lg">Fetching Premium Packages...</p>
+    <div id="loader" aria-hidden="true" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-6 text-center transition-opacity duration-300">
+        <div class="travel-icon-stage mb-5">
+            <div id="travel-flip-icon" class="travel-icon-flipper">✈️</div>
+        </div>
+
+        <div class="max-w-xl mx-auto min-h-[76px] flex flex-col items-center justify-center">
+            <p class="text-base md:text-xl font-bold text-gray-900 leading-snug">
+                “<span id="quote-typewriter-text"></span><span class="typewriter-cursor"></span>”
+            </p>
+            <p id="quote-author-text" class="text-xs md:text-sm font-extrabold uppercase tracking-widest text-yellow-600 mt-2 opacity-0 transition-opacity duration-500"></p>
+        </div>
+
+        <p class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest mt-5">
+            Preparing Taara Tour & Travels Holidays...
+        </p>
     </div>
 
     <!-- MAIN BIG FLOATING CLEAR BUTTON -->
@@ -110,7 +164,7 @@
                         <span class="text-xs font-semibold text-gray-700">Premium Hotels</span>
                     </div>
                     <div class="flex items-center gap-3 p-3 bg-[#f8f9fa] rounded-xl border border-gray-200">
-                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100 2h-3z" clip-rule="evenodd"></path></svg></div>
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 01-1 1H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg></div>
                         <span class="text-xs font-semibold text-gray-700">Custom Itineraries</span>
                     </div>
                     <div class="flex items-center gap-3 p-3 bg-[#f8f9fa] rounded-xl border border-gray-200">
@@ -140,7 +194,7 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
                         </a>
                         <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -207,6 +261,118 @@
     <!-- MAIN SCRIPT LOGIC -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzQnA9tbeVeG-TqIQ1UzoSMh9dtGvmbhU7twWs-9vooHCc9DnNv1QAWtall8q8OfxRicw/exec';
+
+        // 1-LINER TRAVEL QUOTES WITH AUTHORS (Zero-delay local array)
+        const taaraTravelQuotes = [
+            { text: "The world is a book and those who do not travel read only one page.", author: "Saint Augustine" },
+            { text: "Jobs fill your pockets, adventures fill your soul.", author: "Jaime Lyn Beatty" },
+            { text: "Travel makes one modest. You see what a tiny place you occupy in the world.", author: "Gustave Flaubert" },
+            { text: "To travel is to live.", author: "Hans Christian Andersen" },
+            { text: "Not all those who wander are lost.", author: "J.R.R. Tolkien" },
+            { text: "Life is short and the world is wide.", author: "Simon Raven" },
+            { text: "Take only memories, leave only footprints.", author: "Chief Seattle" },
+            { text: "Adventure is worthwhile in itself.", author: "Amelia Earhart" },
+            { text: "Travel is the only thing you buy that makes you richer.", author: "Anonymous" },
+            { text: "Wherever you go becomes a part of you somehow.", author: "Anita Desai" },
+            { text: "Once a year, go someplace you have never been before.", author: "Dalai Lama" },
+            { text: "A journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+            { text: "Collect moments, not things.", author: "Aarti Khurana" },
+            { text: "We travel not to escape life, but for life not to escape us.", author: "Anonymous" },
+            { text: "The journey itself is my home.", author: "Matsuo Basho" },
+            { text: "Travel far enough, you meet yourself.", author: "David Mitchell" },
+            { text: "Blessed are the curious for they shall have adventures.", author: "Lovelle Drachman" },
+            { text: "Man cannot discover new oceans unless he has the courage to lose sight of the shore.", author: "André Gide" },
+            { text: "Live with no excuses and travel with no regrets.", author: "Oscar Wilde" },
+            { text: "Travel is fatal to prejudice, bigotry, and narrow-mindedness.", author: "Mark Twain" },
+            { text: "If you think adventure is dangerous, try routine; it is lethal.", author: "Paulo Coelho" },
+            { text: "Every exit is an entry somewhere else.", author: "Tom Stoppard" },
+            { text: "Investment in travel is an investment in yourself.", author: "Matthew Karsten" },
+            { text: "Better to see something once than to hear about it a thousand times.", author: "Asian Proverb" },
+            { text: "I haven't been everywhere, but it's on my list.", author: "Susan Sontag" },
+            { text: "The gladdest moment in human life is a departure into unknown lands.", author: "Sir Richard Burton" },
+            { text: "A good traveler has no fixed plans and is not intent on arriving.", author: "Lao Tzu" },
+            { text: "Happiness is not a station you arrive at, but a manner of traveling.", author: "Margaret Lee Runbeck" },
+            { text: "To awaken quite alone in a strange town is one of the pleasantest sensations in the world.", author: "Freya Stark" },
+            { text: "Travel is never a matter of money, but of courage.", author: "Paulo Coelho" },
+            { text: "Fill your life with experiences, not things.", author: "Anonymous" },
+            { text: "Roam if you must, just don't forget why you came.", author: "Anonymous" },
+            { text: "The mountains are calling and I must go.", author: "John Muir" },
+            { text: "And into the forest I go, to lose my mind and find my soul.", author: "John Muir" },
+            { text: "To move, to breathe, to fly, to float—to gain all while you give.", author: "Hans Christian Andersen" }
+        ];
+
+        const travelIcons = ["✈️", "🏔️", "🏖️", "🗺️", "🧳", "🚢", "🏕️", "🕌", "🌴", "🧭"];
+        let iconFlipTimer = null;
+        let typewriterTimer = null;
+        let lastQuoteIdx = -1;
+
+        function startTravelLoader() {
+            const loaderEl = document.getElementById('loader');
+            const iconEl = document.getElementById('travel-flip-icon');
+            const quoteTextEl = document.getElementById('quote-typewriter-text');
+            const authorEl = document.getElementById('quote-author-text');
+            if (!loaderEl || !iconEl || !quoteTextEl) return;
+
+            loaderEl.style.display = 'flex';
+            loaderEl.style.opacity = '1';
+
+            let idx;
+            do {
+                idx = Math.floor(Math.random() * taaraTravelQuotes.length);
+            } while (idx === lastQuoteIdx && taaraTravelQuotes.length > 1);
+            lastQuoteIdx = idx;
+
+            const chosen = taaraTravelQuotes[idx];
+            quoteTextEl.textContent = '';
+            if (authorEl) {
+                authorEl.style.opacity = '0';
+                authorEl.textContent = '— ' + chosen.author;
+            }
+
+            let iconPos = Math.floor(Math.random() * travelIcons.length);
+            iconEl.textContent = travelIcons[iconPos];
+            clearInterval(iconFlipTimer);
+            iconFlipTimer = setInterval(() => {
+                iconEl.classList.add('icon-flip-wipe');
+                setTimeout(() => {
+                    iconPos = (iconPos + 1) % travelIcons.length;
+                    iconEl.textContent = travelIcons[iconPos];
+                    iconEl.classList.remove('icon-flip-wipe');
+                }, 250);
+            }, 850);
+
+            clearTimeout(typewriterTimer);
+            let charIdx = 0;
+            function typeChar() {
+                if (charIdx < chosen.text.length) {
+                    quoteTextEl.textContent += chosen.text.charAt(charIdx);
+                    charIdx++;
+                    typewriterTimer = setTimeout(typeChar, 24);
+                } else if (authorEl) {
+                    authorEl.style.opacity = '1';
+                }
+            }
+            typeChar();
+        }
+
+        function stopTravelLoader() {
+            clearInterval(iconFlipTimer);
+            clearTimeout(typewriterTimer);
+            const loaderEl = document.getElementById('loader');
+            const contentEl = document.getElementById('content');
+            if (loaderEl) {
+                loaderEl.style.opacity = '0';
+                setTimeout(() => {
+                    loaderEl.style.display = 'none';
+                }, 250);
+            }
+            if (contentEl) {
+                contentEl.style.display = 'block';
+            }
+        }
+
+        // Start animation immediately on load
+        startTravelLoader();
 
         function filterContent(keyword) {
             const query = keyword.toLowerCase();
@@ -308,7 +474,7 @@
             document.getElementById('india-packages-grid').innerHTML = indiaHTML || `<div class="text-gray-400 italic text-sm p-4">No India packages found.</div>`;
             document.getElementById('intl-packages-grid').innerHTML = intlHTML || `<div class="text-gray-400 italic text-sm p-4">No International packages found.</div>`;
 
-            document.getElementById('loader').style.display = 'none'; document.getElementById('content').style.display = 'block';
+            stopTravelLoader();
             setTimeout(initAutoScroll, 1000);
             
             // Check if there's a search term in the URL from the mega menu
@@ -317,7 +483,7 @@
             if(searchParam) { setTimeout(() => { filterAndScroll(searchParam); }, 500); }
             
         }).catch(err => {
-            document.getElementById('loader').style.display = 'none'; document.getElementById('content').style.display = 'block';
+            stopTravelLoader();
         });
     </script>
 </body>
