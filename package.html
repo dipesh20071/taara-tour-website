@@ -20,13 +20,63 @@
         .carousel-item { scroll-snap-align: start; flex-shrink: 0; }
         @media (max-width: 1024px) { body { padding-bottom: 90px; } }
         #loader { display: flex; } #content { display: none; }
+
+        .travel-icon-stage {
+            perspective: 650px;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto;
+        }
+        .travel-icon-flipper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.35rem;
+            background: #1A1A1A;
+            color: #FFC500;
+            border-radius: 20px;
+            border-bottom: 4px solid #FFC500;
+            box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.18);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s ease;
+            transform-style: preserve-3d;
+        }
+        .icon-flip-wipe {
+            transform: rotateY(90deg) translateX(10px) scale(0.85);
+            opacity: 0.25;
+        }
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2.5px;
+            height: 1.05em;
+            background-color: #FFC500;
+            vertical-align: text-bottom;
+            margin-left: 3px;
+            animation: blinkCursor 0.75s infinite;
+        }
+        @keyframes blinkCursor {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="bg-brand-lightBg text-gray-800 antialiased">
 
-    <div id="loader" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-4 text-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-brand-yellow mb-4"></div>
-        <p class="text-gray-500 font-bold text-lg">Loading Tour Details...</p>
+    <!-- TRAVEL QUOTE + ICON FLIP LOADER -->
+    <div id="loader" aria-hidden="true" class="fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center px-6 text-center transition-opacity duration-300">
+        <div class="travel-icon-stage mb-5">
+            <div id="travel-flip-icon" class="travel-icon-flipper">✈️</div>
+        </div>
+        <div class="max-w-xl mx-auto min-h-[76px] flex flex-col items-center justify-center">
+            <p class="text-base md:text-xl font-bold text-gray-900 leading-snug">
+                “<span id="quote-typewriter-text"></span><span class="typewriter-cursor"></span>”
+            </p>
+            <p id="quote-author-text" class="text-xs md:text-sm font-extrabold uppercase tracking-widest text-yellow-600 mt-2 opacity-0 transition-opacity duration-500"></p>
+        </div>
+        <p class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest mt-5">
+            Crafting Your Tour Itinerary...
+        </p>
     </div>
 
     <div id="content">
@@ -36,11 +86,10 @@
                 <div class="flex items-center gap-6">
                     <button class="text-brand-black p-1 focus:outline-none hover:bg-gray-100 rounded-lg lg:hidden transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h8"></path></svg></button>
                     <a href="index.html" class="flex items-center gap-2 cursor-pointer">
-                        <img src="logo.png" alt="Taara Tour Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img id="cms-logo-img" src="logo.png" alt="Taara Tour Logo" class="h-10 lg:h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg tracking-wide border-b-2 border-brand-yellow">Taara <span class="text-white text-sm font-semibold tracking-normal">Tours</span></div>
                     </a>
-                    
-                    <!-- MEGA MENU -->
+
                     <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-700 ml-4">
                         <a href="index.html" class="hover:text-brand-yellow transition">Home</a>
                         <div class="relative group py-2">
@@ -51,12 +100,12 @@
                             <a href="index.html#international" class="hover:text-brand-yellow transition flex items-center gap-1">International <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
                             <div id="nav-intl-dropdown" class="absolute top-full left-0 mt-0 w-[500px] bg-white shadow-xl rounded-xl border border-gray-100 hidden group-hover:grid grid-cols-4 gap-2 p-4 z-50"></div>
                         </div>
-                        <a href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition">Customize Tour</a>
+                        <a id="cms-nav-custom" href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition">Customize Tour</a>
                     </nav>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm"><svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg>+91 70160 36767</a>
-                    <button class="bg-brand-black text-white font-bold px-5 py-2 rounded-full text-xs shadow-md">Enquire Now</button>
+                    <a id="cms-header-phone" href="tel:+917016036767" class="hidden lg:flex items-center gap-2 font-bold text-brand-black mr-2 text-sm"><svg class="w-4 h-4 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1 0 10.5 8.5 19 19 19 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.9 0 7.1 3.1 7.1 7zM15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"></path></svg><span>+91 70160 36767</span></a>
+                    <a id="pkg-enquire-btn" href="https://wa.me/917016036767" target="_blank" class="bg-brand-black text-white font-bold px-5 py-2 rounded-full text-xs shadow-md">Enquire Now</a>
                 </div>
             </div>
         </header>
@@ -75,7 +124,6 @@
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 -mt-12 pb-16">
             <div class="flex flex-col lg:flex-row gap-6">
-                <!-- Details -->
                 <div class="w-full lg:w-2/3 space-y-5">
                     <div class="bg-white rounded-xl shadow-float p-6 border-t-4 border-brand-yellow">
                         <h1 id="pkg-title" class="text-[26px] font-extrabold text-brand-black leading-tight">Loading Title...</h1>
@@ -113,14 +161,13 @@
                         <span class="border border-brand-yellow text-brand-yellow bg-yellow-50 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-2 inline-block">Starting From</span>
                         <div class="flex items-end gap-2 mb-6"><span id="pkg-price-desktop" class="text-3xl font-black text-brand-black">₹--</span><span class="text-sm text-gray-500 font-medium mb-1">/ person</span></div>
                         <div class="space-y-3">
-                            <button class="w-full bg-brand-yellow text-brand-black font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Proceed to Book</button>
+                            <a id="pkg-book-desktop" href="#" target="_blank" class="block text-center w-full bg-brand-yellow text-brand-black font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Proceed to Book</a>
                             <button onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="w-full bg-[#1A1A1A] text-white font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Download PDF</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SMART SIMILAR TOURS -->
             <section class="mt-16 pt-10 border-t border-gray-200">
                 <h2 class="text-2xl font-extrabold text-brand-black mb-6 px-1 flex items-center gap-2">Explore More <span class="text-brand-yellow">Similar Tours</span></h2>
                 <div id="similar-tours-slider" class="carousel-container hide-scroll pb-6 px-1">
@@ -129,22 +176,22 @@
             </section>
         </div>
 
-        <!-- EXACT RESTORED FOOTER -->
+        <!-- CLEAN DYNAMIC CMS FOOTER (NO[cite: 1]) -->
         <footer class="bg-[#111111] text-white pt-12 pb-24 lg:pb-12 border-t-[5px] border-brand-yellow">
             <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="col-span-1 lg:col-span-1">
                     <div class="mb-4">
-                        <img src="logo.png" alt="Taara Tour Logo" class="h-16 lg:h-20 object-contain bg-[#1A1A1A] p-2 rounded-lg border border-[#333]" onerror="this.style.display='none'">
+                        <img id="cms-footer-logo" src="logo.png" alt="Taara Tour Logo" class="h-16 lg:h-20 object-contain bg-[#1A1A1A] p-2 rounded-lg border border-[#333]" onerror="this.style.display='none'">
                     </div>
-                    <h3 class="text-white font-bold text-xl mb-3">Taara Tour & Travels</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Shop No 2, Building No A1, Umiya Nagar, Sagrampura, Surat - 395002, Gujarat</p>
-                    
+                    <h3 id="cms-footer-title" class="text-white font-bold text-xl mb-3">Taara Tour & Travels</h3>
+                    <p id="cms-footer-address" class="text-gray-400 text-sm leading-relaxed mb-6">Shop No 2, Building No A1, Umiya Nagar, Sagrampura, Surat - 395002, Gujarat</p>
+
                     <div class="flex gap-3 mt-4">
-                        <a href="tel:+917016036767" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                        <a id="cms-footer-wa" href="https://wa.me/917016036767" target="_blank" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
                         </a>
-                        <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg>
+                        <a id="cms-footer-insta" href="https://www.instagram.com/" target="_blank" class="w-10 h-10 rounded-lg bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -155,46 +202,46 @@
                         <li class="flex items-start gap-4">
                             <svg class="w-5 h-5 text-brand-yellow shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             <div>
-                                <a href="tel:+917016036767" class="block hover:text-brand-yellow transition">+91 70160 36767[cite: 1]</a>
-                                <a href="tel:+919327632276" class="block hover:text-brand-yellow transition mt-2">+91 93276 32276[cite: 1]</a>
+                                <a id="cms-footer-phone1" href="tel:+917016036767" class="block hover:text-brand-yellow transition">+91 70160 36767</a>
+                                <a id="cms-footer-phone2" href="tel:+919327632276" class="block hover:text-brand-yellow transition mt-2">+91 93276 32276</a>
                             </div>
                         </li>
                         <li class="flex items-center gap-4">
                             <svg class="w-5 h-5 text-brand-yellow shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            <a href="mailto:taaratour@gmail.com" class="hover:text-brand-yellow transition">taaratour@gmail.com[cite: 1]</a>
+                            <a id="cms-footer-email" href="mailto:taaratour@gmail.com" class="hover:text-brand-yellow transition">taaratour@gmail.com</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-6 text-[15px] uppercase tracking-wider">QUICK LINKS</h4>
-                    <ul class="text-[15px] text-gray-400 space-y-4">
-                        <li><a href="index.html" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Group Tours[cite: 1]</a></li>
-                        <li><a href="index.html" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Private Tours[cite: 1]</a></li>
-                        <li><a href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Customized Tours[cite: 1]</a></li>
+                    <ul id="cms-quick-links" class="text-[15px] text-gray-400 space-y-4">
+                        <li><a href="index.html" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Group Tours</a></li>
+                        <li><a href="index.html" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Private Tours</a></li>
+                        <li><a href="https://wa.me/917016036767" target="_blank" class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> Customized Tours</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-span-1">
                     <h4 class="font-bold text-white mb-6 text-[15px] uppercase tracking-wider">SUPPORT</h4>
-                    <ul class="text-[15px] text-gray-400 space-y-4">
-                        <li><a href="info.html?page=about" class="hover:text-brand-yellow transition">About Us[cite: 1]</a></li>
-                        <li><a href="info.html?page=contact" class="hover:text-brand-yellow transition">Contact Us[cite: 1]</a></li>
-                        <li><a href="info.html?page=terms" class="hover:text-brand-yellow transition">Terms & Conditions[cite: 1]</a></li>
-                        <li><a href="info.html?page=privacy" class="hover:text-brand-yellow transition">Privacy Policy[cite: 1]</a></li>
+                    <ul id="cms-support-links" class="text-[15px] text-gray-400 space-y-4">
+                        <li><a href="info.html?page=about" class="hover:text-brand-yellow transition">About Us</a></li>
+                        <li><a href="info.html?page=contact" class="hover:text-brand-yellow transition">Contact Us</a></li>
+                        <li><a href="info.html?page=terms" class="hover:text-brand-yellow transition">Terms & Conditions</a></li>
+                        <li><a href="info.html?page=privacy" class="hover:text-brand-yellow transition">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="max-w-6xl mx-auto px-5 mt-12 pt-6 border-t border-[#333] text-[13px] text-gray-500 font-medium flex flex-col md:flex-row justify-between items-center gap-4">
-                <p>Taara Tour & Travels Copyright © 2026. All Rights Reserved.[cite: 1]</p>
-                <p>Developed with <span class="text-red-500">❤️</span> for Explorers[cite: 1]</p>
+                <p id="cms-footer-copy">Taara Tour & Travels Copyright © 2026. All Rights Reserved.</p>
+                <p>Developed with <span class="text-red-500">❤️</span> for Explorers</p>
             </div>
         </footer>
 
         <div class="fixed bottom-0 left-0 w-full bg-white shadow-[0_-4px_15px_rgba(0,0,0,0.08)] p-4 flex justify-between items-center lg:hidden z-50 rounded-t-[20px] border-t border-gray-100">
             <div class="flex flex-col"><p class="text-[10px] text-gray-500 font-bold uppercase mb-0.5">Starting from</p><p id="pkg-price-sticky" class="text-2xl font-black leading-none">₹--</p></div>
-            <button class="bg-brand-yellow text-brand-black font-bold px-8 py-3 rounded-xl shadow-md">Book Now</button>
+            <a id="pkg-book-sticky" href="#" target="_blank" class="bg-brand-yellow text-brand-black font-bold px-8 py-3 rounded-xl shadow-md">Book Now</a>
         </div>
     </div>
 
@@ -220,74 +267,217 @@
         const urlParams = new URLSearchParams(window.location.search);
         const packageId = urlParams.get('id');
         let currentPackageTitle = "";
+        let activeWaNumber = "917016036767";
+
+        const taaraTravelQuotes = [
+            { text: "The world is a book and those who do not travel read only one page.", author: "Saint Augustine" },
+            { text: "Jobs fill your pockets, adventures fill your soul.", author: "Jaime Lyn Beatty" },
+            { text: "Travel makes one modest. You see what a tiny place you occupy in the world.", author: "Gustave Flaubert" },
+            { text: "To travel is to live.", author: "Hans Christian Andersen" },
+            { text: "Not all those who wander are lost.", author: "J.R.R. Tolkien" },
+            { text: "Life is short and the world is wide.", author: "Simon Raven" },
+            { text: "Take only memories, leave only footprints.", author: "Chief Seattle" },
+            { text: "Adventure is worthwhile in itself.", author: "Amelia Earhart" },
+            { text: "Once a year, go someplace you have never been before.", author: "Dalai Lama" },
+            { text: "A journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+            { text: "Collect moments, not things.", author: "Aarti Khurana" },
+            { text: "The journey itself is my home.", author: "Matsuo Basho" },
+            { text: "Travel far enough, you meet yourself.", author: "David Mitchell" },
+            { text: "Live with no excuses and travel with no regrets.", author: "Oscar Wilde" },
+            { text: "Travel is fatal to prejudice, bigotry, and narrow-mindedness.", author: "Mark Twain" },
+            { text: "If you think adventure is dangerous, try routine; it is lethal.", author: "Paulo Coelho" },
+            { text: "Better to see something once than to hear about it a thousand times.", author: "Asian Proverb" },
+            { text: "The gladdest moment in human life is a departure into unknown lands.", author: "Sir Richard Burton" },
+            { text: "The mountains are calling and I must go.", author: "John Muir" },
+            { text: "Travel is never a matter of money, but of courage.", author: "Paulo Coelho" }
+        ];
+
+        const travelIcons = ["✈️", "🏔️", "🏖️", "🗺️", "🧳", "🚢", "🏕️", "🕌", "🌴", "🧭"];
+        let iconFlipTimer = null, typewriterTimer = null, lastQuoteIdx = -1;
+
+        function startTravelLoader() {
+            const loaderEl = document.getElementById('loader');
+            const iconEl = document.getElementById('travel-flip-icon');
+            const quoteTextEl = document.getElementById('quote-typewriter-text');
+            const authorEl = document.getElementById('quote-author-text');
+            if (!loaderEl || !iconEl || !quoteTextEl) return;
+
+            loaderEl.style.display = 'flex';
+            loaderEl.style.opacity = '1';
+
+            let idx;
+            do { idx = Math.floor(Math.random() * taaraTravelQuotes.length); } while (idx === lastQuoteIdx && taaraTravelQuotes.length > 1);
+            lastQuoteIdx = idx;
+
+            const chosen = taaraTravelQuotes[idx];
+            quoteTextEl.textContent = '';
+            if (authorEl) { authorEl.style.opacity = '0'; authorEl.textContent = '— ' + chosen.author; }
+
+            let iconPos = Math.floor(Math.random() * travelIcons.length);
+            iconEl.textContent = travelIcons[iconPos];
+            clearInterval(iconFlipTimer);
+            iconFlipTimer = setInterval(() => {
+                iconEl.classList.add('icon-flip-wipe');
+                setTimeout(() => {
+                    iconPos = (iconPos + 1) % travelIcons.length;
+                    iconEl.textContent = travelIcons[iconPos];
+                    iconEl.classList.remove('icon-flip-wipe');
+                }, 250);
+            }, 850);
+
+            clearTimeout(typewriterTimer);
+            let charIdx = 0;
+            function typeChar() {
+                if (charIdx < chosen.text.length) {
+                    quoteTextEl.textContent += chosen.text.charAt(charIdx);
+                    charIdx++;
+                    typewriterTimer = setTimeout(typeChar, 24);
+                } else if (authorEl) {
+                    authorEl.style.opacity = '1';
+                }
+            }
+            typeChar();
+        }
+
+        function stopTravelLoader() {
+            clearInterval(iconFlipTimer);
+            clearTimeout(typewriterTimer);
+            const loaderEl = document.getElementById('loader');
+            const contentEl = document.getElementById('content');
+            if (loaderEl) { loaderEl.style.opacity = '0'; setTimeout(() => { loaderEl.style.display = 'none'; }, 250); }
+            if (contentEl) { contentEl.style.display = 'block'; }
+        }
+
+        startTravelLoader();
+
+        function applyCmsSettings(s) {
+            if (!s) return;
+            if (s.logoUrl) {
+                const l1 = document.getElementById('cms-logo-img');
+                const l2 = document.getElementById('cms-footer-logo');
+                if (l1) l1.src = s.logoUrl;
+                if (l2) l2.src = s.logoUrl;
+            }
+            if (s.headerPhone) {
+                const hp = document.getElementById('cms-header-phone');
+                if (hp) {
+                    hp.href = "tel:" + s.headerPhone.replace(/[^+\d]/g, '');
+                    const sp = hp.querySelector('span');
+                    if (sp) sp.textContent = s.headerPhone;
+                }
+            }
+            if (s.whatsappNumber) {
+                activeWaNumber = s.whatsappNumber.replace(/\D/g, '') || "917016036767";
+                const waUrl = "https://wa.me/" + activeWaNumber;
+                const nc = document.getElementById('cms-nav-custom');
+                const fw = document.getElementById('cms-footer-wa');
+                if (nc) nc.href = waUrl;
+                if (fw) fw.href = waUrl;
+            }
+            if (s.footerBrandTitle) { const ft = document.getElementById('cms-footer-title'); if (ft) ft.textContent = s.footerBrandTitle; }
+            if (s.footerAddress) { const fa = document.getElementById('cms-footer-address'); if (fa) fa.textContent = s.footerAddress; }
+            if (s.footerPhone1) { const fp1 = document.getElementById('cms-footer-phone1'); if (fp1) { fp1.textContent = s.footerPhone1; fp1.href = "tel:" + s.footerPhone1.replace(/[^+\d]/g, ''); } }
+            if (s.footerPhone2) { const fp2 = document.getElementById('cms-footer-phone2'); if (fp2) { fp2.textContent = s.footerPhone2; fp2.href = "tel:" + s.footerPhone2.replace(/[^+\d]/g, ''); } }
+            if (s.footerEmail) { const fe = document.getElementById('cms-footer-email'); if (fe) { fe.textContent = s.footerEmail; fe.href = "mailto:" + s.footerEmail; } }
+            if (s.footerInstagram) { const fi = document.getElementById('cms-footer-insta'); if (fi) fi.href = s.footerInstagram; }
+            if (s.footerCopyright) { const fc = document.getElementById('cms-footer-copy'); if (fc) fc.textContent = s.footerCopyright; }
+
+            try {
+                if (s.quickLinksJson) {
+                    const ql = JSON.parse(s.quickLinksJson);
+                    if (Array.isArray(ql) && ql.length) {
+                        document.getElementById('cms-quick-links').innerHTML = ql.map(item =>
+                            `<li><a href="${item.url}" ${item.url.startsWith('http') ? 'target="_blank"' : ''} class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> ${item.label}</a></li>`
+                        ).join('');
+                    }
+                }
+                if (s.supportLinksJson) {
+                    const sl = JSON.parse(s.supportLinksJson);
+                    if (Array.isArray(sl) && sl.length) {
+                        document.getElementById('cms-support-links').innerHTML = sl.map(item =>
+                            `<li><a href="${item.url}" class="hover:text-brand-yellow transition">${item.label}</a></li>`
+                        ).join('');
+                    }
+                }
+            } catch (e) {}
+        }
 
         function toggleAccordion(btn) {
             const content = btn.nextElementSibling;
             btn.classList.toggle('active');
-            if(content.classList.contains('open')) content.classList.remove('open'); else content.classList.add('open');
+            if (content.classList.contains('open')) content.classList.remove('open'); else content.classList.add('open');
         }
 
         function buildDropdowns(indiaData, intlData) {
             const indDropdown = document.getElementById('nav-india-dropdown');
             const intlDropdown = document.getElementById('nav-intl-dropdown');
-            let indHtml = ''; let intlHtml = '';
-            for(let loc in indiaData) indHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
-            for(let loc in intlData) intlHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
-            if(indHtml) indDropdown.innerHTML = indHtml;
-            if(intlHtml) intlDropdown.innerHTML = intlHtml;
+            let indHtml = '', intlHtml = '';
+            for (let loc in indiaData) indHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
+            for (let loc in intlData) intlHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
+            if (indHtml) indDropdown.innerHTML = indHtml;
+            if (intlHtml) intlDropdown.innerHTML = intlHtml;
         }
 
-        if(!packageId) { document.getElementById('loader').innerHTML = `<p class="text-red-500 font-bold p-4">Invalid Package ID. Please select a package from the Home page.</p>`; } 
-        else {
-            fetch(scriptURL).then(res => res.json()).then(data => {
+        if (!packageId) {
+            stopTravelLoader();
+            document.getElementById('content').innerHTML = `<div class="p-10 text-center text-red-500 font-bold">Invalid Package ID. Please select a package from the Home page.</div>`;
+        } else {
+            fetch(scriptURL + "?type=all").then(res => res.json()).then(payload => {
+                const data = Array.isArray(payload) ? payload : (payload.packages || []);
+                if (payload.settings) applyCmsSettings(payload.settings);
+
                 const pkg = data.find(p => p['Package ID'] === packageId);
-                if(!pkg) throw new Error("Not Found");
+                if (!pkg) throw new Error("Not Found");
 
                 currentPackageTitle = pkg['Title'];
                 document.getElementById('page-title').innerText = currentPackageTitle;
                 document.getElementById('pkg-title').innerText = currentPackageTitle;
-                
+
                 let currentLocParts = (pkg['Location'] || "").split('|||');
                 let currentLoc = currentLocParts[0] || "";
                 let currentCat = currentLocParts[1] || "India";
                 let currentTourType = currentLocParts[2] || "Group Tour";
-                
+
                 document.getElementById('pkg-location').innerText = currentLoc;
                 document.getElementById('pkg-tour-type').innerText = currentTourType;
-                
+
                 const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
                 document.getElementById('pkg-price-desktop').innerText = priceFmt;
                 document.getElementById('pkg-price-mobile').innerText = priceFmt;
                 document.getElementById('pkg-price-sticky').innerText = priceFmt;
-                
+
                 let durText = (pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
                 document.getElementById('pkg-duration').innerHTML = durText;
-                
-                if(pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
-                document.getElementById('pkg-whatsapp').href = `https://wa.me/917016036767?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
 
-                if(pkg['Inclusions']) document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex gap-2"><span class="text-green-500 font-bold">✔</span> ${i.trim()}</li>`).join('');
-                if(pkg['Exclusions']) document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex gap-2"><span class="text-red-500 font-bold">✖</span> ${e.trim()}</li>`).join('');
+                if (pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
+                const waMsgUrl = `https://wa.me/${activeWaNumber}?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
+                document.getElementById('pkg-whatsapp').href = waMsgUrl;
+                document.getElementById('pkg-enquire-btn').href = waMsgUrl;
+                document.getElementById('pkg-book-desktop').href = waMsgUrl;
+                document.getElementById('pkg-book-sticky').href = waMsgUrl;
 
-                if(pkg['Itinerary']) {
+                if (pkg['Inclusions']) document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex gap-2"><span class="text-green-500 font-bold">✔</span> ${i.trim()}</li>`).join('');
+                if (pkg['Exclusions']) document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex gap-2"><span class="text-red-500 font-bold">✖</span> ${e.trim()}</li>`).join('');
+
+                if (pkg['Itinerary']) {
                     document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((dayStr, idx) => {
-                        if(!dayStr.trim()) return '';
+                        if (!dayStr.trim()) return '';
                         let parts = dayStr.split('::');
                         let title = parts[0] ? parts[0].trim() : "Day Tour";
                         let descHtml = parts[1] ? parts[1].trim() : "";
                         let mealData = parts[2] ? parts[2].trim() : "";
 
                         let mealBadges = '';
-                        if(mealData) {
+                        if (mealData) {
                             let mealArray = mealData.split(',');
                             mealBadges = `<div class="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-2 items-center"><span class="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest mr-1">Meals:</span>`;
                             mealArray.forEach(m => {
                                 let trimM = m.trim();
-                                if(!trimM) return;
-                                let c = trimM==='No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
-                                        trimM==='Breakfast' ? 'bg-green-50 text-green-700 border-gray-200' :
-                                        trimM==='Lunch' ? 'bg-orange-50 text-orange-700 border-gray-200' :
-                                        trimM==='Hi-Tea' ? 'bg-purple-50 text-purple-700 border-gray-200' :
+                                if (!trimM) return;
+                                let c = trimM === 'No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
+                                        trimM === 'Breakfast' ? 'bg-green-50 text-green-700 border-gray-200' :
+                                        trimM === 'Lunch' ? 'bg-orange-50 text-orange-700 border-gray-200' :
+                                        trimM === 'Hi-Tea' ? 'bg-purple-50 text-purple-700 border-gray-200' :
                                         'bg-blue-50 text-blue-700 border-gray-200';
                                 mealBadges += `<span class="${c} border text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">${trimM}</span>`;
                             });
@@ -296,14 +486,14 @@
 
                         return `
                         <div class="border border-gray-200 rounded-xl bg-white overflow-hidden hover:border-brand-yellow transition">
-                            <button class="accordion-header ${idx===0?'active':''} w-full flex justify-between items-center p-4 bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+                            <button class="accordion-header ${idx === 0 ? 'active' : ''} w-full flex justify-between items-center p-4 bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
                                 <div class="flex items-center gap-4">
-                                    <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">Day ${idx+1}</span>
+                                    <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">Day ${idx + 1}</span>
                                     <span class="font-semibold text-brand-black text-sm text-left">${title}</span>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div class="accordion-content ${idx===0?'open':''} border-t border-gray-100 bg-white">
+                            <div class="accordion-content ${idx === 0 ? 'open' : ''} border-t border-gray-100 bg-white">
                                 <p class="text-sm text-gray-600 font-medium leading-relaxed">${descHtml}</p>
                                 ${mealBadges}
                             </div>
@@ -312,23 +502,23 @@
                 }
 
                 let similarHTML = '';
-                let indiaDestinations = {}; let intlDestinations = {};
-                
+                let indiaDestinations = {}, intlDestinations = {};
+
                 data.forEach(p => {
-                    if(!p['Package ID']) return;
+                    if (!p['Package ID']) return;
                     let pLocParts = (p['Location'] || "").split('|||');
                     let pLoc = pLocParts[0];
                     let pCat = pLocParts[1] || 'India';
                     let pTourType = pLocParts[2] || 'Group Tour';
                     let img = p['Image URL'];
 
-                    if(pCat === 'International') intlDestinations[pLoc] = img;
+                    if (pCat === 'International') intlDestinations[pLoc] = img;
                     else indiaDestinations[pLoc] = img;
-                    
-                    if(p['Package ID'] !== packageId && pCat === currentCat) {
+
+                    if (p['Package ID'] !== packageId && pCat === currentCat) {
                         let price = '₹' + Number(p['Price']).toLocaleString('en-IN');
-                        let pDur = (p['Duration']||"").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
-                        
+                        let pDur = (p['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
+
                         similarHTML += `
                         <a href="package.html?id=${p['Package ID']}" class="group carousel-item flex-shrink-0 w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition block">
                             <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">${pTourType}</span>
@@ -351,19 +541,19 @@
                 document.getElementById('similar-tours-slider').innerHTML = similarHTML || `<p class="text-sm text-gray-400 p-2">No other similar packages yet.</p>`;
                 buildDropdowns(indiaDestinations, intlDestinations);
 
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
+                stopTravelLoader();
 
                 const slider = document.getElementById('similar-tours-slider');
-                let scrollAmt = 0;
-                let scrollStep = window.innerWidth > 1024 ? 316 : 276; 
+                let scrollAmt = 0, scrollStep = window.innerWidth > 1024 ? 316 : 276;
                 setInterval(() => {
                     if (slider.matches(':hover') || slider.matches(':active') || slider.scrollWidth <= slider.clientWidth) return;
-                    scrollAmt += scrollStep; if(scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
+                    scrollAmt += scrollStep; if (scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
                     slider.scrollTo({ left: scrollAmt, behavior: 'smooth' });
                 }, 3500);
-
-            }).catch(err => { document.getElementById('loader').innerHTML = `<p class="text-red-500 font-bold p-4">Connection Failed.</p>`; });
+            }).catch(() => {
+                stopTravelLoader();
+                document.getElementById('content').innerHTML = `<div class="p-10 text-center text-red-500 font-bold">Connection Failed.</div>`;
+            });
         }
 
         function handleDownload(e) {
@@ -373,9 +563,19 @@
             fetch(scriptURL, { method: 'POST', body: JSON.stringify({ action: "get_pdf", name: e.target[0].value, phone: e.target[1].value, email: "", packageReq: currentPackageTitle }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } })
             .then(res => res.json()).then(data => {
                 btn.innerText = 'Get PDF Now';
-                if(data.result === 'success' && data.pdfUrl) { msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-green-100 text-green-700 block"; msg.innerText = "Downloading..."; setTimeout(() => { window.open(data.pdfUrl, '_blank'); e.target.reset(); document.getElementById('downloadModal').classList.add('hidden'); msg.classList.add('hidden'); }, 1000); } 
-                else { msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-red-100 text-red-700 block"; msg.innerText = "PDF Unavailable."; }
-            }).catch(() => { btn.innerText = 'Get PDF Now'; msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-red-100 text-red-700 block"; msg.innerText = "Network Error."; });
+                if (data.result === 'success' && data.pdfUrl) {
+                    msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-green-100 text-green-700 block";
+                    msg.innerText = "Downloading...";
+                    setTimeout(() => { window.open(data.pdfUrl, '_blank'); e.target.reset(); document.getElementById('downloadModal').classList.add('hidden'); msg.classList.add('hidden'); }, 1000);
+                } else {
+                    msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-red-100 text-red-700 block";
+                    msg.innerText = "PDF Unavailable.";
+                }
+            }).catch(() => {
+                btn.innerText = 'Get PDF Now';
+                msg.className = "text-xs font-bold text-center mt-2 p-2 rounded bg-red-100 text-red-700 block";
+                msg.innerText = "Network Error.";
+            });
         }
     </script>
 </body>
