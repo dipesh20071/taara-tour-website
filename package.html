@@ -361,13 +361,13 @@
             if (s.headerPhone) {
                 const hp = document.getElementById('cms-header-phone');
                 if (hp) {
-                    hp.href = "tel:" + s.headerPhone.replace(/[^+\d]/g, '');
+                    hp.href = "tel:" + String(s.headerPhone).replace(/[^+\d]/g, '');
                     const sp = hp.querySelector('span');
                     if (sp) sp.textContent = s.headerPhone;
                 }
             }
             if (s.whatsappNumber) {
-                activeWaNumber = s.whatsappNumber.replace(/\D/g, '') || "917016036767";
+                activeWaNumber = String(s.whatsappNumber).replace(/\D/g, '') || "917016036767";
                 const waUrl = "https://wa.me/" + activeWaNumber;
                 const nc = document.getElementById('cms-nav-custom');
                 const fw = document.getElementById('cms-footer-wa');
@@ -376,8 +376,8 @@
             }
             if (s.footerBrandTitle) { const ft = document.getElementById('cms-footer-title'); if (ft) ft.textContent = s.footerBrandTitle; }
             if (s.footerAddress) { const fa = document.getElementById('cms-footer-address'); if (fa) fa.textContent = s.footerAddress; }
-            if (s.footerPhone1) { const fp1 = document.getElementById('cms-footer-phone1'); if (fp1) { fp1.textContent = s.footerPhone1; fp1.href = "tel:" + s.footerPhone1.replace(/[^+\d]/g, ''); } }
-            if (s.footerPhone2) { const fp2 = document.getElementById('cms-footer-phone2'); if (fp2) { fp2.textContent = s.footerPhone2; fp2.href = "tel:" + s.footerPhone2.replace(/[^+\d]/g, ''); } }
+            if (s.footerPhone1) { const fp1 = document.getElementById('cms-footer-phone1'); if (fp1) { fp1.textContent = s.footerPhone1; fp1.href = "tel:" + String(s.footerPhone1).replace(/[^+\d]/g, ''); } }
+            if (s.footerPhone2) { const fp2 = document.getElementById('cms-footer-phone2'); if (fp2) { fp2.textContent = s.footerPhone2; fp2.href = "tel:" + String(s.footerPhone2).replace(/[^+\d]/g, ''); } }
             if (s.footerEmail) { const fe = document.getElementById('cms-footer-email'); if (fe) { fe.textContent = s.footerEmail; fe.href = "mailto:" + s.footerEmail; } }
             if (s.footerInstagram) { const fi = document.getElementById('cms-footer-insta'); if (fi) fi.href = s.footerInstagram; }
             if (s.footerCopyright) { const fc = document.getElementById('cms-footer-copy'); if (fc) fc.textContent = s.footerCopyright; }
@@ -387,7 +387,7 @@
                     const ql = JSON.parse(s.quickLinksJson);
                     if (Array.isArray(ql) && ql.length) {
                         document.getElementById('cms-quick-links').innerHTML = ql.map(item =>
-                            `<li><a href="${item.url}" ${item.url.startsWith('http') ? 'target="_blank"' : ''} class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> ${item.label}</a></li>`
+                            `<li><a href="${item.url}" ${String(item.url).startsWith('http') ? 'target="_blank"' : ''} class="hover:text-brand-yellow transition flex items-center gap-3"><span class="w-1.5 h-1.5 bg-brand-yellow rounded-full"></span> ${item.label}</a></li>`
                         ).join('');
                     }
                 }
@@ -412,152 +412,176 @@
             const indDropdown = document.getElementById('nav-india-dropdown');
             const intlDropdown = document.getElementById('nav-intl-dropdown');
             let indHtml = '', intlHtml = '';
-            for (let loc in indiaData) indHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
-            for (let loc in intlData) intlHtml += `<a href="index.html?search=${loc}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
+            for (let loc in indiaData) indHtml += `<a href="index.html?search=${encodeURIComponent(loc)}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
+            for (let loc in intlData) intlHtml += `<a href="index.html?search=${encodeURIComponent(loc)}" class="text-[13px] font-semibold text-gray-700 hover:text-brand-yellow hover:bg-yellow-50 p-2 rounded transition truncate border border-transparent hover:border-yellow-100">${loc}</a>`;
             if (indHtml) indDropdown.innerHTML = indHtml;
             if (intlHtml) intlDropdown.innerHTML = intlHtml;
+        }
+
+        function slugify(str) {
+            return String(str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
         }
 
         if (!packageId) {
             stopTravelLoader();
             document.getElementById('content').innerHTML = `<div class="p-10 text-center text-red-500 font-bold">Invalid Package ID. Please select a package from the Home page.</div>`;
         } else {
-            fetch(scriptURL + "?type=all").then(res => res.json()).then(payload => {
-                const data = Array.isArray(payload) ? payload : (payload.packages || []);
-                if (payload.settings) applyCmsSettings(payload.settings);
+            fetch(scriptURL + "?type=all")
+                .then(res => res.text())
+                .then(rawText => {
+                    let payload;
+                    try { payload = JSON.parse(rawText); }
+                    catch (e) { throw new Error("Invalid JSON from server: " + rawText.slice(0, 140)); }
 
-                const targetId = String(packageId).trim().toLowerCase();
-                const pkg = data.find(p => {
-                    const rowId = String(p['Package ID'] || '').trim().toLowerCase();
-                    return rowId === targetId || rowId.startsWith(targetId + '-');
-                });
-                if (!pkg) throw new Error("Not Found");
+                    if (payload && payload.error) throw new Error("Backend Error: " + payload.error);
 
-                currentPackageTitle = pkg['Title'];
-                document.getElementById('page-title').innerText = currentPackageTitle;
-                document.getElementById('pkg-title').innerText = currentPackageTitle;
+                    const data = Array.isArray(payload) ? payload : (Array.isArray(payload.packages) ? payload.packages : []);
+                    if (payload && payload.settings) applyCmsSettings(payload.settings);
 
-                let currentLocParts = (pkg['Location'] || "").split('|||');
-                let currentLoc = currentLocParts[0] || "";
-                let currentCat = currentLocParts[1] || "India";
-                let currentTourType = currentLocParts[2] || "Group Tour";
+                    const targetId = String(packageId).trim().toLowerCase();
+                    let pkg = data.find(p => {
+                        const rowId = String(p['Package ID'] || '').trim().toLowerCase();
+                        return rowId === targetId || rowId.startsWith(targetId + '-');
+                    });
+                    if (!pkg) {
+                        pkg = data.find(p => {
+                            const titleSlug = slugify(p['Title']);
+                            return titleSlug && (titleSlug === targetId || targetId.startsWith(titleSlug));
+                        });
+                    }
+                    if (!pkg) {
+                        throw new Error("Package not found in sheet for id: " + packageId + " (rows: " + data.length + ")");
+                    }
 
-                document.getElementById('pkg-location').innerText = currentLoc;
-                document.getElementById('pkg-tour-type').innerText = currentTourType;
+                    currentPackageTitle = pkg['Title'] || 'Tour Package';
+                    document.getElementById('page-title').innerText = currentPackageTitle;
+                    document.getElementById('pkg-title').innerText = currentPackageTitle;
 
-                const priceFmt = '₹' + Number(pkg['Price']).toLocaleString('en-IN');
-                document.getElementById('pkg-price-desktop').innerText = priceFmt;
-                document.getElementById('pkg-price-mobile').innerText = priceFmt;
-                document.getElementById('pkg-price-sticky').innerText = priceFmt;
+                    let currentLocParts = String(pkg['Location'] || "").split('|||');
+                    let currentLoc = currentLocParts[0] || "";
+                    let currentCat = currentLocParts[1] || "India";
+                    let currentTourType = currentLocParts[2] || "Group Tour";
 
-                let durText = (pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
-                document.getElementById('pkg-duration').innerHTML = durText;
+                    document.getElementById('pkg-location').innerText = currentLoc;
+                    document.getElementById('pkg-tour-type').innerText = currentTourType;
 
-                if (pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
-                const waMsgUrl = `https://wa.me/${activeWaNumber}?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
-                document.getElementById('pkg-whatsapp').href = waMsgUrl;
-                document.getElementById('pkg-enquire-btn').href = waMsgUrl;
-                document.getElementById('pkg-book-desktop').href = waMsgUrl;
-                document.getElementById('pkg-book-sticky').href = waMsgUrl;
+                    const priceFmt = '₹' + Number(pkg['Price'] || 0).toLocaleString('en-IN');
+                    document.getElementById('pkg-price-desktop').innerText = priceFmt;
+                    document.getElementById('pkg-price-mobile').innerText = priceFmt;
+                    document.getElementById('pkg-price-sticky').innerText = priceFmt;
 
-                if (pkg['Inclusions']) document.getElementById('pkg-inclusions').innerHTML = pkg['Inclusions'].split(',').map(i => `<li class="flex gap-2"><span class="text-green-500 font-bold">✔</span> ${i.trim()}</li>`).join('');
-                if (pkg['Exclusions']) document.getElementById('pkg-exclusions').innerHTML = pkg['Exclusions'].split(',').map(e => `<li class="flex gap-2"><span class="text-red-500 font-bold">✖</span> ${e.trim()}</li>`).join('');
+                    let durText = String(pkg['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").replace(/\s+/g, " ").trim().replace("🌙", " • 🌙");
+                    document.getElementById('pkg-duration').innerHTML = durText;
 
-                if (pkg['Itinerary']) {
-                    document.getElementById('pkg-itinerary').innerHTML = pkg['Itinerary'].split('|').map((dayStr, idx) => {
-                        if (!dayStr.trim()) return '';
-                        let parts = dayStr.split('::');
-                        let title = parts[0] ? parts[0].trim() : "Day Tour";
-                        let descHtml = parts[1] ? parts[1].trim() : "";
-                        let mealData = parts[2] ? parts[2].trim() : "";
+                    if (pkg['Image URL']) document.getElementById('pkg-image').src = pkg['Image URL'];
+                    const waMsgUrl = `https://wa.me/${activeWaNumber}?text=${encodeURIComponent('Hi, I want to book ' + currentPackageTitle)}`;
+                    document.getElementById('pkg-whatsapp').href = waMsgUrl;
+                    document.getElementById('pkg-enquire-btn').href = waMsgUrl;
+                    document.getElementById('pkg-book-desktop').href = waMsgUrl;
+                    document.getElementById('pkg-book-sticky').href = waMsgUrl;
 
-                        let mealBadges = '';
-                        if (mealData) {
-                            let mealArray = mealData.split(',');
-                            mealBadges = `<div class="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-2 items-center"><span class="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest mr-1">Meals:</span>`;
-                            mealArray.forEach(m => {
-                                let trimM = m.trim();
-                                if (!trimM) return;
-                                let c = trimM === 'No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
-                                        trimM === 'Breakfast' ? 'bg-green-50 text-green-700 border-gray-200' :
-                                        trimM === 'Lunch' ? 'bg-orange-50 text-orange-700 border-gray-200' :
-                                        trimM === 'Hi-Tea' ? 'bg-purple-50 text-purple-700 border-gray-200' :
-                                        'bg-blue-50 text-blue-700 border-gray-200';
-                                mealBadges += `<span class="${c} border text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">${trimM}</span>`;
-                            });
-                            mealBadges += `</div>`;
+                    if (pkg['Inclusions']) document.getElementById('pkg-inclusions').innerHTML = String(pkg['Inclusions']).split(',').map(i => `<li class="flex gap-2"><span class="text-green-500 font-bold">✔</span> ${i.trim()}</li>`).join('');
+                    if (pkg['Exclusions']) document.getElementById('pkg-exclusions').innerHTML = String(pkg['Exclusions']).split(',').map(e => `<li class="flex gap-2"><span class="text-red-500 font-bold">✖</span> ${e.trim()}</li>`).join('');
+
+                    if (pkg['Itinerary']) {
+                        document.getElementById('pkg-itinerary').innerHTML = String(pkg['Itinerary']).split('|').map((dayStr, idx) => {
+                            if (!dayStr.trim()) return '';
+                            let parts = dayStr.split('::');
+                            let title = parts[0] ? parts[0].trim() : "Day Tour";
+                            let descHtml = parts[1] ? parts[1].trim() : "";
+                            let mealData = parts[2] ? parts[2].trim() : "";
+
+                            let mealBadges = '';
+                            if (mealData) {
+                                let mealArray = mealData.split(',');
+                                mealBadges = `<div class="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-2 items-center"><span class="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest mr-1">Meals:</span>`;
+                                mealArray.forEach(m => {
+                                    let trimM = m.trim();
+                                    if (!trimM) return;
+                                    let c = trimM === 'No Meal' ? 'bg-gray-100 text-gray-600 border-gray-200' :
+                                            trimM === 'Breakfast' ? 'bg-green-50 text-green-700 border-gray-200' :
+                                            trimM === 'Lunch' ? 'bg-orange-50 text-orange-700 border-gray-200' :
+                                            trimM === 'Hi-Tea' ? 'bg-purple-50 text-purple-700 border-gray-200' :
+                                            'bg-blue-50 text-blue-700 border-gray-200';
+                                    mealBadges += `<span class="${c} border text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">${trimM}</span>`;
+                                });
+                                mealBadges += `</div>`;
+                            }
+
+                            return `
+                            <div class="border border-gray-200 rounded-xl bg-white overflow-hidden hover:border-brand-yellow transition">
+                                <button class="accordion-header ${idx === 0 ? 'active' : ''} w-full flex justify-between items-center p-4 bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+                                    <div class="flex items-center gap-4">
+                                        <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">Day ${idx + 1}</span>
+                                        <span class="font-semibold text-brand-black text-sm text-left">${title}</span>
+                                    </div>
+                                    <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content ${idx === 0 ? 'open' : ''} border-t border-gray-100 bg-white">
+                                    <p class="text-sm text-gray-600 font-medium leading-relaxed">${descHtml}</p>
+                                    ${mealBadges}
+                                </div>
+                            </div>`;
+                        }).join('');
+                    }
+
+                    let similarHTML = '';
+                    let indiaDestinations = {}, intlDestinations = {};
+
+                    data.forEach(p => {
+                        if (!p['Package ID']) return;
+                        let pLocParts = String(p['Location'] || "").split('|||');
+                        let pLoc = pLocParts[0];
+                        let pCat = pLocParts[1] || 'India';
+                        let pTourType = pLocParts[2] || 'Group Tour';
+                        let img = p['Image URL'];
+
+                        if (pLoc) {
+                            if (pCat === 'International') intlDestinations[pLoc] = img;
+                            else indiaDestinations[pLoc] = img;
                         }
 
-                        return `
-                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden hover:border-brand-yellow transition">
-                            <button class="accordion-header ${idx === 0 ? 'active' : ''} w-full flex justify-between items-center p-4 bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-                                <div class="flex items-center gap-4">
-                                    <span class="bg-brand-black text-brand-yellow text-xs font-bold px-2.5 py-1 rounded">Day ${idx + 1}</span>
-                                    <span class="font-semibold text-brand-black text-sm text-left">${title}</span>
+                        if (p['Package ID'] !== pkg['Package ID'] && pCat === currentCat) {
+                            let price = '₹' + Number(p['Price'] || 0).toLocaleString('en-IN');
+                            let pDur = String(p['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
+
+                            similarHTML += `
+                            <a href="package.html?id=${encodeURIComponent(p['Package ID'])}" class="group carousel-item flex-shrink-0 w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition block">
+                                <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">${pTourType}</span>
+                                <div class="relative h-36 overflow-hidden">
+                                    <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                    <span class="absolute bottom-2 left-2 text-white text-xs font-semibold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${pDur}</span>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content ${idx === 0 ? 'open' : ''} border-t border-gray-100 bg-white">
-                                <p class="text-sm text-gray-600 font-medium leading-relaxed">${descHtml}</p>
-                                ${mealBadges}
-                            </div>
-                        </div>`;
-                    }).join('');
-                }
-
-                let similarHTML = '';
-                let indiaDestinations = {}, intlDestinations = {};
-
-                data.forEach(p => {
-                    if (!p['Package ID']) return;
-                    let pLocParts = (p['Location'] || "").split('|||');
-                    let pLoc = pLocParts[0];
-                    let pCat = pLocParts[1] || 'India';
-                    let pTourType = pLocParts[2] || 'Group Tour';
-                    let img = p['Image URL'];
-
-                    if (pCat === 'International') intlDestinations[pLoc] = img;
-                    else indiaDestinations[pLoc] = img;
-
-                    if (p['Package ID'] !== pkg['Package ID'] && pCat === currentCat) {
-                        let price = '₹' + Number(p['Price']).toLocaleString('en-IN');
-                        let pDur = (p['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
-
-                        similarHTML += `
-                        <a href="package.html?id=${p['Package ID']}" class="group carousel-item flex-shrink-0 w-[260px] lg:w-[300px] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative pb-3 hover:shadow-lg transition block">
-                            <span class="absolute top-2 left-2 z-10 bg-brand-yellow text-brand-black text-[10px] font-bold px-2 py-1 rounded shadow">${pTourType}</span>
-                            <div class="relative h-36 overflow-hidden">
-                                <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                <span class="absolute bottom-2 left-2 text-white text-xs font-semibold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${pDur}</span>
-                            </div>
-                            <div class="px-3 pt-3">
-                                <h3 class="font-bold text-gray-900 text-sm truncate">${p['Title']}</h3>
-                                <p class="text-[11px] text-gray-500 mt-1 truncate">${pLoc}</p>
-                                <div class="flex justify-between items-end mt-3 pt-3 border-t border-gray-100">
-                                    <div><p class="text-[10px] text-gray-400">Starting from</p><p class="text-sm font-bold text-brand-black">${price}</p></div>
+                                <div class="px-3 pt-3">
+                                    <h3 class="font-bold text-gray-900 text-sm truncate">${p['Title']}</h3>
+                                    <p class="text-[11px] text-gray-500 mt-1 truncate">${pLoc}</p>
+                                    <div class="flex justify-between items-end mt-3 pt-3 border-t border-gray-100">
+                                        <div><p class="text-[10px] text-gray-400">Starting from</p><p class="text-sm font-bold text-brand-black">${price}</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>`;
-                    }
+                            </a>`;
+                        }
+                    });
+
+                    document.getElementById('similar-tours-slider').innerHTML = similarHTML || `<p class="text-sm text-gray-400 p-2">No other similar packages yet.</p>`;
+                    buildDropdowns(indiaDestinations, intlDestinations);
+
+                    stopTravelLoader();
+
+                    const slider = document.getElementById('similar-tours-slider');
+                    let scrollAmt = 0, scrollStep = window.innerWidth > 1024 ? 316 : 276;
+                    setInterval(() => {
+                        if (slider.matches(':hover') || slider.matches(':active') || slider.scrollWidth <= slider.clientWidth) return;
+                        scrollAmt += scrollStep; if (scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
+                        slider.scrollTo({ left: scrollAmt, behavior: 'smooth' });
+                    }, 3500);
+                })
+                .catch(err => {
+                    stopTravelLoader();
+                    document.getElementById('content').style.display = 'block';
+                    document.getElementById('content').innerHTML = `<div class="p-10 text-center text-red-600 font-bold">${err && err.message ? err.message : 'Connection Failed.'}</div>`;
                 });
-
-                document.getElementById('similar-tours-slider').innerHTML = similarHTML || `<p class="text-sm text-gray-400 p-2">No other similar packages yet.</p>`;
-                buildDropdowns(indiaDestinations, intlDestinations);
-
-                stopTravelLoader();
-
-                const slider = document.getElementById('similar-tours-slider');
-                let scrollAmt = 0, scrollStep = window.innerWidth > 1024 ? 316 : 276;
-                setInterval(() => {
-                    if (slider.matches(':hover') || slider.matches(':active') || slider.scrollWidth <= slider.clientWidth) return;
-                    scrollAmt += scrollStep; if (scrollAmt >= slider.scrollWidth - slider.clientWidth + 10) scrollAmt = 0;
-                    slider.scrollTo({ left: scrollAmt, behavior: 'smooth' });
-                }, 3500);
-            }).catch(() => {
-                stopTravelLoader();
-                document.getElementById('content').innerHTML = `<div class="p-10 text-center text-red-500 font-bold">Connection Failed.</div>`;
-            });
         }
 
         function handleDownload(e) {
