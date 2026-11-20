@@ -176,7 +176,7 @@
             </section>
         </div>
 
-        <!-- CLEAN DYNAMIC CMS FOOTER (NO[cite: 1]) -->
+        <!-- DYNAMIC CMS FOOTER -->
         <footer class="bg-[#111111] text-white pt-12 pb-24 lg:pb-12 border-t-[5px] border-brand-yellow">
             <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="col-span-1 lg:col-span-1">
@@ -426,7 +426,11 @@
                 const data = Array.isArray(payload) ? payload : (payload.packages || []);
                 if (payload.settings) applyCmsSettings(payload.settings);
 
-                const pkg = data.find(p => p['Package ID'] === packageId);
+                const targetId = String(packageId).trim().toLowerCase();
+                const pkg = data.find(p => {
+                    const rowId = String(p['Package ID'] || '').trim().toLowerCase();
+                    return rowId === targetId || rowId.startsWith(targetId + '-');
+                });
                 if (!pkg) throw new Error("Not Found");
 
                 currentPackageTitle = pkg['Title'];
@@ -515,7 +519,7 @@
                     if (pCat === 'International') intlDestinations[pLoc] = img;
                     else indiaDestinations[pLoc] = img;
 
-                    if (p['Package ID'] !== packageId && pCat === currentCat) {
+                    if (p['Package ID'] !== pkg['Package ID'] && pCat === currentCat) {
                         let price = '₹' + Number(p['Price']).toLocaleString('en-IN');
                         let pDur = (p['Duration'] || "").replace(/(\d+)\s*[dD](ays?)?/g, "☀️ $1D").replace(/(\d+)\s*[nN](ights?)?/g, "🌙 $1N").replace(/•/g, "").trim().replace("🌙", " • 🌙");
 
