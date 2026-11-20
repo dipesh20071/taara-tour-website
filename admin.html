@@ -69,16 +69,31 @@
         <div class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-10 relative">
             <div id="view-add" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8 transition-all">
                 
-                <!-- AI ASSISTANT BANNER -->
-                <div class="bg-gradient-to-r from-gray-900 to-brand-black p-4 rounded-xl text-white mb-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-md">
-                    <div>
-                        <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">AI Assistant</span>
-                        <h3 class="font-bold text-sm mt-1">Need help writing itineraries or descriptions?</h3>
-                        <p class="text-xs text-gray-300">Type destination to generate instantly.</p>
+                <!-- SECURE AI ASSISTANT BANNER (NO KEY EXPOSED) -->
+                <div class="bg-gradient-to-r from-gray-900 to-brand-black p-4 rounded-xl text-white mb-6 shadow-md">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <span class="bg-brand-yellow text-brand-black text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Secure AI Architect</span>
+                            <h3 class="font-bold text-sm mt-1">Want custom itinerary & details generated?</h3>
+                            <p class="text-xs text-gray-300">Type destination & duration, review the preview, then approve!</p>
+                        </div>
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <input type="text" id="ai-prompt-input" placeholder="e.g. 4 Days Bangkok & Pattaya..." class="px-3 py-1.5 rounded text-xs text-black outline-none flex-1 md:w-48">
+                            <button type="button" onclick="generateAIPreview()" class="bg-brand-yellow text-brand-black font-bold px-4 py-1.5 rounded text-xs hover:bg-yellow-400 transition whitespace-nowrap">✨ Generate Preview</button>
+                        </div>
                     </div>
-                    <div class="flex gap-2 w-full md:w-auto">
-                        <input type="text" id="ai-prompt-input" placeholder="e.g. Goa 4 Days..." class="px-3 py-1.5 rounded text-xs text-black outline-none flex-1 md:w-48">
-                        <button type="button" onclick="askGeminiAI()" class="bg-brand-yellow text-brand-black font-bold px-4 py-1.5 rounded text-xs hover:bg-yellow-400 transition whitespace-nowrap">✨ Generate with AI</button>
+
+                    <!-- AI PREVIEW BOX -->
+                    <div id="ai-preview-box" class="hidden mt-4 pt-4 border-t border-gray-800 bg-black/40 p-4 rounded-lg space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-brand-yellow font-bold text-xs uppercase tracking-wider">🔍 AI Generated Preview (Review Before Implanting)</h4>
+                            <span id="preview-status" class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold">Ready to Review</span>
+                        </div>
+                        <div id="ai-preview-content" class="text-xs text-gray-200 space-y-2 bg-gray-900/80 p-3 rounded border border-gray-800 max-h-48 overflow-y-auto"></div>
+                        <div class="flex gap-3 justify-end pt-1">
+                            <button type="button" onclick="discardAIPreview()" class="bg-red-500/20 text-red-300 font-bold px-3 py-1.5 rounded text-xs hover:bg-red-500/30 transition">❌ Discard</button>
+                            <button type="button" onclick="approveAIPreview()" class="bg-brand-yellow text-brand-black font-extrabold px-4 py-1.5 rounded text-xs hover:bg-yellow-400 transition">✅ Approve & Fill Form</button>
+                        </div>
                     </div>
                 </div>
 
@@ -108,7 +123,7 @@
                             <datalist id="dest-list"></datalist>
                         </div>
 
-                        <!-- TOUR TYPE & TIERED PRICING (FOR BOTH GROUP & PRIVATE) -->
+                        <!-- TOUR TYPE & TIERED PRICING -->
                         <div class="md:col-span-2 bg-white border border-gray-300 p-4 rounded-lg space-y-3">
                             <div class="flex justify-between items-center">
                                 <label class="block text-xs font-bold text-brand-black uppercase">Tour Type *</label>
@@ -220,6 +235,7 @@
         const intlList = ["Almaty", "Australia", "Azerbaijan", "Baku", "Bali", "Bhutan", "Cambodia", "Canada", "Dubai", "Egypt", "Europe", "France", "Germany", "Greece", "Hong Kong", "Indonesia", "Italy", "Japan", "Kenya", "Malaysia", "Maldives", "Mauritius", "Nepal", "New Zealand", "Oman", "Philippines", "Qatar", "Russia", "Saudi Arabia", "Seychelles", "Singapore", "South Africa", "South Korea", "Spain", "Sri Lanka", "Switzerland", "Thailand", "Turkey", "USA", "UK", "Vietnam"];
         
         let allPackagesData = []; 
+        let tempGeneratedAI = null; 
 
         function toggleTierPricing() {
             const isChecked = document.getElementById('enableTierToggle').checked;
@@ -231,28 +247,79 @@
             document.getElementById('offerTimerFields').classList.toggle('hidden', !isChecked);
         }
 
-        // INSTANT FRONTEND AI ASSISTANT (Bina kisi error ke makkhan chalega)
-        function askGeminiAI() {
+        // SECURE BACKEND AI CALL (No Key Exposed in GitHub)
+        function generateAIPreview() {
             const prompt = document.getElementById('ai-prompt-input').value.trim();
-            if(!prompt) { alert("Please type a topic or destination for AI (e.g., Goa 4 Days)"); return; }
+            if(!prompt) { alert("Please type what you want (e.g., 4 Days Kashmir Special)"); return; }
             
             const btn = event.target;
-            btn.innerText = "Generating...";
+            btn.innerText = "Gemini is thinking...";
             
-            setTimeout(() => {
-                document.getElementById('pTitle').value = prompt.charAt(0).toUpperCase() + prompt.slice(1) + " Holiday Experience";
-                document.getElementById('pInc').value = "Premium Accommodation\nDaily Breakfast & Dinner\nAll Sightseeing in AC Cab\nAirport Transfers";
-                document.getElementById('pExc').value = "Airfare / Train Tickets\nPersonal Expenses\nEntry Fees";
-                
-                const container = document.getElementById('itinerary-container');
-                container.innerHTML = '';
-                addDay(null, "Arrival & Local Exploration", "Arrive at destination, check-in to hotel. Evening is free for leisure.", "Dinner");
-                addDay(null, "Major Sightseeing", "After breakfast, proceed for full day city tour covering all famous spots.", "Breakfast,Dinner");
-                addDay(null, "Departure", "Enjoy breakfast, check-out and transfer to airport/station for return journey.", "Breakfast");
-                
-                btn.innerText = "✨ Generate with AI";
-                alert("AI successfully generated package details!");
-            }, 600);
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "generate_ai", prompt: prompt }),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerText = "✨ Generate Preview";
+                if(data.result === 'success' && data.aiData) {
+                    const aiData = data.aiData;
+                    
+                    let itineraryHTML = `
+                        <p><strong>Suggested Title:</strong> ${aiData.title || prompt}</p>
+                        <p><strong>Inclusions:</strong> ${aiData.inclusions || ""}</p>
+                        <p><strong>Exclusions:</strong> ${aiData.exclusions || ""}</p>
+                        <p><strong>Day-by-Day Plan:</strong></p>
+                        <ul class="list-disc pl-5 space-y-1">
+                    `;
+                    
+                    if(aiData.itinerary && Array.isArray(aiData.itinerary)) {
+                        aiData.itinerary.forEach((day, idx) => {
+                            itineraryHTML += `<li><strong>Day ${idx+1} (${day.title}):</strong> ${day.description}</li>`;
+                        });
+                    }
+                    itineraryHTML += `</ul>`;
+
+                    tempGeneratedAI = aiData;
+
+                    document.getElementById('ai-preview-content').innerHTML = itineraryHTML;
+                    document.getElementById('ai-preview-box').classList.remove('hidden');
+                } else {
+                    alert("AI Generation failed. Please check backend deployment.");
+                }
+            })
+            .catch(err => {
+                btn.innerText = "✨ Generate Preview";
+                alert("Network error during AI preview generation.");
+            });
+        }
+
+        function discardAIPreview() {
+            tempGeneratedAI = null;
+            document.getElementById('ai-preview-box').classList.add('hidden');
+        }
+
+        function approveAIPreview() {
+            if(!tempGeneratedAI) return;
+            
+            document.getElementById('pTitle').value = tempGeneratedAI.title || "";
+            document.getElementById('pInc').value = (tempGeneratedAI.inclusions || "").replace(/,\s*/g, '\n');
+            document.getElementById('pExc').value = (tempGeneratedAI.exclusions || "").replace(/,\s*/g, '\n');
+
+            const container = document.getElementById('itinerary-container');
+            container.innerHTML = '';
+            if(tempGeneratedAI.itinerary && Array.isArray(tempGeneratedAI.itinerary)) {
+                tempGeneratedAI.itinerary.forEach(day => {
+                    addDay(null, day.title || "Tour Day", day.description || "", "Breakfast,Dinner");
+                });
+            } else {
+                addDay(null, "Day 1", "Explore local attractions.", "Breakfast");
+            }
+
+            document.getElementById('ai-preview-box').classList.add('hidden');
+            tempGeneratedAI = null;
+            alert("✅ AI details successfully approved and filled into the form!");
         }
 
         function updateDestinations() {
@@ -517,7 +584,7 @@
                     setTimeout(resetFormToAdd, 2000);
                 } else {
                     msgBox.className = "text-sm font-bold p-4 rounded-xl bg-red-50 text-red-700 block";
-                    msgBox.innerHTML = `❌ <strong>Failed:</strong> ${data.message || data.error}`;
+                    msgBox.innerHTML = `❌ <strong>Failed: `${data.message || data.error}</strong>`;
                 }
                 btn.innerHTML = mode==='edit' ? "💾 Update Package" : "🚀 Publish Package";
             });
