@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Taara Tour & Travels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], }, colors: { brand: { yellow: '#FFC500', yellowHover: '#E5B100', black: '#1A1A1A', lightBg: '#F8F9FA' } } } } }
+    </script>
+</head>
+<body class="bg-brand-lightBg text-gray-800 min-h-screen flex flex-col justify-between">
+    <header class="bg-white shadow-sm h-16 flex items-center px-4">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <img src="logo.png" alt="Taara Tour Logo" class="h-10 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="hidden bg-brand-black text-brand-yellow font-extrabold text-xl px-3 py-1 rounded-lg">Taara <span class="text-white text-sm">Tours</span></div>
+            </a>
+            <a href="tel:+917016036767" class="text-xs font-bold text-brand-black">+91 70160 36767</a>
+        </div>
+    </header>
+
+    <main class="max-w-xl mx-auto px-5 py-16 text-center">
+        <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 md:p-10 space-y-5">
+            <div class="inline-block bg-brand-black text-brand-yellow font-extrabold text-2xl px-4 py-1.5 rounded-xl border-b-4 border-brand-yellow">
+                Taara Tour & Travels
+            </div>
+            <p class="text-xs font-extrabold uppercase tracking-widest text-yellow-600">Let's Get You Back On Track</p>
+            <h1 class="text-2xl md:text-3xl font-black text-brand-black">We Couldn't Load That Page</h1>
+            <p class="text-sm text-gray-600 leading-relaxed">
+                The tour link may have moved or the connection took a moment. Return to our packages or connect directly with our Surat desk.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <a href="index.html" class="bg-brand-yellow text-brand-black font-extrabold px-6 py-3 rounded-xl shadow hover:bg-brand-yellowHover transition">
+                    🏠 Back to Home
+                </a>
+                <a href="https://wa.me/917016036767?text=Hi%20Taara%20Tour%20%26%20Travels%2C%20I%20need%20help%20with%20a%20tour%20package." target="_blank" class="bg-brand-black text-white font-bold px-6 py-3 rounded-xl shadow hover:bg-gray-800 transition">
+                    💬 WhatsApp Support
+                </a>
+            </div>
+            <p class="text-xs text-gray-400 pt-2">Shop No 2, Building No A1, Umiya Nagar, Sagrampura, Surat - 395002</p>
+        </div>
+    </main>
+
+    <footer class="bg-[#111111] text-gray-400 text-xs py-5 px-4 text-center border-t-4 border-brand-yellow">
+        Taara Tour & Travels Copyright © 2026. All Rights Reserved.
+    </footer>
+</body>
+</html>
