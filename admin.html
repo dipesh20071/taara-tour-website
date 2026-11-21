@@ -21,9 +21,9 @@
     <div id="login-screen" class="w-full max-w-md bg-white p-8 md:rounded-2xl shadow-xl border border-gray-100 h-full md:h-auto flex flex-col justify-center">
         <div class="text-center mb-8">
             <div class="bg-brand-black inline-block px-4 py-2 rounded-lg border-b-4 border-brand-yellow mb-4">
-                <span class="text-brand-yellow font-extrabold text-2xl">Taara</span> <span class="text-white text-lg font-semibold">Admin</span>
+                <span class="text-brand-yellow font-extrabold text-2xl">Taara</span> <span class="text-white text-lg font-semibold">Portal</span>
             </div>
-            <p class="text-gray-500 text-sm">Secure Staff Portal</p>
+            <p class="text-gray-500 text-sm">Admin & Staff Secure Login</p>
         </div>
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-5">
             <div id="login-error" class="hidden text-sm text-red-600 bg-red-50 p-3 rounded-lg font-bold text-center"></div>
@@ -44,13 +44,13 @@
 
         <!-- MOBILE TOP BAR -->
         <div class="md:hidden bg-brand-black text-white p-2.5 flex justify-between items-center shadow-md z-50 overflow-x-auto gap-1">
-            <span class="text-brand-yellow font-extrabold text-base shrink-0">Taara <span class="text-white text-[10px]">CMS</span></span>
+            <span class="text-brand-yellow font-extrabold text-base shrink-0">Taara <span id="mob-role-badge" class="text-white text-[10px] uppercase">CMS</span></span>
             <div class="flex gap-1 shrink-0">
                 <button onclick="switchTab('add')" id="mob-tab-add" class="mob-tab-btn mob-tab-active text-[10px] px-2 py-1.5 bg-brand-yellow text-brand-black rounded font-bold">➕ Add</button>
                 <button onclick="switchTab('manage')" id="mob-tab-manage" class="mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">📦 Pkgs</button>
                 <button onclick="switchTab('activities')" id="mob-tab-activities" class="mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">🎟️ Links</button>
-                <button onclick="switchTab('header')" id="mob-tab-header" class="mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">🎨 Hero</button>
-                <button onclick="switchTab('footer')" id="mob-tab-footer" class="mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">🦶 Footer</button>
+                <button onclick="switchTab('header')" id="mob-tab-header" class="cms-only-mob mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">🎨 Hero</button>
+                <button onclick="switchTab('footer')" id="mob-tab-footer" class="cms-only-mob mob-tab-btn text-[10px] px-2 py-1.5 bg-white/10 text-gray-300 rounded font-bold">🦶 Footer</button>
                 <button onclick="logout()" class="text-[10px] px-2 py-1.5 bg-red-500/20 text-red-400 rounded font-bold">Exit</button>
             </div>
         </div>
@@ -58,8 +58,9 @@
         <!-- DESKTOP SIDEBAR -->
         <div class="hidden md:flex w-64 bg-brand-black text-white flex-col flex-shrink-0">
             <div class="p-6 border-b border-gray-800 text-center">
-                <span class="text-brand-yellow font-extrabold text-xl">Taara</span> <span class="text-white text-md font-semibold">Admin & CMS</span>
+                <span class="text-brand-yellow font-extrabold text-xl">Taara</span> <span class="text-white text-md font-semibold">Dashboard</span>
                 <p class="text-xs text-gray-400 mt-2" id="welcomeName">Welcome</p>
+                <span id="roleBadge" class="inline-block mt-1.5 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-brand-yellow text-brand-black">Admin</span>
             </div>
             <nav class="flex-1 p-3 space-y-1.5 overflow-y-auto">
                 <p class="text-[10px] uppercase font-bold text-gray-500 px-3 pt-2">Tour Packages</p>
@@ -69,9 +70,11 @@
                 <p class="text-[10px] uppercase font-bold text-gray-500 px-3 pt-4">Affiliate Activities</p>
                 <button onclick="switchTab('activities')" id="tab-activities" class="tab-btn w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm">🎟️ Klook / GYG Links</button>
 
-                <p class="text-[10px] uppercase font-bold text-gray-500 px-3 pt-4">Website Layout (CMS)</p>
-                <button onclick="switchTab('header')" id="tab-header" class="tab-btn w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm">🎨 Header & Hero Body</button>
-                <button onclick="switchTab('footer')" id="tab-footer" class="tab-btn w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm">🦶 Footer & Links</button>
+                <div class="cms-only-section">
+                    <p class="text-[10px] uppercase font-bold text-gray-500 px-3 pt-4">Website Layout (CMS)</p>
+                    <button onclick="switchTab('header')" id="tab-header" class="tab-btn w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm mt-1">🎨 Header & Hero Body</button>
+                    <button onclick="switchTab('footer')" id="tab-footer" class="tab-btn w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm mt-1">🦶 Footer & Socials</button>
+                </div>
 
                 <div class="pt-4">
                     <a href="index.html" target="_blank" class="w-full text-left px-3.5 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition text-sm block">🌐 View Website</a>
@@ -172,9 +175,13 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Duration *</label>
                             <input type="text" id="pDuration" required placeholder="e.g. 5 Days 4 Nights" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
-                        <div class="md:col-span-2">
+                        <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Cover Image Link *</label>
                             <input type="url" id="pImage" required class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Package WhatsApp Number (Optional)</label>
+                            <input type="text" id="pWhatsapp" placeholder="Default: 917016036767" class="w-full px-4 py-2.5 border rounded-lg focus:border-brand-yellow outline-none bg-white">
                         </div>
 
                         <div class="md:col-span-2 bg-yellow-50/50 border border-yellow-200 p-4 rounded-lg space-y-3">
@@ -241,7 +248,7 @@
                 </div>
             </div>
 
-            <!-- 3. AFFILIATE ACTIVITIES VIEW (Klook / GetYourGuide / Custom) -->
+            <!-- 3. AFFILIATE ACTIVITIES VIEW -->
             <div id="view-activities" class="hidden max-w-5xl mx-auto space-y-6">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8">
                     <h2 id="act-form-title" class="text-xl md:text-2xl font-extrabold text-gray-900 border-b pb-4 mb-6 flex items-center gap-2">
@@ -299,10 +306,10 @@
                 </div>
             </div>
 
-            <!-- 4. HEADER & HERO BODY CMS VIEW -->
+            <!-- 4. HEADER & HERO BODY CMS VIEW (ADMIN ONLY) -->
             <div id="view-header" class="hidden max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8">
                 <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 border-b pb-4 mb-6 flex items-center gap-2">
-                    <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Header & Hero Banner Settings
+                    <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Header, Hero Body & Booking Mode
                 </h2>
                 <form id="headerCmsForm" onsubmit="saveCmsSection(event, 'header')" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -315,10 +322,17 @@
                             <input type="text" id="cmsHeaderPhone" placeholder="+91 70160 36767" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">WhatsApp Number (Country Code + No.)</label>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Default WhatsApp Number</label>
                             <input type="text" id="cmsWhatsappNo" placeholder="917016036767" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
                         </div>
                         <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Booking Flow Mode (Future Gateway Ready)</label>
+                            <select id="cmsBookingMode" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm font-bold">
+                                <option value="whatsapp">WhatsApp Booking (Active)</option>
+                                <option value="online_ready">Online Payment Gateway Mode (Future Ready)</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Hero Background Image URL</label>
                             <input type="url" id="cmsHeroImage" placeholder="https://..." class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
                         </div>
@@ -340,10 +354,10 @@
                 </form>
             </div>
 
-            <!-- 5. FOOTER CMS VIEW -->
+            <!-- 5. FOOTER & SOCIAL MEDIA CMS VIEW (ADMIN ONLY) -->
             <div id="view-footer" class="hidden max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-5 md:p-8">
                 <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 border-b pb-4 mb-6 flex items-center gap-2">
-                    <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Footer & Navigation Links Manager
+                    <span class="w-2 h-6 bg-brand-yellow rounded-full"></span> Footer, Social Media & Links Manager
                 </h2>
                 <form id="footerCmsForm" onsubmit="saveCmsSection(event, 'footer')" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -367,13 +381,49 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Office Address</label>
                             <input type="text" id="cmsFooterAddress" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Instagram URL</label>
-                            <input type="url" id="cmsFooterInsta" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
-                        </div>
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-gray-700 mb-1 uppercase">Copyright Line</label>
                             <input type="text" id="cmsFooterCopy" class="w-full px-4 py-2.5 border rounded-lg bg-gray-50 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- SOCIAL MEDIA ON/OFF & LINKS -->
+                    <div class="border-t pt-4 space-y-3">
+                        <label class="block text-xs font-bold text-gray-800 uppercase">Social Media Icons (Toggle On/Off & Add Link)</label>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border">
+                            <label class="md:col-span-3 flex items-center gap-2 text-xs font-bold">
+                                <input type="checkbox" id="showWhatsapp" class="w-4 h-4 accent-brand-black"> WhatsApp
+                            </label>
+                            <input type="url" id="whatsappUrl" placeholder="https://wa.me/917016036767" class="md:col-span-9 px-3 py-2 border rounded-lg text-xs bg-white">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border">
+                            <label class="md:col-span-3 flex items-center gap-2 text-xs font-bold">
+                                <input type="checkbox" id="showInstagram" class="w-4 h-4 accent-brand-black"> Instagram
+                            </label>
+                            <input type="url" id="instagramUrl" placeholder="https://www.instagram.com/..." class="md:col-span-9 px-3 py-2 border rounded-lg text-xs bg-white">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border">
+                            <label class="md:col-span-3 flex items-center gap-2 text-xs font-bold">
+                                <input type="checkbox" id="showFacebook" class="w-4 h-4 accent-brand-black"> Facebook
+                            </label>
+                            <input type="url" id="facebookUrl" placeholder="https://www.facebook.com/..." class="md:col-span-9 px-3 py-2 border rounded-lg text-xs bg-white">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border">
+                            <label class="md:col-span-3 flex items-center gap-2 text-xs font-bold">
+                                <input type="checkbox" id="showYoutube" class="w-4 h-4 accent-brand-black"> YouTube
+                            </label>
+                            <input type="url" id="youtubeUrl" placeholder="https://www.youtube.com/..." class="md:col-span-9 px-3 py-2 border rounded-lg text-xs bg-white">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border">
+                            <label class="md:col-span-3 flex items-center gap-2 text-xs font-bold">
+                                <input type="checkbox" id="showLinkedin" class="w-4 h-4 accent-brand-black"> LinkedIn
+                            </label>
+                            <input type="url" id="linkedinUrl" placeholder="https://www.linkedin.com/..." class="md:col-span-9 px-3 py-2 border rounded-lg text-xs bg-white">
                         </div>
                     </div>
 
@@ -412,6 +462,7 @@
         let allPackagesData = [];
         let allActivitiesData = [];
         let siteSettingsData = {};
+        let currentUserRole = "Admin";
         let tempGeneratedAI = null;
 
         function toggleTierPricing() {
@@ -419,6 +470,23 @@
         }
         function toggleOfferTimer() {
             document.getElementById('offerTimerFields').classList.toggle('hidden', !document.getElementById('enableOfferTimer').checked);
+        }
+
+        function applyRolePermissions(role) {
+            currentUserRole = (role || "Admin").trim();
+            const isStaff = currentUserRole.toLowerCase() === "staff";
+            const badge = document.getElementById('roleBadge');
+            const mobBadge = document.getElementById('mob-role-badge');
+            if (badge) badge.innerText = currentUserRole;
+            if (mobBadge) mobBadge.innerText = currentUserRole;
+
+            document.querySelectorAll('.cms-only-section, .cms-only-mob').forEach(el => {
+                el.style.display = isStaff ? 'none' : '';
+            });
+            if (isStaff) {
+                document.getElementById('view-header').classList.add('hidden');
+                document.getElementById('view-footer').classList.add('hidden');
+            }
         }
 
         function generateAIPreview() {
@@ -489,17 +557,18 @@
         window.onload = () => {
             updateDestinations();
             if (localStorage.getItem('taara_admin_logged_in') === 'true') {
-                showDashboard(localStorage.getItem('taara_admin_name'));
+                showDashboard(localStorage.getItem('taara_admin_name'), localStorage.getItem('taara_admin_role') || 'Admin');
             }
         };
 
-        function showDashboard(name) {
+        function showDashboard(name, role) {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
             document.getElementById('body-container').classList.remove('items-center', 'justify-center');
             document.getElementById('welcomeName').innerText = "Welcome, " + (name || "Admin");
+            applyRolePermissions(role || "Admin");
             if (document.getElementById('itinerary-container').children.length === 0) addDay();
-            loadSiteCmsData();
+            if (currentUserRole.toLowerCase() !== "staff") loadSiteCmsData();
         }
 
         function logout() { localStorage.clear(); location.reload(); }
@@ -522,9 +591,11 @@
             .then(res => res.json())
             .then(data => {
                 if (data.result === 'success') {
+                    const r = data.role || "Admin";
                     localStorage.setItem('taara_admin_logged_in', 'true');
                     localStorage.setItem('taara_admin_name', data.name);
-                    showDashboard(data.name);
+                    localStorage.setItem('taara_admin_role', r);
+                    showDashboard(data.name, r);
                 } else {
                     errBox.innerText = data.message || "Invalid Credentials!";
                     errBox.classList.remove('hidden');
@@ -534,6 +605,9 @@
         }
 
         function switchTab(tabName, isEditing = false) {
+            if ((tabName === 'header' || tabName === 'footer') && currentUserRole.toLowerCase() === 'staff') {
+                tabName = 'add';
+            }
             const allTabs = ['add', 'manage', 'activities', 'header', 'footer'];
             allTabs.forEach(t => {
                 const dBtn = document.getElementById('tab-' + t);
@@ -578,7 +652,7 @@
                 let html = '';
                 allPackagesData.forEach(pkg => {
                     if (!pkg['Package ID']) return;
-                    let locParts = (pkg['Location'] || "").split('|||');
+                    let locParts = String(pkg['Location'] || "").split('|||');
                     html += `<tr class="hover:bg-gray-50">
                         <td class="p-4 border-b border-gray-100">
                             <div class="font-bold text-gray-900">${pkg['Title']}</div>
@@ -611,7 +685,11 @@
             document.getElementById('addBtn').innerHTML = "💾 Update Details";
             document.getElementById('cancelEditBtn').classList.remove('hidden');
 
-            let locParts = (pkg['Location'] || "").split('|||');
+            let rawLoc = String(pkg['Location'] || "");
+            let waSplit = rawLoc.split('~~~');
+            document.getElementById('pWhatsapp').value = waSplit[1] || '';
+
+            let locParts = (waSplit[0] || "").split('|||');
             document.getElementById('pCategory').value = locParts[1] || "India";
             updateDestinations();
             document.getElementById('pLocation').value = locParts[0] || "";
@@ -700,7 +778,7 @@
         }
         function removeDay(btn) { if (document.getElementById('itinerary-container').children.length > 1) { btn.closest('.day-entry').remove(); updateDayNumbers(); } }
         function moveUp(btn) { const cur = btn.closest('.day-entry'); if (cur.previousElementSibling) { cur.parentNode.insertBefore(cur, cur.previousElementSibling); updateDayNumbers(); } }
-        function moveDown(btn) { const cur = btn.closest('.day-entry'); if (cur.nextElementSibling) { cur.parentNode.insertBefore(cur.nextElementSibling, cur); updateDayNumbers(); } }
+        function moveDown(btn) { const cur = btn.closest('.day-entry'); if (cur.nextElementSibling) { cur.parentNode.insertBefore(cur, cur.nextElementSibling); updateDayNumbers(); } }
         function updateDayNumbers() {
             const days = document.querySelectorAll('.day-entry');
             days.forEach((day, i) => {
@@ -745,7 +823,9 @@
                 if (exp) timerStr = exp + "***" + txt;
             }
 
+            let pkgWa = document.getElementById('pWhatsapp').value.replace(/\D/g, '').trim();
             let secretLocation = `${document.getElementById('pLocation').value.trim()}|||${document.getElementById('pCategory').value}|||${document.getElementById('pTourType').value}|||${tierStr}|||${timerStr}`;
+            if (pkgWa) secretLocation += `~~~${pkgWa}`;
 
             const payload = {
                 action: mode === 'edit' ? "update_package" : "add_package",
@@ -857,7 +937,7 @@
             document.getElementById('actCancelBtn').classList.add('hidden');
         }
 
-        // SITE CMS (HEADER, HERO, FOOTER)
+        // SITE CMS (ADMIN ONLY)
         function loadSiteCmsData() {
             fetch(scriptURL + "?type=settings").then(res => res.json()).then(s => {
                 if (s && !s.error) {
@@ -896,6 +976,7 @@
             document.getElementById('cmsLogoUrl').value = s.logoUrl || 'logo.png';
             document.getElementById('cmsHeaderPhone').value = s.headerPhone || '+91 70160 36767';
             document.getElementById('cmsWhatsappNo').value = s.whatsappNumber || '917016036767';
+            document.getElementById('cmsBookingMode').value = s.bookingMode || 'whatsapp';
             document.getElementById('cmsHeroImage').value = s.heroImage || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
             document.getElementById('cmsHeroLine1').value = s.heroHeadingLine1 || 'Your Journey,';
             document.getElementById('cmsHeroHighlight').value = s.heroHeadingHighlight || 'Our Expertise.';
@@ -906,8 +987,18 @@
             document.getElementById('cmsFooterPhone1').value = s.footerPhone1 || '+91 70160 36767';
             document.getElementById('cmsFooterPhone2').value = s.footerPhone2 || '+91 93276 32276';
             document.getElementById('cmsFooterEmail').value = s.footerEmail || 'taaratour@gmail.com';
-            document.getElementById('cmsFooterInsta').value = s.footerInstagram || 'https://www.instagram.com/';
             document.getElementById('cmsFooterCopy').value = s.footerCopyright || 'Taara Tour & Travels Copyright © 2026. All Rights Reserved.';
+
+            document.getElementById('showWhatsapp').checked = String(s.showWhatsapp !== undefined ? s.showWhatsapp : 'true') === 'true';
+            document.getElementById('whatsappUrl').value = s.whatsappUrl || 'https://wa.me/917016036767';
+            document.getElementById('showInstagram').checked = String(s.showInstagram !== undefined ? s.showInstagram : 'true') === 'true';
+            document.getElementById('instagramUrl').value = s.instagramUrl || 'https://www.instagram.com/';
+            document.getElementById('showFacebook').checked = String(s.showFacebook || 'false') === 'true';
+            document.getElementById('facebookUrl').value = s.facebookUrl || '';
+            document.getElementById('showYoutube').checked = String(s.showYoutube || 'false') === 'true';
+            document.getElementById('youtubeUrl').value = s.youtubeUrl || '';
+            document.getElementById('showLinkedin').checked = String(s.showLinkedin || 'false') === 'true';
+            document.getElementById('linkedinUrl').value = s.linkedinUrl || '';
 
             renderLinksList('quick-links-list', s.quickLinksJson, [
                 { label: "Group Tours", url: "index.html" },
@@ -934,10 +1025,15 @@
 
         function saveCmsSection(e, section) {
             e.preventDefault();
+            if (currentUserRole.toLowerCase() === 'staff') {
+                alert("Only Admin can change site layout settings.");
+                return;
+            }
             const updated = Object.assign({}, siteSettingsData, {
                 logoUrl: document.getElementById('cmsLogoUrl').value.trim(),
                 headerPhone: document.getElementById('cmsHeaderPhone').value.trim(),
                 whatsappNumber: document.getElementById('cmsWhatsappNo').value.trim(),
+                bookingMode: document.getElementById('cmsBookingMode').value,
                 heroImage: document.getElementById('cmsHeroImage').value.trim(),
                 heroHeadingLine1: document.getElementById('cmsHeroLine1').value.trim(),
                 heroHeadingHighlight: document.getElementById('cmsHeroHighlight').value.trim(),
@@ -947,8 +1043,17 @@
                 footerPhone1: document.getElementById('cmsFooterPhone1').value.trim(),
                 footerPhone2: document.getElementById('cmsFooterPhone2').value.trim(),
                 footerEmail: document.getElementById('cmsFooterEmail').value.trim(),
-                footerInstagram: document.getElementById('cmsFooterInsta').value.trim(),
                 footerCopyright: document.getElementById('cmsFooterCopy').value.trim(),
+                showWhatsapp: String(document.getElementById('showWhatsapp').checked),
+                whatsappUrl: document.getElementById('whatsappUrl').value.trim(),
+                showInstagram: String(document.getElementById('showInstagram').checked),
+                instagramUrl: document.getElementById('instagramUrl').value.trim(),
+                showFacebook: String(document.getElementById('showFacebook').checked),
+                facebookUrl: document.getElementById('facebookUrl').value.trim(),
+                showYoutube: String(document.getElementById('showYoutube').checked),
+                youtubeUrl: document.getElementById('youtubeUrl').value.trim(),
+                showLinkedin: String(document.getElementById('showLinkedin').checked),
+                linkedinUrl: document.getElementById('linkedinUrl').value.trim(),
                 quickLinksJson: collectLinks('quick-links-list'),
                 supportLinksJson: collectLinks('support-links-list')
             });
