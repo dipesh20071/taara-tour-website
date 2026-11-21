@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Loading Package... - Taara Tour & Travels</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="shortcut icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -136,7 +138,7 @@
         <div class="relative w-full h-[350px] md:h-[450px] bg-brand-black">
             <img id="pkg-image" src="" alt="Tour Image" class="w-full h-full object-cover opacity-90 transition-opacity duration-500">
             <div class="absolute top-4 right-4 flex flex-col gap-3">
-                <button onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="w-10 h-10 bg-white/90 hover:bg-brand-yellow text-brand-black rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm transition">
+                <button id="pdf-hero-btn" onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="hidden w-10 h-10 bg-white/90 hover:bg-brand-yellow text-brand-black rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm transition" title="Download PDF">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </button>
                 <a id="pkg-whatsapp" href="#" target="_blank" class="w-10 h-10 bg-[#25D366] hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition">
@@ -185,7 +187,7 @@
                         <div class="flex items-end gap-2 mb-6"><span id="pkg-price-desktop" class="text-3xl font-black text-brand-black">₹--</span><span class="text-sm text-gray-500 font-medium mb-1">/ person</span></div>
                         <div class="space-y-3">
                             <button id="pkg-book-desktop" onclick="handleBookAction()" class="block text-center w-full bg-brand-yellow text-brand-black font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Proceed to Book</button>
-                            <button onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="w-full bg-[#1A1A1A] text-white font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Download PDF</button>
+                            <button id="pdf-download-btn" onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="hidden w-full bg-[#1A1A1A] text-white font-bold py-3.5 rounded-lg shadow-sm hover:-translate-y-0.5 transition">Download PDF</button>
                         </div>
                     </div>
                 </div>
@@ -506,6 +508,18 @@
                     currentPackageTitle = pkg['Title'] || 'Tour Package';
                     document.getElementById('page-title').innerText = currentPackageTitle;
                     document.getElementById('pkg-title').innerText = currentPackageTitle;
+
+                    // Show PDF buttons only when PDF Link is present
+                    const hasPdf = String(pkg['PDF Link'] || '').trim().length > 0;
+                    const pdfDeskBtn = document.getElementById('pdf-download-btn');
+                    const pdfHeroBtn = document.getElementById('pdf-hero-btn');
+                    if (hasPdf) {
+                        if (pdfDeskBtn) pdfDeskBtn.classList.remove('hidden');
+                        if (pdfHeroBtn) pdfHeroBtn.classList.remove('hidden');
+                    } else {
+                        if (pdfDeskBtn) pdfDeskBtn.classList.add('hidden');
+                        if (pdfHeroBtn) pdfHeroBtn.classList.add('hidden');
+                    }
 
                     let rawLocFull = String(pkg['Location'] || "");
                     let waSplit = rawLocFull.split('~~~');
